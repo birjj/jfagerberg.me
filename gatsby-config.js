@@ -14,17 +14,71 @@ module.exports = {
             },
         },
         `gatsby-transformer-sharp`,
-        `gatsby-plugin-sharp`,
+        {
+            resolve: `gatsby-plugin-sharp`,
+            options: {
+                stripMetadata: true,
+                defaultQuality: 100,
+            },
+        },
+        {
+            resolve: `gatsby-transformer-remark`,
+            options: {
+                plugins: [
+                    {
+                        resolve: `gatsby-remark-external-links`,
+                        options: {
+                            target: `_blank`,
+                            rel: `noopener noreferrer`,
+                        },
+                    },
+                    `gatsby-remark-copy-linked-files`,
+                ],
+            },
+        },
+        `gatsby-plugin-styled-components`,
+        `gatsby-plugin-sass`,
+        `gatsby-plugin-glslify`,
+        {
+            resolve: `gatsby-plugin-prefetch-google-fonts`,
+            options: {
+                fonts: [
+                    {
+                        family: `Roboto`,
+                        variants: [`400`],
+                    },
+                    {
+                        family: `Questrial`,
+                        variants: [`400`, `700`],
+                    },
+                    {
+                        family: `Merriweather`,
+                        variants: [`400`],
+                    },
+                    {
+                        family: `Cousine`,
+                        variants: [`400`],
+                    },
+                ],
+            },
+        },
         {
             resolve: `gatsby-plugin-manifest`,
             options: {
-                name: `gatsby-starter-default`,
-                short_name: `starter`,
+                name: `Johan Fagerberg - Frontend developer`,
+                short_name: `jfagerberg.me`,
                 start_url: `/`,
-                background_color: `#663399`,
-                theme_color: `#663399`,
-                display: `minimal-ui`,
-                icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+                background_color: `#2b2b30`,
+                theme_color: `#0BB1D2`,
+                display: `browser`,
+                icon: `src/assets/favicon.svg`,
+            },
+        },
+        `gatsby-plugin-typescript`,
+        {
+            resolve: `gatsby-plugin-layout`,
+            options: {
+                component: require.resolve(`./src/wrapper.tsx`),
             },
         },
         // this (optional) plugin enables Progressive Web App + Offline functionality

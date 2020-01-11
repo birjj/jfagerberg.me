@@ -10,6 +10,7 @@
     "gatsby": "^2.18.12",
     "gatsby-image": "^2.2.34",
     "gatsby-plugin-glslify": "^1.0.0",
+    "gatsby-plugin-layout": "^1.1.21",
     "gatsby-plugin-manifest": "^2.2.31",
     "gatsby-plugin-offline": "^3.0.27",
     "gatsby-plugin-prefetch-google-fonts": "^1.4.3",
@@ -34,12 +35,15 @@
     "react-helmet": "^5.2.1",
     "rehype-react": "^4.0.1",
     "styled-components": "^4.4.1",
+    "ts-loader": "^6.2.1",
     "typescript": "^3.7.4",
     "unist-util-remove": "^1.0.3",
     "unist-util-visit": "^2.0.1"
   },
   "devDependencies": {
     "@types/react": "^16.9.17",
+    "@types/react-dom": "^16.9.4",
+    "@types/styled-components": "^4.4.2",
     "prettier": "^1.19.1"
   },
   "keywords": [
