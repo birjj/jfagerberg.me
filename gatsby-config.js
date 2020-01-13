@@ -9,8 +9,8 @@ module.exports = {
         {
             resolve: `gatsby-source-filesystem`,
             options: {
-                name: `images`,
-                path: `${__dirname}/src/images`,
+                name: `pages`,
+                path: `${__dirname}/src/pages`,
             },
         },
         `gatsby-transformer-sharp`,
@@ -34,6 +34,14 @@ module.exports = {
                     },
                     `gatsby-remark-copy-linked-files`,
                 ],
+            },
+        },
+        {
+            resolve: `gatsby-plugin-react-svg`,
+            options: {
+                rule: {
+                    include: /\.svg$/,
+                },
             },
         },
         `gatsby-plugin-styled-components`,
@@ -78,7 +86,7 @@ module.exports = {
         {
             resolve: `gatsby-plugin-layout`,
             options: {
-                component: require.resolve(`./src/wrapper.tsx`),
+                component: require.resolve(`./src/global-wrapper.tsx`),
             },
         },
         // this (optional) plugin enables Progressive Web App + Offline functionality

@@ -1,0 +1,232 @@
+import React from "react";
+import { graphql, Link } from "gatsby";
+import styled from "styled-components";
+
+import SEO from "../seo";
+import Layout from "../layout";
+
+import Icon from "../icon";
+import Project from "../index/project";
+import Work from "../index/work";
+
+const ContactLinksWrapper = styled.div`
+    text-align: center;
+    margin-top: 1em;
+
+    a {
+        margin-right: 1em;
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    svg {
+        width: 48px;
+        height: 48px;
+        fill: ${props => props.theme.color};
+    }
+`;
+
+const Title = styled.h1`
+    font-size: 15vh;
+    @media (min-height: 728px) {
+        font-size: 5em;
+    }
+    @media (max-height: 512px), (max-width: 712px) {
+        font-size: 3.5em;
+    }
+`;
+
+const Highlight = styled.span`
+    color: #0eb1d2;
+`;
+
+interface PageProps {
+    full?: boolean;
+    centered?: boolean;
+}
+const Page = styled.div<PageProps>`
+    padding: ${props => (props.full ? "10vh 0" : "10vh 0 2em")};
+    display: flex;
+    flex-direction: column;
+    justify-content: ${props => (props.centered ? "center" : "flex-start")};
+    ${props => props.full && "min-height: 100vh;"}
+    ${props =>
+        !props.full && `max-width: ${props.theme.width};`}
+
+    &:last-child {
+        padding-bottom: 10vh;
+    }
+`;
+
+interface IndexProps {
+    data: {
+        allMarkdownRemark: {
+            edges: {
+                node: {
+                    id: string;
+                    frontmatter: {
+                        title: string;
+                        technologies: string[];
+                        href: string;
+                        icon: Parameters<typeof Icon>[0]["name"];
+                        description: string;
+                    };
+                };
+            }[];
+        };
+    };
+}
+export default ({ data }: IndexProps) => (
+    <Layout>
+        <SEO
+            title=""
+            keywords={[
+                `Johan Fagerberg`,
+                `frontend developer`,
+                `react developer`,
+            ]}
+        />
+        <Page centered full>
+            <Title>
+                Hi<Highlight>.</Highlight>
+            </Title>
+            <Title>I'm Johan</Title>
+        </Page>
+        <Page>
+            <div style={{ fontSize: "24px" }}>
+                <p>
+                    I'm a frontend developer with a primary focus on modern
+                    JavaScript, creating fun and interactive applications using
+                    React and ES6.
+                </p>
+                <p>
+                    I'm currently working my way through a BCompSc at the
+                    University of Southern Denmark, projected to be finished in
+                    the summer of 2020.
+                </p>
+                <p>
+                    When I have the time I go backpacking around Europe; so far
+                    I have made my way around bits of{" "}
+                    <Link to="/travels/">Norway and Scotland.</Link>
+                </p>
+            </div>
+        </Page>
+        <Page>
+            <h2>
+                Open Source Projects<Highlight>.</Highlight>
+            </h2>
+            {data.allMarkdownRemark.edges.map(({ node }) => (
+                <Project
+                    title={node.frontmatter.title}
+                    technologies={node.frontmatter.technologies}
+                    href={node.frontmatter.href}
+                    readMoreHref={
+                        undefined /*node.html ? node.fields.slug : null*/
+                    }
+                    icon={<Icon name={node.frontmatter.icon} />}
+                    key={node.id}
+                >
+                    {node.frontmatter.description}
+                </Project>
+            ))}
+        </Page>
+        <Page>
+            <h2>
+                Work History<Highlight>.</Highlight>
+            </h2>
+            <Work
+                title="Frontend developer at CleanManager"
+                duration="2015 - 2019"
+            >
+                <p>
+                    As sole frontend developer I was initially tasked with
+                    implementing new features and SPA's, and later spearheaded
+                    the effort to modernize the entire frontend codebase.
+                </p>
+                <p>
+                    This included a complete rewrite and redesign of our system
+                    and workflow from an old custom-built ES5 implementation to
+                    one built on React and ES6.
+                </p>
+            </Work>
+        </Page>
+        <Page>
+            <h2>
+                Contact<Highlight>.</Highlight>
+            </h2>
+            <p>
+                If you want to present a fun opportunity, have questions or just
+                want to have a chat, I'm always up to hearing from you.
+            </p>
+            <p>
+                You can catch me over on{" "}
+                <a
+                    href="https://github.com/birjolaxew"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    GitHub
+                </a>{" "}
+                or{" "}
+                <a
+                    href="https://www.linkedin.com/in/johan-fagerberg-202527120/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    LinkedIn
+                </a>
+                , or you can send me a good old-fashioned email at{" "}
+                <a href="mailto:johanringmann@gmail.com">
+                    johanringmann@gmail.com
+                </a>
+                .
+            </p>
+            <ContactLinksWrapper>
+                <a
+                    href="https://github.com/birjolaxew"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="icon"
+                >
+                    <Icon name="github" />
+                </a>
+                <a
+                    href="https://www.linkedin.com/in/johan-fagerberg-202527120/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="icon"
+                >
+                    <Icon name="linkedin" />
+                </a>
+            </ContactLinksWrapper>
+        </Page>
+    </Layout>
+);
+
+export const query = graphql`
+    query {
+        allMarkdownRemark(
+            filter: { frontmatter: { type: { eq: "project" } } }
+            sort: { fields: [frontmatter___date], order: DESC }
+        ) {
+            edges {
+                node {
+                    id
+                    html
+                    fields {
+                        slug
+                    }
+                    frontmatter {
+                        title
+                        description
+                        href
+                        technologies
+                        icon
+                        date
+                    }
+                }
+            }
+        }
+    }
+`;
