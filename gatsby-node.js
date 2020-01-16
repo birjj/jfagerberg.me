@@ -28,38 +28,48 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
     }
 };
 
-/*
 // create pages for each markdown page
 const typeToTemplate = {
-    project: "project.js",
-    blog: "blog-post.js",
+    blog: "./src/blog/template.tsx",
+    project: null,
 };
 exports.createPages = ({ graphql, actions }) => {
     const { createPage } = actions;
     return graphql(`
-        { allMarkdownRemark { edges { node {
-            fields {
-                slug
+        {
+            allMarkdownRemark {
+                edges {
+                    node {
+                        fields {
+                            slug
+                        }
+                        frontmatter {
+                            type
+                        }
+                    }
+                }
             }
-            frontmatter {
-                type
-            }
-        } } } }
+        }
     `).then(result => {
         result.data.allMarkdownRemark.edges.forEach(({ node }) => {
-            console.log("[gatsby-node.js] Creating page", node.fields.slug);
-            if (typeToTemplate[node.frontmatter.type]) {
+            const template = typeToTemplate[node.frontmatter.type];
+            console.log(
+                `[gatsby-node.js] ${template ? "Creating" : "Ignoring"} page`,
+                node.fields.slug
+            );
+            if (template) {
                 createPage({
                     path: node.fields.slug,
-                    component: path.resolve(`./src/templates/${typeToTemplate[node.frontmatter.type]}`),
+                    component: path.resolve(
+                        typeToTemplate[node.frontmatter.type]
+                    ),
                     context: {
                         slug: node.fields.slug,
-                    }
+                    },
                 });
-            } else {
+            } else if (template === undefined) {
                 console.warn("Unknown template", node.frontmatter.type);
             }
         });
     });
-}
-*/
+};

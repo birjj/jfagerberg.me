@@ -32,7 +32,21 @@ module.exports = {
                             rel: `noopener noreferrer`,
                         },
                     },
+                    `gatsby-remark-component`,
+                    {
+                        resolve: `gatsby-remark-images`,
+                        options: {
+                            maxWidth: 800,
+                            withWebp: true,
+                            quality: 100,
+                            wrapperStyle: fluid =>
+                                `max-width: ${(fluid.aspectRatio * 100).toFixed(
+                                    2
+                                )}vh;`,
+                        },
+                    },
                     `gatsby-remark-copy-linked-files`,
+                    `gatsby-remark-unwrap-images`,
                 ],
             },
         },

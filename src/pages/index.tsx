@@ -8,6 +8,7 @@ import Layout from "../layout";
 import Icon from "../icon";
 import Project from "../index/project";
 import Work from "../index/work";
+import Page from "../page";
 
 const ContactLinksWrapper = styled.div`
     text-align: center;
@@ -41,24 +42,6 @@ const Highlight = styled.span`
     color: #0eb1d2;
 `;
 
-interface PageProps {
-    full?: boolean;
-    centered?: boolean;
-}
-const Page = styled.div<PageProps>`
-    padding: ${props => (props.full ? "10vh 0" : "10vh 0 2em")};
-    display: flex;
-    flex-direction: column;
-    justify-content: ${props => (props.centered ? "center" : "flex-start")};
-    ${props => props.full && "min-height: 100vh;"}
-    ${props =>
-        !props.full && `max-width: ${props.theme.width};`}
-
-    &:last-child {
-        padding-bottom: 10vh;
-    }
-`;
-
 interface IndexProps {
     data: {
         allMarkdownRemark: {
@@ -78,7 +61,7 @@ interface IndexProps {
     };
 }
 export default ({ data }: IndexProps) => (
-    <Layout>
+    <Layout leftAligned>
         <SEO
             title=""
             keywords={[

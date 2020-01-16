@@ -1,7 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
 export const theme = {
-    width: "65ch",
+    width: "60ch",
     color: "#fff",
     gutter: "4ch", // how much content that overflows width should overflow
 };
