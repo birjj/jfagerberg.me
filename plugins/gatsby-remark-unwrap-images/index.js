@@ -5,17 +5,17 @@ const remove = require(`unist-util-remove`);
 module.exports = ({ markdownAST }) => {
     visit(markdownAST, `paragraph`, (node, index, parent) => {
         const hasOnlyImagesNodes = node.children.every(child => {
-            return child.type === 'html' && child.url && child.alt;
+            return child.type === "html" && child.url && child.alt;
         });
 
         if (!hasOnlyImagesNodes) {
             return;
         }
 
-        remove(node, 'text');
+        remove(node, "text");
 
         parent.children.splice(index, 1, ...node.children);
 
         return index;
     });
-}
+};

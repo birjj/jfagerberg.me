@@ -5,7 +5,7 @@ href: https://github.com/birjolaxew/simple-smtp-listener
 icon: smtp-listener
 date: 2017-05-01
 technologies:
-- Node.js
-- ES6
+    - Node.js
+    - ES6
 type: project
 ---

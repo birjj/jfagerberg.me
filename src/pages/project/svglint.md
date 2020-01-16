@@ -5,7 +5,6 @@ href: https://github.com/birjolaxew/svglint
 icon: svglint
 date: 2018-09-01
 technologies:
-- ES6
+    - ES6
 type: project
 ---
-
