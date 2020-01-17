@@ -14,8 +14,7 @@ settings:
 
 Rondane in central Norway is the oldest national park in the country. With slightly more tame nature than the nearby Jotunheimen, the park is an excellent place for beginner trekkers or simply those who prefer less vertical hiking.
 
-<picture-grid columns="3">
-    <img src="rondane/20180916_103750.jpg" />
+<picture-grid columns="2">
     <img src="rondane/20180917_133732.jpg" />
     <img src="rondane/20180917_173920.jpg" />
     <img src="rondane/20180917_180427.jpg" />
