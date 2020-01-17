@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-interface PageProps {
+export interface PageProps {
     full?: boolean;
     centered?: boolean;
 }

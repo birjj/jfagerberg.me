@@ -2,14 +2,15 @@ import React from "react";
 import { graphql, Link } from "gatsby";
 import styled from "styled-components";
 import rehypeReact from "rehype-react";
+import yamz from "yet-another-medium-zoom";
 
 import Icon from "../icon";
 import SEO from "../seo";
 import Layout from "../layout";
-import Page from "../page";
 import { Picture, PictureGrid } from "./pictures";
+import WrapperComponent from "./wrapper";
 
-const Wrapper = styled(Page)`
+const Wrapper = styled(WrapperComponent)`
     width: calc(
         ${props => props.theme.width} + 2 * ${props => props.theme.gutter}
     );

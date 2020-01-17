@@ -39,7 +39,8 @@
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.4",
     "unist-util-remove": "^1.0.3",
-    "unist-util-visit": "^2.0.1"
+    "unist-util-visit": "^2.0.1",
+    "yet-another-medium-zoom": "^0.4.0"
   },
   "devDependencies": {
     "@types/react": "^16.9.17",
