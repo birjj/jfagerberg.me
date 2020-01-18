@@ -14249,9 +14249,9 @@ yeast@0.1.2:
   integrity sha1-AI4G2AlDIMNy28L47XagymyKxBk=
 
 yet-another-medium-zoom@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/yet-another-medium-zoom/-/yet-another-medium-zoom-0.4.0.tgz#97c66f6e6215d5a562fc8e745676bee147b034ab"
-  integrity sha512-RSMzeG6rEMD9Gft5ADERTQ69xeRZbrIcUl9ZAciMT+Chg6p8bFX4YXw+ISamyVTK9YY5gMJb/ZmkFQCn6DF40g==
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/yet-another-medium-zoom/-/yet-another-medium-zoom-0.4.1.tgz#654ba0154fff301c72dd8f844633d8ecae815f54"
+  integrity sha512-DkWyiGc3NsNpR2qMsKveAQnGsNbOWrSAOFYFWVyNwIcvpMzSml3Fh57qSaNhMAFdl5Nf+sM0POtbl8UQSb9jhQ==
 
 yoga-layout-prebuilt@^1.9.3:
   version "1.9.3"
