@@ -24,6 +24,10 @@ export const PictureGrid = styled.div<{ columns: number }>`
         }
     }
 
+    > .full {
+        flex-basis: 100%;
+    }
+
     ${Picture} {
         margin-bottom: 0;
     }

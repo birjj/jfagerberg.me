@@ -17,14 +17,13 @@ Rondane in central Norway is the oldest national park in the country. With sligh
 <picture-grid columns="2">
     <img src="rondane/20180917_133732.jpg" />
     <img src="rondane/20180917_173920.jpg" />
-    <img src="rondane/20180917_180427.jpg" />
+    <img src="rondane/20180919_124723.jpg" />
 </picture-grid>
 
 As is common in Norway, the trekking facilities in the park are exceedingly well maintained. The trails themselves are marked by DNT's iconic 'T's, and both manned and unmanned huts are available in the more well-travelled parts.
 
 <picture-grid columns="2">
-    <img src="rondane/20180919_124723.jpg" />
-    <img src="rondane/20180921_095737.jpg" />
+    <img class="full" src="rondane/20180921_095737.jpg" />
     <img src="rondane/20180922_090416.jpg" />
     <img src="rondane/20180922_090703.jpg" />
 </picture-grid>
