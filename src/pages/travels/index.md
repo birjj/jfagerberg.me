@@ -50,19 +50,17 @@ My trip consisted of a circular path through Jotunheimen, starting with a trip o
 
 <picture-grid columns="2">
     <img src="jotunheimen/20180814_150128.jpg" />
-    <img src="jotunheimen/20180814_154526.jpg" />
     <img src="jotunheimen/20180814_151419.jpg" />
+    <img src="jotunheimen/20180814_154526.jpg" />
 </picture-grid>
 
 The remainder of the trip was fairly run of the mill, although the rain and cold did make some of the mountain passes slightly sketchy. By the time I had made it back to Gjende, a nights stay in one of the huts maintained by DNT was most welcome.
 
-<picture-grid columns="3">
+<picture-grid columns="2">
     <img src="jotunheimen/20180815_081152.jpg" />
     <img src="jotunheimen/20180816_102322.jpg" />
     <img src="jotunheimen/20180816_150145.jpg" />
-    <img src="jotunheimen/20180816_173846.jpg" />
     <img src="jotunheimen/20180817_081523.jpg" />
-    <img src="jotunheimen/20180817_081615.jpg" />
 </picture-grid>
 
 <centered-title>
