@@ -91,7 +91,8 @@ export default ({ data }: IndexProps) => (
                 <p>
                     When I have the time I go backpacking around Europe; so far
                     I have made my way around bits of{" "}
-                    <Link to="/travels/">Norway and Scotland.</Link>
+                    <Link to="/travels/norway/">Norway</Link> and{" "}
+                    <Link to="/travels/scotland/">Scotland.</Link>
                 </p>
             </div>
         </Page>
