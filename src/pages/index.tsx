@@ -63,7 +63,7 @@ interface IndexProps {
 export default ({ data }: IndexProps) => (
     <Layout leftAligned>
         <SEO
-            title=""
+            title="Portfolio"
             keywords={[
                 `Johan Fagerberg`,
                 `frontend developer`,
@@ -84,15 +84,30 @@ export default ({ data }: IndexProps) => (
                     React and ES6.
                 </p>
                 <p>
-                    I'm currently working my way through a BCompSc at the
-                    University of Southern Denmark, projected to be finished in
-                    the summer of 2020.
+                    I spend a bit of my time maintaining open source projects.
+                    Most well known is{" "}
+                    <a
+                        href="http://simpleicons.org/"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                    >
+                        Simple Icons
+                    </a>{" "}
+                    and the Chrome extension{" "}
+                    <a
+                        href="https://chrome.google.com/webstore/detail/loungedestroyer/ghahcnmfjfckcedfajbhekgknjdplfcl"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                    >
+                        Lounge Destroyer
+                    </a>
+                    . You can also see some of my smaller projects below.
                 </p>
                 <p>
                     When I have the time I go backpacking around Europe; so far
                     I have made my way around bits of{" "}
                     <Link to="/travels/norway/">Norway</Link> and{" "}
-                    <Link to="/travels/scotland/">Scotland.</Link>
+                    <Link to="/travels/scotland/">Scotland</Link>.
                 </p>
             </div>
         </Page>
