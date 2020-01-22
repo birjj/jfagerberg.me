@@ -169,7 +169,7 @@ export default ({ data }: TemplateProps) => {
                 ]}
             />
             <Wrapper>
-                <Nav />
+                <Nav withoutBlog />
                 {post.frontmatter.settings &&
                 post.frontmatter.settings.noTitle ? null : (
                     <Title>
