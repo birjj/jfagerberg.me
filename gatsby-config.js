@@ -47,6 +47,13 @@ module.exports = {
                     },
                     `gatsby-remark-copy-linked-files`,
                     `gatsby-remark-unwrap-images`,
+                    {
+                        resolve: `gatsby-remark-katex`,
+                        options: {
+                            strict: true,
+                        },
+                    },
+                    `gatsby-remark-graphviz`,
                 ],
             },
         },

@@ -95,4 +95,6 @@ Proxying the TCP connection is a bit more low-level, but [far from complex](http
 
 And that's pretty much all we need to do for our proxy server to work! There are of course a couple of implementation details like protocol mismatches to keep in mind, but those are barely worth mentioning. I guess the entire point of this blog post mostly has been to tell you that I've implemented all this stuff in [a neat little program](https://github.com/birjolaxew/aws-minecraft-proxy), to make it a breeze to set up if you should ever want to.
 
+![](files/booting.png)
+
 Now if you'll excuse me, I have some Minecraft to play.
