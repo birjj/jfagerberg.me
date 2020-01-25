@@ -14,7 +14,7 @@ export default class PageWithYamz extends React.Component<PageWithYamzProps> {
     };
     static defaultProps = {
         ...Page.defaultProps,
-        target: ".gatsby-resp-image-link > picture",
+        target: ".gatsby-resp-image-link > picture, *:not(picture) > img",
     };
 
     onLinkClick = (e: MouseEvent) => {

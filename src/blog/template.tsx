@@ -1,14 +1,21 @@
 import React from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 import { graphql, Link } from "gatsby";
 import styled from "styled-components";
 import rehypeReact from "rehype-react";
-import yamz from "yet-another-medium-zoom";
+import "katex/dist/katex.min.css";
 
 import Icon from "../icon";
 import SEO from "../seo";
 import Layout from "../layout";
 import { Picture, PictureGrid } from "./pictures";
 import WrapperComponent from "./wrapper";
+
+const WidthWrapper = styled(
+    ({ children, ...props }: { children?: React.ReactNode }) => (
+        <div {...props}>{children}</div>
+    )
+)``;
 
 const Wrapper = styled(WrapperComponent)`
     width: calc(
@@ -20,9 +27,18 @@ const Wrapper = styled(WrapperComponent)`
     line-height: 1.8em;
     letter-spacing: 0.5px;
 
-    > p {
+    > p,
+    > ${WidthWrapper} {
         width: ${props => props.theme.width};
         margin: 0 auto 2em;
+    }
+    > p + .katex-display {
+        margin-top: 0;
+    }
+
+    h2 {
+        font-size: 1.75em;
+        margin-top: 1.5em;
     }
 
     .gatsby-image-wrapper,
@@ -76,16 +92,17 @@ const Nav = styled(NavComponent)`
         font-family: "Questrial", sans-serif;
         font-size: 16px;
 
+        &,
+        &:hover {
+            background-image: none;
+        }
+
         opacity: 0.5;
         &:hover {
             opacity: 1;
         }
         &:active {
             transform: translateY(1px);
-        }
-
-        &::after {
-            display: none;
         }
     }
 `;
@@ -121,14 +138,25 @@ const Title = styled.section`
     }
 `;
 
+const Highlight = styled.span`
+    color: #0eb1d2;
+`;
+
 // create a rehype renderer
 const renderAst = new rehypeReact({
     createElement: React.createElement,
-    Fragment: React.Fragment,
     components: {
         picture: Picture,
         "picture-grid": PictureGrid,
         "centered-title": Title,
+        h2: ({ children, ...props }: { children?: React.ReactNode }) => (
+            <WidthWrapper>
+                <h2 {...props}>
+                    {children}
+                    <Highlight>.</Highlight>
+                </h2>
+            </WidthWrapper>
+        ),
     },
 }).Compiler;
 
@@ -137,8 +165,39 @@ const fragmentRender = (tree: React.ReactNode) => {
     const reply: React.ReactElement<{ children?: React.ReactNode }> = renderAst(
         tree
     );
-    return reply.type === "div" ? <>{reply.props.children}</> : reply;
+    return reply.type === "div" ? (
+        <>{customizeChildren(reply.props.children)}</>
+    ) : (
+        reply
+    );
 };
+
+// singular images collapse on themselves in Firefox if they are the child of a flex column
+const ImgWrapper = styled.div`
+    margin-bottom: 2em;
+`;
+const customizeChildren = (children: React.ReactNode) =>
+    React.Children.map(children, (child: React.ReactNode) => {
+        if (!(child instanceof Object)) {
+            return child;
+        }
+        // wrap images
+        if (
+            "props" in child &&
+            child.props.className &&
+            child.props.className.indexOf("gatsby-resp-image-wrapper") > -1
+        ) {
+            return <ImgWrapper>{child}</ImgWrapper>;
+        }
+        // convert SVG to images
+        if ("type" in child && child.type === "svg") {
+            const markup = renderToStaticMarkup(child);
+            const dataUri = `data:image/svg+xml;base64,${btoa(markup)}`;
+            console.log(dataUri);
+            return <img src={dataUri} />;
+        }
+        return child;
+    });
 
 interface TemplateProps {
     data: {

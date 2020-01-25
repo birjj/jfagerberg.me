@@ -148,7 +148,22 @@ export default ({ data }: IndexProps) => (
                     and workflow from an old custom-built ES5 implementation to
                     one built on React and ES6.
                 </p>
+                <p>
+                    Eventually the team expanded with several new frontend
+                    developers, and I transitioned into a more senior role with
+                    responsibility for the frontend rewrite of our calendar
+                    module.
+                </p>
             </Work>
+        </Page>
+        <Page>
+            <h2>
+                Education<Highlight>.</Highlight>
+            </h2>
+            <Work
+                title="Computer Science at University of Southern Denmark"
+                duration="2017 - 2019"
+            />
         </Page>
         <Page>
             <h2>

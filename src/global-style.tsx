@@ -1,7 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
 export const theme = {
-    width: "60ch",
+    width: "65ch",
     color: "#fff",
     gutter: "4ch", // how much content that overflows width should overflow
 };
@@ -50,23 +50,17 @@ export default createGlobalStyle`
         z-index: 1;
         cursor: pointer;
 
-        &::after {
-            content: "";
-            position: absolute;
-            left: -1px; right: -1px;
-            bottom: 0.15em;
-            height: 4px;
-            background: #0EB1D2;
-            z-index: -1;
-            opacity: 0.5;
+        background-image: linear-gradient(rgba(14, 177, 210, 0.75), rgba(14, 177, 210, 0.75));
+        background-position: 0% 100%;
+        background-repeat: no-repeat;
+        background-size: 100% 2px;
+
+        &:hover {
+            background-image: linear-gradient(#0EB1D2, #0EB1D2);
         }
 
-        &:hover::after {
-            opacity: 0.8;
-        }
-
-        .gatsby-resp-image-wrapper &::after {
-            display: none;
+        .gatsby-resp-image-wrapper & {
+            background-image: none;
         }
     }
 

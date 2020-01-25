@@ -22,7 +22,7 @@ const Duration = styled.div`
 interface WorkProps {
     title: string;
     duration: JSX.Element | string;
-    children: JSX.Element | JSX.Element[] | string;
+    children?: JSX.Element | JSX.Element[] | string;
 }
 
 const Work: React.FunctionComponent<WorkProps> = ({
