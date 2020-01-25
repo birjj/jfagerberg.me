@@ -1,5 +1,5 @@
 ---
-title: "Running a \"Cheap\" Minecraft\u00A0server on AWS"
+title: "Running a \"Cheap\" Minecraft\u00A0Server on AWS"
 type: blog
 keywords:
     - minecraft
