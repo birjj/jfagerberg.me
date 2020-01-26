@@ -92,7 +92,7 @@ export default ({ data }: IndexProps) => (
                         target="_blank"
                     >
                         Simple Icons
-                    </a>{" "}
+                    </a>
                     ,{" "}
                     <a
                         href="https://sweetalert2.github.io/"
@@ -101,23 +101,24 @@ export default ({ data }: IndexProps) => (
                     >
                         SweetAlert2
                     </a>
-                    , and{" "}
+                    ,<br />
+                    and{" "}
                     <a
                         href="https://chrome.google.com/webstore/detail/loungedestroyer/ghahcnmfjfckcedfajbhekgknjdplfcl"
                         rel="noopener noreferrer"
                         target="_blank"
                     >
-                        Lounge Destroyer
+                        Lounge&nbsp;Destroyer
                     </a>
-                    . You can also see some of my smaller projects below, or
-                    have a look at <Link to="/blog">my blog</Link> if you're
-                    interested in my musings.
+                    . Beyond that I also have a lot of smaller projects, some of
+                    which you can see below.
                 </p>
                 <p>
                     When I have the time I go backpacking around Europe; so far
                     I have made my way around bits of{" "}
                     <Link to="/travels/norway/">Norway</Link> and{" "}
-                    <Link to="/travels/scotland/">Scotland</Link>.
+                    <Link to="/travels/scotland/">Scotland</Link>. I also
+                    sometimes write stuff on <Link to="/blog">my blog</Link>.
                 </p>
             </div>
         </Page>
