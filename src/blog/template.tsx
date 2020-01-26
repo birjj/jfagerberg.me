@@ -12,7 +12,7 @@ import { Picture, PictureGrid } from "./pictures";
 import WrapperComponent from "./wrapper";
 
 if (typeof btoa === "undefined") {
-    window.btoa = (data: string) =>
+    (global as any).btoa = (data: string) =>
         Buffer.from(data, "binary").toString("base64");
 }
 
@@ -198,7 +198,6 @@ const customizeChildren = (children: React.ReactNode) =>
         if ("type" in child && child.type === "svg") {
             const markup = renderToStaticMarkup(child);
             const dataUri = `data:image/svg+xml;base64,${btoa(markup)}`;
-            console.log(dataUri);
             return <img src={dataUri} />;
         }
         return child;
