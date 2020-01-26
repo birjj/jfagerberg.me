@@ -35,6 +35,7 @@ const Wrapper = styled(WrapperComponent)`
     > p,
     > ${WidthWrapper} {
         max-width: ${props => props.theme.width};
+        width: 100%;
         margin: 0 auto 2em;
     }
     > p + .katex-display {
@@ -78,6 +79,7 @@ export const Nav = styled(NavComponent)`
     align-items: center;
 
     max-width: ${props => props.theme.width};
+    width: 100%;
     margin: 0 auto 4em;
 
     svg {
