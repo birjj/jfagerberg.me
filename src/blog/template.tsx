@@ -11,6 +11,10 @@ import Layout from "../layout";
 import { Picture, PictureGrid } from "./pictures";
 import WrapperComponent from "./wrapper";
 
+if (typeof btoa === "undefined") {
+    window.btoa = (data: string) => Buffer.from(data).toString("base64");
+}
+
 const WidthWrapper = styled(
     ({ children, ...props }: { children?: React.ReactNode }) => (
         <div {...props}>{children}</div>
