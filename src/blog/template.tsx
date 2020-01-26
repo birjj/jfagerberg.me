@@ -23,10 +23,10 @@ const WidthWrapper = styled(
 )``;
 
 const Wrapper = styled(WrapperComponent)`
-    width: calc(
+    max-width: calc(
         ${props => props.theme.width} + 2 * ${props => props.theme.gutter}
     );
-    max-width: 100%;
+    width: 100%;
     font-size: 18px;
     font-family: "Merriweather", serif;
     line-height: 1.8em;
@@ -34,7 +34,7 @@ const Wrapper = styled(WrapperComponent)`
 
     > p,
     > ${WidthWrapper} {
-        width: ${props => props.theme.width};
+        max-width: ${props => props.theme.width};
         margin: 0 auto 2em;
     }
     > p + .katex-display {
@@ -77,7 +77,7 @@ export const Nav = styled(NavComponent)`
     justify-content: space-between;
     align-items: center;
 
-    width: ${props => props.theme.width};
+    max-width: ${props => props.theme.width};
     margin: 0 auto 4em;
 
     svg {
