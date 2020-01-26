@@ -1,5 +1,10 @@
 ---
-title: Norway
+title: Travels in Norway
+description: A quick writeup (and pictures) from my trips around Jotunheimen and Rondane
+date: 2018-09-24
+tags:
+    - travel
+    - backpacking
 type: blog
 keywords:
     - norway

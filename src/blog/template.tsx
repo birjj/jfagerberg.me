@@ -72,7 +72,7 @@ const NavComponent = ({ className, withoutBlog = false }: NavProps) => {
         </nav>
     );
 };
-const Nav = styled(NavComponent)`
+export const Nav = styled(NavComponent)`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -112,7 +112,7 @@ const Nav = styled(NavComponent)`
     }
 `;
 
-const Title = styled.section`
+export const Title = styled.section`
     font-size: inherit;
     font-family: "Questrial", sans-serif;
     text-align: center;
@@ -232,7 +232,7 @@ export default ({ data }: TemplateProps) => {
                 ]}
             />
             <Wrapper>
-                <Nav withoutBlog />
+                <Nav />
                 {post.frontmatter.settings &&
                 post.frontmatter.settings.noTitle ? null : (
                     <Title>

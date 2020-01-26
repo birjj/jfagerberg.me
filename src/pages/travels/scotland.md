@@ -1,5 +1,10 @@
 ---
-title: Scotland
+title: Travels in Scotland
+description: Cairngorms and West Highland Way in pictures (and a little bit of writing)
+date: 2017-05-10
+tags:
+    - travel
+    - backpacking
 type: blog
 keywords:
     - scotland

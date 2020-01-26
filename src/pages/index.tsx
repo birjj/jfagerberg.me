@@ -85,7 +85,7 @@ export default ({ data }: IndexProps) => (
                 </p>
                 <p>
                     I spend a bit of my time maintaining open source projects.
-                    Most well known is{" "}
+                    I've been involved in projects such as{" "}
                     <a
                         href="http://simpleicons.org/"
                         rel="noopener noreferrer"
@@ -93,7 +93,15 @@ export default ({ data }: IndexProps) => (
                     >
                         Simple Icons
                     </a>{" "}
-                    and the Chrome extension{" "}
+                    ,{" "}
+                    <a
+                        href="https://sweetalert2.github.io/"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                    >
+                        SweetAlert2
+                    </a>
+                    , and{" "}
                     <a
                         href="https://chrome.google.com/webstore/detail/loungedestroyer/ghahcnmfjfckcedfajbhekgknjdplfcl"
                         rel="noopener noreferrer"
@@ -101,7 +109,9 @@ export default ({ data }: IndexProps) => (
                     >
                         Lounge Destroyer
                     </a>
-                    . You can also see some of my smaller projects below.
+                    . You can also see some of my smaller projects below, or
+                    have a look at <Link to="/blog">my blog</Link> if you're
+                    interested in my musings.
                 </p>
                 <p>
                     When I have the time I go backpacking around Europe; so far
