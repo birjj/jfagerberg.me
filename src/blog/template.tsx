@@ -12,7 +12,8 @@ import { Picture, PictureGrid } from "./pictures";
 import WrapperComponent from "./wrapper";
 
 if (typeof btoa === "undefined") {
-    window.btoa = (data: string) => Buffer.from(data).toString("base64");
+    window.btoa = (data: string) =>
+        Buffer.from(data, "binary").toString("base64");
 }
 
 const WidthWrapper = styled(
