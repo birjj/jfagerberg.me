@@ -40,6 +40,7 @@ const Wrapper = styled(WrapperComponent)`
     }
     > p + .katex-display {
         margin-top: 0;
+        overflow-x: auto;
     }
 
     h2 {
