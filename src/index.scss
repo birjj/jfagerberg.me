@@ -1,0 +1,34 @@
+@use "styles/typography.scss";
+@use "styles/home.scss";
+
+html {
+    --theme-width: 65ch;
+    --theme-text: #fff;
+    --theme-background: #222227;
+    --theme-accent: #0bb1d2;
+    --theme-accent-75: rgba(14, 177, 210, 0.75);
+    --theme-accent-50: rgba(14, 177, 210, 0.5);
+}
+
+* {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    background: var(--theme-background);
+    padding: 0 15vw;
+
+    @media (max-width: 912px) {
+        padding: 0 10vw;
+    }
+    @media (max-width: 712px) {
+        padding: 0 5vw;
+    }
+}
+
+.highlight {
+    color: var(--theme-accent);
+}
+svg {
+    fill: currentColor;
+}
