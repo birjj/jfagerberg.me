@@ -203,4 +203,15 @@ svg {
   fill: currentColor;
 }
 
-/*# sourceMappingURL=/src.80ee2152.css.map */
+#webgl-bg {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  opacity: 1;
+  transition: opacity 500ms;
+}
+
+/*# sourceMappingURL=/styles.434540e1.css.map */

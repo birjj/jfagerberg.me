@@ -1,0 +1,1 @@
+{"id":"js/background/shaders/background.vert","dependencies":[],"generated":{"js":"module.exports = `#define GLSLIFY 1\nattribute vec4 a_position;\n\nvoid main() {\n    gl_Position = a_position;\n}`"},"sourceMaps":null,"error":null,"hash":"346f19a13c31a8ade94f6e8625536080","cacheData":{}}

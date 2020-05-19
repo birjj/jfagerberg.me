@@ -1,5 +1,5 @@
-@use "styles/typography.scss";
-@use "styles/home.scss";
+@use "typography.scss";
+@use "home.scss";
 
 html {
     --theme-width: 65ch;
@@ -31,4 +31,15 @@ body {
 }
 svg {
     fill: currentColor;
+}
+
+#webgl-bg {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    opacity: 1;
+    transition: opacity 500ms;
 }
