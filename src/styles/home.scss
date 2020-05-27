@@ -5,6 +5,7 @@ body.home {
         display: flex;
         flex-direction: column;
         max-width: var(--theme-width);
+        margin: initial;
 
         &--hero {
             padding: 10vh 0;

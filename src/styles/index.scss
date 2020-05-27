@@ -1,5 +1,4 @@
-@use "typography.scss";
-@use "home.scss";
+@use "_typography.scss";
 
 html {
     --theme-width: 65ch;
@@ -42,4 +41,18 @@ svg {
     z-index: -1;
     opacity: 1;
     transition: opacity 500ms;
+}
+
+.page {
+    padding: 10vh 0 2em;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    max-width: var(--theme-width);
+    margin-left: auto;
+    margin-right: auto;
+
+    &:last-child {
+        padding-bottom: 10vh;
+    }
 }

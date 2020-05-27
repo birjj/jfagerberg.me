@@ -2,6 +2,12 @@
     "plugins": {
         "posthtml-modules": {
             "root": "./src"
+        },
+        "posthtml-link-noreferrer": {
+            "attr": [
+                "noopener",
+                "noreferrer"
+            ]
         }
     }
 }
