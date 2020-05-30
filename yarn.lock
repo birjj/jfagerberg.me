@@ -3204,6 +3204,11 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
+lean-he@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/lean-he/-/lean-he-2.1.2.tgz#50c2422f0ca42f6737c9c1988b555cf00ebc712f"
+  integrity sha512-g/cq01j/rnv7JWoxFmeLgJdd/CucksyDtS+pyepO89EdT0O4KfHJokOVz/xQ4mvjKJzcrj87Q3/s2ESou90WCQ==
+
 leven@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/leven/-/leven-3.1.0.tgz#77891de834064cccba82ae7842bb6b14a13ed7f2"
@@ -3272,7 +3277,7 @@ log-symbols@^2.2.0:
   dependencies:
     chalk "^2.0.1"
 
-loose-envify@^1.0.0:
+loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
   integrity sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==
@@ -3304,6 +3309,11 @@ map-visit@^1.0.0:
   integrity sha1-7Nyo8TFE5mDxtb1B8S80edmN+48=
   dependencies:
     object-visit "^1.0.0"
+
+marked@^0.6.2:
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-0.6.3.tgz#79babad78af638ba4d522a9e715cdfdd2429e946"
+  integrity sha512-Fqa7eq+UaxfMriqzYLayfqAE40WN03jf+zHjT18/uXNuzjq3TY0XTbrAoPeqSJrAmPz11VuUA+kBPYOhHt9oOQ==
 
 marked@^1.1.0:
   version "1.1.0"
@@ -4260,6 +4270,17 @@ posthtml-link-noreferrer@^1.0.7:
   dependencies:
     posthtml "^0.12.2"
 
+posthtml-markdown@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/posthtml-markdown/-/posthtml-markdown-0.1.0.tgz#31fcd2da33a35de6f41001f90492d0864a80ee60"
+  integrity sha512-pb3f1WqjJKz35zCYLEVsbYLrg7Aum4V8trq2TN+wBkVC4ajdzAxe/hW4x4WP3i5+qm2fso7ESdhWSijpQ0sBqQ==
+  dependencies:
+    lean-he "^2.1.2"
+    marked "^0.6.2"
+    posthtml-match-helper "^1.0.1"
+    posthtml-parser "^0.4.1"
+    posthtml-render "^1.1.5"
+
 posthtml-match-helper@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/posthtml-match-helper/-/posthtml-match-helper-1.0.1.tgz#451253de8e5844a348e963ad5edd7769eb129513"
@@ -4281,6 +4302,14 @@ posthtml-parser@^0.4.0, posthtml-parser@^0.4.1, posthtml-parser@^0.4.2:
   dependencies:
     htmlparser2 "^3.9.2"
 
+posthtml-plugin-static-react@./posthtml-plugin-static-react:
+  version "0.0.1"
+  dependencies:
+    posthtml-match-helper "^1.0.1"
+    react "^16.13.1"
+    react-dom "^16.13.1"
+    react-is "^16.13.1"
+
 posthtml-render@^1.1.3, posthtml-render@^1.1.5, posthtml-render@^1.2.0, posthtml-render@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/posthtml-render/-/posthtml-render-1.2.2.tgz#f554a19ed40d40e2bfc160826b0a91d4a23656cd"
@@ -4298,6 +4327,14 @@ posthtml@^0.12.0, posthtml@^0.12.2:
   version "0.12.3"
   resolved "https://registry.yarnpkg.com/posthtml/-/posthtml-0.12.3.tgz#8fa5b903907e9c10ba5b883863cc550189a309d5"
   integrity sha512-Fbpi95+JJyR0tqU7pUy1zTSQFjAsluuwB9pJ1h0jtnGk7n/O2TBtP5nDl9rV0JVACjQ1Lm5wSp4ppChr8u3MhA==
+  dependencies:
+    posthtml-parser "^0.4.2"
+    posthtml-render "^1.2.2"
+
+posthtml@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/posthtml/-/posthtml-0.13.0.tgz#164e9be086d32da795c6ee26e4f8f0a931e2d8d8"
+  integrity sha512-g9KDiHUJZrzeGUfzpSLJ51K/tJrl+QS/zrEEv2MoIyFZyWVGCHDNQva2MVsy4Oqy4jIFRFjNW4oFjMardOqmKQ==
   dependencies:
     posthtml-parser "^0.4.2"
     posthtml-render "^1.2.2"
@@ -4326,6 +4363,15 @@ process@^0.11.10:
   version "0.11.10"
   resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
   integrity sha1-czIwDoQBYb2j5podHZGn1LwW8YI=
+
+prop-types@^15.6.2:
+  version "15.7.2"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
+  integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
+  dependencies:
+    loose-envify "^1.4.0"
+    object-assign "^4.1.1"
+    react-is "^16.8.1"
 
 psl@^1.1.28:
   version "1.8.0"
@@ -4417,6 +4463,30 @@ range-parser@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.1.tgz#3cf37023d199e1c24d1a55b84800c2f3e6468031"
   integrity sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==
+
+react-dom@^16.13.1:
+  version "16.13.1"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.13.1.tgz#c1bd37331a0486c078ee54c4740720993b2e0e7f"
+  integrity sha512-81PIMmVLnCNLO/fFOQxdQkvEq/+Hfpv24XNJfpyZhTRfO0QcmQIF/PgCa1zCOj2w1hrn12MFLyaJ/G0+Mxtfag==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.2"
+    scheduler "^0.19.1"
+
+react-is@^16.13.1, react-is@^16.8.1:
+  version "16.13.1"
+  resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
+  integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
+
+react@^16.13.1:
+  version "16.13.1"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
+  integrity sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.2"
 
 "readable-stream@>=1.0.33-1 <1.1.0-0":
   version "1.0.34"
@@ -4695,6 +4765,14 @@ saxes@^3.1.9:
   integrity sha512-Ydydq3zC+WYDJK1+gRxRapLIED9PWeSuuS41wqyoRmzvhhh9nc+QQrVMKJYzJFULazeGhzSV0QleN2wD3boh2g==
   dependencies:
     xmlchars "^2.1.1"
+
+scheduler@^0.19.1:
+  version "0.19.1"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.19.1.tgz#4f3e2ed2c1a7d65681f4c854fa8c5a1ccb40f196"
+  integrity sha512-n/zwRWRYSUj0/3g/otKDRPMh6qv2SYMWNq85IEa8iZyAv8od9zDYpGSnpBEjNgcMNq6Scbu5KfIPxNF72R/2EA==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
 
 semver@7.0.0:
   version "7.0.0"

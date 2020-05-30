@@ -1,10 +1,26 @@
+@use "_pictures.scss";
+
 body.blog {
+    .page {
+        font-size: 18px;
+        font-family: "Merriweather", serif;
+        line-height: 1.8em;
+        letter-spacing: 0.5px;
+
+        max-width: calc(var(--theme-width) + 10ch);
+    }
+
+    .page > *:not(.picture-grid):not(video) {
+        max-width: var(--theme-width);
+        margin-left: auto;
+        margin-right: auto;
+    }
+
     nav {
         display: flex;
         justify-content: space-between;
         align-items: center;
 
-        max-width: var(--theme-width);
         width: 100%;
         margin: 0 auto 4em;
 
@@ -47,6 +63,10 @@ body.blog {
         margin: 0 auto;
     }
 
+    p {
+        margin-bottom: 2em;
+    }
+
     .post-list {
         list-style: none;
         padding: 0;
@@ -65,6 +85,22 @@ body.blog {
 
         p {
             margin: 0;
+        }
+    }
+
+    .blog-header {
+        margin-bottom: 2em;
+        font-family: "Questrial", sans-serif;
+
+        small {
+            font-size: inherit;
+            font-weight: bold;
+            opacity: 0.5;
+            float: right;
+        }
+
+        ~ .blog-header {
+            margin-top: 6em;
         }
     }
 }
