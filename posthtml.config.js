@@ -22,5 +22,13 @@ module.exports = {
         "posthtml-plugin-static-react": {
             ...components,
         },
+        "posthtml-plugin-sharp": {
+            root: "./src",
+            outputDir: "_resized-imgs",
+            maxWidth: 800,
+            shouldApply(node) {
+                return node.attrs && node.attrs.blurup !== undefined;
+            },
+        },
     },
 };

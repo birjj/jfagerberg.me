@@ -4,10 +4,13 @@
     "description": "My personal portfolio",
     "version": "0.1.0",
     "author": "birjolaxew",
-    "dependencies": {},
+    "dependencies": {
+        "posthtml-plugin-sharp": "./posthtml-plugin-sharp",
+        "yet-another-medium-zoom": "^0.4.2"
+    },
     "license": "MIT",
     "scripts": {
-        "build": "parcel build src/index.html",
+        "build": "parcel build src/index.html src/blog/**/index.{html,md}",
         "develop": "parcel src/index.html src/blog/**/index.{html,md}",
         "prettier": "prettier --write .",
         "lint": "tsc --noEmit"

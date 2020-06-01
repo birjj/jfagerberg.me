@@ -7,11 +7,11 @@
     > * {
         flex-basis: var(--column-width);
         flex-grow: 1;
-        padding: 4px;
+        margin: 4px;
+    }
 
-        > * {
-            margin: 0.25em;
-        }
+    > a {
+        background-image: none;
     }
 
     > .full {
