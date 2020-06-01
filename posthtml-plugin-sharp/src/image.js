@@ -27,21 +27,16 @@ function extractSrcPath(node, opts) {
 /** Generates the replacement node for an <img> */
 function generateReplacement(node, outputs, originalSrc, bgOutput, opts) {
     const originalAttrs = node.attrs || {};
-    const $pict = {
-        tag: "picture",
+    const $img = {
+        tag: "img",
         attrs: {
+            ...removeKeys(originalAttrs, ["blurup"]),
             class: `blurup ${originalAttrs.class || ""}`,
+            src: originalSrc,
+            srcset: outputs
+                .map((output) => generateSrcset(output, opts))
+                .join(", "),
         },
-        content: [
-            ...outputs.map((output) => generateSource(output, opts)),
-            {
-                tag: "img",
-                attrs: {
-                    ...removeKeys(originalAttrs, ["class", "src", "blurup"]),
-                    src: originalSrc,
-                },
-            },
-        ],
     };
     let bgBuffer = bgOutput.buffer
         ? bgOutput.buffer
@@ -69,22 +64,21 @@ function generateReplacement(node, outputs, originalSrc, bgOutput, opts) {
                   href: originalSrc,
                   class: "blurup__wrapper",
               },
-              content: [$placeholder || "", $pict],
+              content: [$placeholder || "", $img],
           }
-        : $pict;
+        : {
+              tag: "div",
+              attrs: {
+                  class: " blurup__wrapper",
+              },
+              content: [$img],
+          };
 }
 
 /** Generates the <source> for a given output */
-function generateSource(output, opts) {
+function generateSrcset(output, opts) {
     const src = output.relativeOutput.replace(/\\/g, "/");
-    return {
-        tag: "source",
-        attrs: {
-            srcset: `${src} ${output.width}w`,
-            sizes: `(max-width: ${output.width}px) 100vw, ${output.width}px`,
-            type: `image/${output.format}`,
-        },
-    };
+    return `${src} ${output.width}w`;
 }
 
 /** Checks whether we should apply to a posthtml node */
