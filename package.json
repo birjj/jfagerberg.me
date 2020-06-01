@@ -5,7 +5,7 @@
     "version": "0.1.0",
     "author": "birjolaxew",
     "dependencies": {
-        "posthtml-plugin-sharp": "./posthtml-plugin-sharp",
+        "posthtml-plugin-sharp": "./posthtml-plugin-sharp/",
         "yet-another-medium-zoom": "^0.4.2"
     },
     "license": "MIT",

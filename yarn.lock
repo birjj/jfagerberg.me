@@ -5757,6 +5757,19 @@ posthtml-plugin-sharp@./posthtml-plugin-sharp:
     posthtml-render "^1.2.2"
     sharp "^0.25.3"
 
+posthtml-plugin-sharp@./posthtml-plugin-sharp/:
+  version "0.0.1"
+  dependencies:
+    fs-extra "^9.0.0"
+    imagemin "^7.0.1"
+    imagemin-mozjpeg "^9.0.0"
+    imagemin-pngquant "^8.0.0"
+    imagemin-webp "^6.0.0"
+    posthtml-match-helper "^1.0.1"
+    posthtml-parser "^0.4.2"
+    posthtml-render "^1.2.2"
+    sharp "^0.25.3"
+
 posthtml-plugin-static-react@./posthtml-plugin-static-react:
   version "0.0.1"
   dependencies:

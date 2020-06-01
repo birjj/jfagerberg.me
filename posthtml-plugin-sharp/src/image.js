@@ -55,6 +55,8 @@ function generateReplacement(node, outputs, originalSrc, bgOutput, opts) {
             ].join("; "),
         },
     };
+
+    const $content = [$img, $placeholder || ""];
     return opts.linkify
         ? {
               tag: "a",
@@ -64,14 +66,14 @@ function generateReplacement(node, outputs, originalSrc, bgOutput, opts) {
                   href: originalSrc,
                   class: "blurup__wrapper",
               },
-              content: [$placeholder || "", $img],
+              content: $content,
           }
         : {
               tag: "div",
               attrs: {
                   class: " blurup__wrapper",
               },
-              content: [$img],
+              content: $content,
           };
 }
 
