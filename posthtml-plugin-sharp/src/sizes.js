@@ -41,14 +41,12 @@ async function placeholder(path, opts = {}) {
 function fluidSizes(fixed, opts) {
     return [
         fixed,
-        fixed / 4,
-        fixed / 2,
-        fixed * 1.5,
+        fixed * 0.5,
+        fixed * 1,
         fixed * 2,
+        fixed * 2.5,
         fixed * 3,
-        fixed * 4,
         fixed * 5,
-        fixed * 6,
     ];
 }
 
