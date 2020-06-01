@@ -18,3 +18,35 @@
         flex-basis: 100%;
     }
 }
+
+.blurup__wrapper {
+    position: relative;
+    overflow: hidden;
+}
+.blurup__bg {
+    display: block;
+    width: 100%;
+    background-size: cover;
+    background-position: 50% 50%;
+    filter: blur(16px);
+    transition: opacity 0.25s;
+    opacity: 1;
+}
+.blurup {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    will-change: transform;
+    transition: opacity 0.25s;
+    opacity: 1;
+}
+.blurup.not-loaded {
+    transition: none;
+    opacity: 0;
+}
+.blurup.loaded ~ .blurup__bg {
+    opacity: 0;
+}

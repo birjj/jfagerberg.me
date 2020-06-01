@@ -54,7 +54,9 @@ function generateReplacement(node, outputs, originalSrc, bgOutput, opts) {
                 `background-image: url("data:image/${
                     bgOutput.format
                 };base64,${bgBuffer.toString("base64")}")`,
-                `padding-bottom: ${(bgOutput.aspectRatio * 100).toFixed(4)}%`,
+                `padding-bottom: ${((1 / bgOutput.aspectRatio) * 100).toFixed(
+                    4
+                )}%`,
             ].join("; "),
         },
     };
@@ -65,6 +67,7 @@ function generateReplacement(node, outputs, originalSrc, bgOutput, opts) {
                   target: "_blank",
                   rel: "noreferrer noopener",
                   href: originalSrc,
+                  class: "blurup__wrapper",
               },
               content: [$placeholder || "", $pict],
           }
