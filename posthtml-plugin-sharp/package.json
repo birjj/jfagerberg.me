@@ -8,9 +8,9 @@
   "private": true,
   "dependencies": {
     "fs-extra": "^10.0.0",
-    "imagemin": "^8.0.1",
+    "imagemin": "^7.0.1",
     "imagemin-mozjpeg": "^9.0.0",
-    "imagemin-pngquant": "^9.0.2",
+    "imagemin-pngquant": "^8.0.0",
     "imagemin-webp": "^6.0.0",
     "posthtml-match-helper": "^1.0.1",
     "posthtml-parser": "^0.10.1",

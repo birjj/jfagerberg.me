@@ -29,6 +29,9 @@ module.exports = {
             shouldApply(node) {
                 return node.attrs && node.attrs.blurup !== undefined;
             },
+            pathTransform(path) {
+                return `~/src${path}`;
+            }
         },
     },
 };

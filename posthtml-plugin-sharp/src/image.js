@@ -11,12 +11,14 @@ const { removeKeys } = require("./utils");
  * @property {boolean} [linkify=true] Can be set to false to avoid wrapping output <picture> in an anchor pointing to the original image.
  * @property {(node, opts) => boolean} [shouldApply] Should return whether we should apply our function to a given node. Default checks for `blurup` attribute.
  * @property {(node, opts) => string} [extractSrcPath] Get the src path of a node. Defaults to one that supports <img>.
+ * @property {(path, opts) => string} [pathTransform] If you require the output paths to be in a particular format, use this to transform them. The given path will be relative to root.
  */
 const DEFAULT_OPTS = {
     root: "./",
     linkify: true,
     shouldApply,
     extractSrcPath,
+    pathTransform: v => v,
 };
 
 /** Extract src path from a posthtml node */
@@ -32,7 +34,7 @@ function generateReplacement(node, outputs, originalSrc, bgOutput, opts) {
         attrs: {
             ...removeKeys(originalAttrs, ["blurup"]),
             class: `blurup ${originalAttrs.class || ""}`,
-            src: originalSrc,
+            src: opts.pathTransform(originalSrc),
             srcset: outputs
                 .map((output) => generateSrcset(output, opts))
                 .join(", "),
@@ -63,7 +65,7 @@ function generateReplacement(node, outputs, originalSrc, bgOutput, opts) {
               attrs: {
                   target: "_blank",
                   rel: "noreferrer noopener",
-                  href: originalSrc,
+                  href: opts.pathTransform(originalSrc),
                   class: "blurup__wrapper",
               },
               content: $content,
@@ -79,7 +81,7 @@ function generateReplacement(node, outputs, originalSrc, bgOutput, opts) {
 
 /** Generates the <source> for a given output */
 function generateSrcset(output, opts) {
-    const src = output.relativeOutput.replace(/\\/g, "/");
+    const src = opts.pathTransform(output.relativeOutput.replace(/\\/g, "/"));
     return `${src} ${output.width}w`;
 }
 

@@ -4,7 +4,7 @@ uniform vec2 u_resolution;
 uniform vec2 u_mousepos;
 uniform vec2 u_offset;
 
-#pragma glslify: snoise = require("glsl-noise/simplex/3d")
+#pragma glslify: snoise = require("glsl-noise/simplex/3d.glsl")
 
 vec3 c1 = vec3(30, 30, 35) / 255.0;
 vec3 c2 = vec3(34, 34, 39) / 255.0;

@@ -8,7 +8,7 @@
 const react = require("react");
 const reactIs = require("react-is");
 const reactServer = require("react-dom/server");
-const parser = require("posthtml-parser");
+const { parser } = require("posthtml-parser");
 const matchHelper = require("posthtml-match-helper");
 
 /** Lookup table for converting HTML attributes to React properties */

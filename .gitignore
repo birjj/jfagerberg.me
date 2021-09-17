@@ -9,4 +9,5 @@ node_modules
 *.log
 dist
 .cache
+.parcel-cache
 **/_resized-imgs
