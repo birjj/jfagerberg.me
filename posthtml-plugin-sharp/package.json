@@ -7,14 +7,14 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "fs-extra": "^9.0.0",
-    "imagemin": "^7.0.1",
+    "fs-extra": "^10.0.0",
+    "imagemin": "^8.0.1",
     "imagemin-mozjpeg": "^9.0.0",
-    "imagemin-pngquant": "^8.0.0",
+    "imagemin-pngquant": "^9.0.2",
     "imagemin-webp": "^6.0.0",
     "posthtml-match-helper": "^1.0.1",
-    "posthtml-parser": "^0.4.2",
-    "posthtml-render": "^1.2.2",
-    "sharp": "^0.25.3"
+    "posthtml-parser": "^0.10.1",
+    "posthtml-render": "^3.0.0",
+    "sharp": "^0.29.1"
   }
 }

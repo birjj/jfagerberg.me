@@ -8,9 +8,9 @@
   "private": true,
   "dependencies": {
     "posthtml-match-helper": "^1.0.1",
-    "posthtml-parser": "^0.4.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-is": "^16.13.1"
+    "posthtml-parser": "^0.10.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-is": "^17.0.2"
   }
 }
