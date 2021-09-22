@@ -51,6 +51,13 @@ export default class ShaderProgram {
         this.uniformsGetter = uniformsGetter;
     }
 
+    destroy() {
+        if (this.animTimeout !== undefined) {
+            cancelAnimationFrame(this.animTimeout);
+        }
+        this.gl = this.program = undefined;
+    }
+
     /** Changes the context we're drawing to. Must be called before we can draw */
     setContext(gl?: WebGLRenderingContext) {
         if (!gl) {
