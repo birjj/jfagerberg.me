@@ -118,7 +118,7 @@ void main() {
     vec2 normalized_pos = gl_FragCoord.xy / max(u_resolution, vec2(1.0, 1.0));
     normalized_pos.x *= u_resolution.x / max(u_resolution.y, 1.0); // remove stretching
     
-    float time = u_time / 75000.0;
+    float time = (u_time - 6000.0) / 75000.0;
     vec2 offset = vec2(0, (u_offset.y - 0.5) * 3.0);
     offset.x *= u_resolution.x / max(u_resolution.y, 1.0);
     normalized_pos *= 0.6; // make the blobs bigger

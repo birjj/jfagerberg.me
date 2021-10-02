@@ -28,8 +28,8 @@ export function useWindowSize() {
     useEffect(() => {
         const listener = () => {
             setSize({
-                width: document.body.clientWidth,
-                height: document.body.clientHeight,
+                width: window.innerWidth,
+                height: window.innerHeight,
             });
         };
         listener();
