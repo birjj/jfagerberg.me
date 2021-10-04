@@ -1,5 +1,9 @@
+const withMDX = require("@next/mdx")({
+    extension: /\.mdx?$/,
+});
+
 /** @type {import('next').NextConfig} */
-module.exports = {
+const nextConfig = {
     reactStrictMode: true,
     webpack: (config) => {
         config.module.rules.push({
@@ -8,4 +12,13 @@ module.exports = {
         });
         return config;
     },
+    pageExtensions: ["js", "jsx", "ts", "tsx", "mdx"],
 };
+
+module.exports = withMDX({
+    options: {
+        remarkPlugins: [],
+        rehypePlugins: [],
+    },
+    ...nextConfig,
+});

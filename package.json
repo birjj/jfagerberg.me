@@ -9,11 +9,15 @@
         "lint": "prettier --write . && next lint"
     },
     "dependencies": {
+        "@mdx-js/loader": "^1.6.22",
+        "@mdx-js/react": "^1.6.22",
+        "@next/mdx": "^11.1.2",
         "next": "11.1.2",
         "react": "17.0.2",
         "react-dom": "17.0.2"
     },
     "devDependencies": {
+        "@types/mdx-js__react": "^1",
         "@types/node": "^16.9.6",
         "@types/react": "17.0.24",
         "@types/sass": "^1",
