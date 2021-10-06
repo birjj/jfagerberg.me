@@ -1,0 +1,32 @@
+import { withLayout } from "../../../../components/blog/layout";
+import { Header } from "../../../../components/blog/typography";
+import PictureGrid from "../../../../components/picture-grid";
+
+import rondane1 from "./rondane/20180917_133732.jpg";
+import rondane2 from "./rondane/20180917_173920.jpg";
+import rondane3 from "./rondane/20180919_124723.jpg";
+
+# Test
+
+<PictureGrid columns={2}>
+    <a href={rondane1.src} target="_blank">
+        <img
+            src={rondane1}
+            alt="Cairn with DNT's T-symbol, marking the path across a mountain"
+        />
+    </a>
+    <a href={rondane2.src} target="_blank">
+        <img
+            src={rondane2}
+            alt="Fellow hiker walking along river in mountain pass"
+        />
+    </a>
+    <a href={rondane3.src} target="_blank">
+        <img
+            src={rondane3}
+            alt="River with fall-colored trees along the sides"
+        />
+    </a>
+</PictureGrid>
+
+export default withLayout({ date: "October, 2021" });

@@ -1,0 +1,19 @@
+.wrapper {
+    margin-bottom: 2em;
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    grid-column: left / right;
+
+    --gap: 4px;
+
+    > * {
+        flex-basis: calc(var(--column-width) - var(--gap) - var(--gap));
+        flex-grow: 1;
+        margin: var(--gap) !important;
+    }
+
+    > .full {
+        flex-basis: 100%;
+    }
+}
