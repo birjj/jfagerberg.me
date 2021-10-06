@@ -9,24 +9,20 @@ import rondane3 from "./rondane/20180919_124723.jpg";
 # Test
 
 <PictureGrid columns={2}>
-    <a href={rondane1.src} target="_blank">
-        <img
-            src={rondane1}
-            alt="Cairn with DNT's T-symbol, marking the path across a mountain"
-        />
-    </a>
-    <a href={rondane2.src} target="_blank">
-        <img
-            src={rondane2}
-            alt="Fellow hiker walking along river in mountain pass"
-        />
-    </a>
-    <a href={rondane3.src} target="_blank">
-        <img
-            src={rondane3}
-            alt="River with fall-colored trees along the sides"
-        />
-    </a>
+    {[
+        {
+            img: rondane1,
+            alt: "Cairn with DNT's T-symbol, marking the path across a mountain",
+        },
+        {
+            img: rondane2,
+            alt: "Fellow hiker walking along river in mountain pass",
+        },
+        {
+            img: rondane3,
+            alt: "River with fall-colored trees along the sides",
+        },
+    ]}
 </PictureGrid>
 
-export default withLayout({ date: "October, 2021" });
+export default withLayout({ date: "" });

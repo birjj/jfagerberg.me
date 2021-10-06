@@ -3,8 +3,7 @@ import React from "react";
 
 const remoteRegex = /^https?:\/\//;
 
-export interface LinkProps
-    extends Omit<React.ComponentPropsWithoutRef<"a">, "target"> {
+export interface LinkProps extends React.ComponentPropsWithoutRef<"a"> {
     href: string;
 }
 const Link = ({ href, children, ...props }: LinkProps) => {

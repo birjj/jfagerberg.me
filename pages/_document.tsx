@@ -10,7 +10,7 @@ class CustomDocument extends Document {
                         rel="stylesheet"
                     />
 
-                    {/* favicon config created by realfavicongenerator */}
+                    {/* favicon config created by realfavicongenerator, simplified a bit */}
                     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
                     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
                     <link rel="manifest" href="/site.webmanifest" />

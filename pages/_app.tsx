@@ -16,7 +16,12 @@ const blogComponents = {
     h3: H3,
     img: (props: ImageProps) => {
         return (
-            <Image alt="" placeholder="blur" layout="responsive" {...props} />
+            <Image
+                alt={props.alt} /* ESLint workaround */
+                placeholder="blur"
+                layout="responsive"
+                {...props}
+            />
         );
     },
     a: Link,
