@@ -12,7 +12,11 @@ const Link = ({ href, children, ...props }: LinkProps) => {
 
     // if it's local, just pass it through to
     if (!remote) {
-        return <NextLink href={href}>{children}</NextLink>;
+        return (
+            <NextLink href={href}>
+                <a>{children}</a>
+            </NextLink>
+        );
     }
 
     return (
