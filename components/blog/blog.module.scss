@@ -14,8 +14,9 @@
 .wrapper > * {
     grid-column: main;
 }
-.wrapper > video {
-    grid-column: left / right;
+
+.wrapper > p {
+    margin: 0 0 2em;
 }
 
 .wrapper > nav {

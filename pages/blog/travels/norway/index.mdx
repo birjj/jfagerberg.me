@@ -2,11 +2,25 @@ import { withLayout } from "../../../../components/blog/layout";
 import { Header } from "../../../../components/blog/typography";
 import PictureGrid from "../../../../components/picture-grid";
 
+<Header subtext={"September, 2018 ⋅ Norway"}>Rondane National Park</Header>
+
 import rondane1 from "./rondane/20180917_133732.jpg";
 import rondane2 from "./rondane/20180917_173920.jpg";
 import rondane3 from "./rondane/20180919_124723.jpg";
+import rondane4 from "./rondane/20180921_095737.jpg";
+import rondane5 from "./rondane/20180922_090416.jpg";
+import rondane6 from "./rondane/20180922_090703.jpg";
 
-# Test
+Rondane in central Norway is the oldest national park in the
+country. It's a beautiful place, slightly flatter and with more lenient trails
+than the neighboring Jotunheimen national park. I visited during the fall of 2018,
+joining a small group of newer hikers on a week-long backpacking trip around the
+perimeter of the park.
+
+As is common in Norway, the trekking facilities in the park are
+exceedingly well maintained. It is difficult to get lost with DNT's iconic 'T's
+dotting the trails, and with both manned and unmanned huts available the park is
+accessible to everyone, regardless of skill level.
 
 <PictureGrid columns={2}>
     {[
@@ -24,5 +38,41 @@ import rondane3 from "./rondane/20180919_124723.jpg";
         },
     ]}
 </PictureGrid>
+
+We started near the southern border of the park, following the trails counter-clockwise.
+Circling around the central mountain of Rondeslottet offers some incredible views.
+With the fall colors in full swing it was a delightful mix of valleys and mountain ridges,
+rivers and snow-covered fields.
+
+Our little group chose to sleep in our tents most nights, pitching where possible
+along rivers or near mountain lakes. Come the second-to-last night, following a
+day of heavy rain and worn out feet, we decided to indulge ourselves a bit and
+rent one of the cozy huts near [Peer
+Gynt-hytta](https://www.visitnorway.dk/listings/peer-gynt-hytta-i-rondane-nasjonalpark/199463/) -
+a group of delightful little huts, full of the charm of decades past.
+
+<PictureGrid columns={2}>
+    {[
+        {
+            img: rondane4,
+            alt: "Fellow hikers walking along a snow-covered mountain road",
+        },
+        {
+            img: rondane5,
+            alt: "Outside view of the huts at the Peer-Gynt hytta",
+        },
+        {
+            img: rondane6,
+            alt: "Mountain river near the Peer-Gynt hytta",
+        },
+    ]}
+</PictureGrid>
+
+I can fully recommend taking a hike through Rondane if backpacking is something
+that interests you. You can easily adapt the trip depending on your skill and
+comfort level, whether you prefer sleeping in well-maintained huts or out in the
+open, and regardless of how many height meters your legs can take in a day. As
+with any mountain range it is important not to take it too casually - but Rondane
+is definitely one of the more friendly backpacking trips I've been on.
 
 export default withLayout({ date: "" });
