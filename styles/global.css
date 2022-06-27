@@ -1,3 +1,7 @@
+:root {
+  --color-accent: #29d;
+}
+
 html,
 body {
   padding: 0;
