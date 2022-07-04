@@ -34,6 +34,10 @@ const WebGLCanvas = React.forwardRef<HTMLCanvasElement, ShaderCanvasProps>(
         return;
       }
       webgl.current = new WebGLHandler(canvas.current, shader, uniformsGetter);
+      return () => {
+        webgl.current?.destroy();
+        webgl.current = undefined;
+      };
     }, [isSupported]);
 
     // load our shader whenever it changes

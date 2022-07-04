@@ -123,6 +123,7 @@ export default class WebGLHandler {
 
   setUniformsGetter(func: (prev: WebGLUniforms) => WebGLUniforms = () => ({})) {
     this.uniformsGetter = func;
+    this.uniforms = {};
   }
 
   destroy() {
