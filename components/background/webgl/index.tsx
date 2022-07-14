@@ -8,7 +8,7 @@ type ShaderCanvasProps = {
 } & JSX.IntrinsicElements["canvas"];
 const WebGLCanvas = React.forwardRef<HTMLCanvasElement, ShaderCanvasProps>(
   ({ shader, uniformsGetter, fallback = null, ...props }, ref) => {
-    const canvas = useRef<HTMLCanvasElement>(null);
+    const $canvas = useRef<HTMLCanvasElement>(null);
     const webgl = useRef<WebGLHandler>();
     const [isSupported, setSupported] = useState<boolean | undefined>(
       undefined
@@ -17,23 +17,22 @@ const WebGLCanvas = React.forwardRef<HTMLCanvasElement, ShaderCanvasProps>(
       setSupported(isWebGLSupported());
     }, []);
 
-    const onCanvas = ($canvas: HTMLCanvasElement | null) => {
-      (canvas as React.MutableRefObject<HTMLCanvasElement | null>).current =
-        $canvas;
+    const onCanvas = ($c: HTMLCanvasElement | null) => {
+      ($canvas as React.MutableRefObject<HTMLCanvasElement | null>).current =
+        $c;
       if (typeof ref === "function") {
-        ref($canvas);
+        ref($c);
       } else if (ref) {
-        (ref as React.MutableRefObject<HTMLCanvasElement | null>).current =
-          $canvas;
+        (ref as React.MutableRefObject<HTMLCanvasElement | null>).current = $c;
       }
     };
 
     // create our handler instance
     useEffect(() => {
-      if (!supported || !canvas.current) {
+      if (!supported || !$canvas.current) {
         return;
       }
-      webgl.current = new WebGLHandler(canvas.current, shader, uniformsGetter);
+      webgl.current = new WebGLHandler($canvas.current, shader, uniformsGetter);
       return () => {
         webgl.current?.destroy();
         webgl.current = undefined;

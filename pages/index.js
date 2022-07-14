@@ -5,7 +5,7 @@ import { getSortedPostsData } from "../lib/posts";
 import Link from "next/link";
 import Date from "../components/date";
 
-import ShaderCanvas from "../components/shader";
+import ShaderCanvas from "../components/background/shader";
 
 export default function Home({ allPostsData }) {
   return (
