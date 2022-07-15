@@ -7,21 +7,27 @@ import Date from "../components/date";
 
 import ShaderCanvas from "../components/background/shader";
 
-export default function Home({ allPostsData }) {
+export default function Home({
+  allPostsData,
+}: Awaited<ReturnType<typeof getStaticProps>>["props"]) {
   return (
     <Layout home>
+      <ShaderCanvas />
       <Head>
         <title>{siteTitle}</title>
       </Head>
       <section className={utilStyles.headingMd}>
-        <p>[Your Self Introduction]</p>
-        <ShaderCanvas />
-        <p>
-          (This is a sample website - you’ll be building a site like this in{" "}
-          <a href="https://nextjs.org/learn">our Next.js tutorial</a>.)
+        <h1>
+          Hi.
+          <br />
+          I'm Johan.
+        </h1>
+        <p className="subheader">
+          Privacy advocate, JavaScript (et al.) engineer, and occasional
+          backpacker.
         </p>
         <p>
-          Go to forever: <Link href={"/forever"}>Forever</Link>
+          You can read some of my musings on <Link href="/blog/">my blog</Link>
         </p>
       </section>
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>

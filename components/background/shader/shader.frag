@@ -53,10 +53,11 @@ float c_liquid_mask() {
     float scale = 0.125;
     float a = scale + left * scale;
     float b = 1. - scale + right * scale;
+    float pixel_size = 1.0 / u_resolution.x;
 
     return min(
-        smoothstep(a - 0.0005, a + 0.0005, gl_FragCoord.x / u_resolution.x),
-        1. - smoothstep(b - 0.0005, b + 0.0005, gl_FragCoord.x / u_resolution.x)
+        smoothstep(a - 1.0 * pixel_size, a + 1.0 * pixel_size, gl_FragCoord.x / u_resolution.x),
+        1. - smoothstep(b - pixel_size, b + pixel_size, gl_FragCoord.x / u_resolution.x)
     );
 }
 

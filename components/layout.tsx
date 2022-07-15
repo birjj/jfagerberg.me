@@ -4,11 +4,15 @@ import styles from "./layout.module.css";
 import utilStyles from "../styles/utils.module.css";
 import Link from "next/link";
 import PageLoader from "./page-loader";
+import React from "react";
 
 const name = "[Your Name]";
 export const siteTitle = "Next.js Sample Website";
 
-export default function Layout({ children, home }) {
+export default function Layout({
+  children,
+  home,
+}: React.PropsWithChildren<{ home?: boolean }>) {
   return (
     <div className={styles.container}>
       <PageLoader />
