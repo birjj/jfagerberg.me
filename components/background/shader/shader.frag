@@ -39,11 +39,11 @@ vec3 c_liquid() {
 }
 
 // generate a mask based on scroll position
-float c_liquid_mask() {
+float m_liquid_mask() {
     float y = (gl_FragCoord.y - u_scroll) / u_resolution.y;
     y /= u_resolution.x / u_resolution.y;
 
-    float t = u_time * 0.05;
+    float t = u_time * 0.05 + 50.0;
     float left = sin(t * 0.5 + y * 8.5) * 0.3
         + cos(t * 1.2 + y * 6.5) * 0.3
         + sin(t * 1.67 + y * 7.) * 0.4;
@@ -69,5 +69,5 @@ void main(){
 
     vec3 col = c_liquid();
 
-    gl_FragColor = vec4(col, 1.0) * c_liquid_mask();
+    gl_FragColor = vec4(col, m_liquid_mask());
 }

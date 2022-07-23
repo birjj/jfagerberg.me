@@ -1,9 +1,9 @@
 import Head from "next/head";
 import Layout, { siteTitle } from "../components/layout";
-import utilStyles from "../styles/utils.module.css";
 import { getSortedPostsData } from "../lib/posts";
 import Link from "next/link";
-import Date from "../components/date";
+
+import style from "../styles/index.module.css";
 
 import ShaderCanvas from "../components/background/shader";
 
@@ -16,36 +16,20 @@ export default function Home({
       <Head>
         <title>{siteTitle}</title>
       </Head>
-      <section className={utilStyles.headingMd}>
+      <section className={style.page}>
         <h1>
-          Hi.
+          Hi<span className="dot">.</span>
           <br />
-          I'm Johan.
+          I'm Johan<span className="dot">.</span>
         </h1>
-        <p className="subheader">
+        <p className={style.subheader}>
           Privacy advocate, JavaScript (et al.) engineer, and occasional
           backpacker.
-        </p>
-        <p>
-          You can read some of my musings on <Link href="/blog/">my blog</Link>
+          <br />
+          You can read some of my musings on <Link href="/blog/">my blog.</Link>
         </p>
       </section>
-      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h2 className={utilStyles.headingLg}>Blog</h2>
-        <ul className={utilStyles.list}>
-          {allPostsData.map(({ id, date, title }) => (
-            <li className={utilStyles.listItem} key={id}>
-              <Link href={`/posts/${id}`}>
-                <a>{title}</a>
-              </Link>
-              <br />
-              <small className={utilStyles.lightText}>
-                <Date dateString={date} />
-              </small>
-            </li>
-          ))}
-        </ul>
-      </section>
+      <section className={style.page}></section>
     </Layout>
   );
 }

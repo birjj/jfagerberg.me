@@ -1,4 +1,13 @@
-.container {
+.container--home {
+  display: grid;
+  grid-template-columns: 6rem 1fr 38rem 6rem;
+}
+
+.container--home > main {
+  grid-column: 3;
+}
+
+.container--blog {
   max-width: 36rem;
   padding: 0 1rem;
   margin: 3rem auto 6rem;

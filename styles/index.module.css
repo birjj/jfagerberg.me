@@ -1,0 +1,18 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.page h1 {
+  font-size: 5rem;
+  padding-bottom: 0.5em;
+  margin-bottom: 0.5em;
+  border-bottom: 2px solid var(--color-hairline);
+}
+
+.subheader {
+  margin-top: 0;
+  font-family: "Montserrat", sans-serif;
+}

@@ -75,7 +75,10 @@ export default class WebGLHandler {
 
   setCanvas(
     canvas: HTMLCanvasElement,
-    options: WebGLContextAttributes = { failIfMajorPerformanceCaveat: true }
+    options: WebGLContextAttributes = {
+      failIfMajorPerformanceCaveat: true,
+      premultipliedAlpha: false,
+    }
   ) {
     this.ctx =
       canvas.getContext("webgl", options) ||
