@@ -6,6 +6,7 @@ import Link from "next/link";
 import style from "../styles/index.module.css";
 
 import ShaderCanvas from "../components/background/shader";
+import DarkModeSwitcher from "../components/dark-mode-switcher";
 
 export default function Home({
   allPostsData,

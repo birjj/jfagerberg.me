@@ -2,11 +2,38 @@
   position: absolute;
   right: 1em;
   top: 1em;
-  width: 2em;
-  height: 2em;
+  width: 24px;
+  height: 24px;
   opacity: 0.5;
+  cursor: pointer;
 }
+
+.sun,
+.rays,
+.mask {
+  transition: transform 300ms cubic-bezier(0.2, 1, 1, 1.4);
+  transform-origin: 50% 50%;
+}
+
 .sun {
+  transition-timing-function: cubic-bezier(0.16, 1.24, 0.7, 1.42);
 }
-.moon {
+
+.dark .mask {
+  transform-origin: 75% 25%;
+  transform: scale(0);
+}
+
+.light .sun {
+  transform: scale(2);
+}
+.light .rays {
+  transform: scale(0);
+}
+.dark .sun {
+  transform: scale(1);
+}
+.dark .rays {
+  transform: scale(1);
+  transition-delay: 100ms;
 }

@@ -37,6 +37,9 @@ export default function Layout({
         />
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
+
+        <link rel="prefetch" href="/images/topography_dark.svg" as="image" />
+        <link rel="prefetch" href="/images/topography_light.svg" as="image" />
       </Head>
       <DarkModeSwitcher />
       <main>{children}</main>
