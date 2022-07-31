@@ -11,3 +11,4 @@ dist
 .cache
 .parcel-cache
 **/_resized-imgs
+.vscode

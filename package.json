@@ -16,10 +16,10 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/birjolaxew/jfagerberg.me"
+        "url": "https://github.com/birjj/jfagerberg.me"
     },
     "bugs": {
-        "url": "https://github.com/birjolaxew/jfagerberg.me/issues"
+        "url": "https://github.com/birjj/jfagerberg.me/issues"
     },
     "devDependencies": {
         "@parcel/transformer-glsl": "^2.0.0-nightly.2048",
