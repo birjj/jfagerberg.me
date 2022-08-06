@@ -1,22 +1,27 @@
 import React, { useEffect, useRef, useState } from "react";
 import WebGLHandler, { WebGLUniforms } from "./webgl";
 
-type ShaderCanvasProps = {
+type WebGLCanvasProps = {
   shader: string;
   uniformsGetter?: (prev: WebGLUniforms) => WebGLUniforms;
   fallback?: React.ReactNode;
 } & JSX.IntrinsicElements["canvas"];
-const WebGLCanvas = React.forwardRef<HTMLCanvasElement, ShaderCanvasProps>(
+
+/** Canvas that renders the given WebGL fragment shader */
+const WebGLCanvas = React.forwardRef<HTMLCanvasElement, WebGLCanvasProps>(
   ({ shader, uniformsGetter, fallback = null, ...props }, ref) => {
     const $canvas = useRef<HTMLCanvasElement>(null);
     const webgl = useRef<WebGLHandler>();
     const [isSupported, setSupported] = useState<boolean | undefined>(
       undefined
     );
+
+    // check if WebGL is supported (wrapped in useEffect for SSR purposes)
     useEffect(() => {
       setSupported(isWebGLSupported());
     }, []);
 
+    // merge refs to the canvas
     const onCanvas = ($c: HTMLCanvasElement | null) => {
       ($canvas as React.MutableRefObject<HTMLCanvasElement | null>).current =
         $c;

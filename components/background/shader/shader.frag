@@ -13,10 +13,12 @@ vec3 c_liquid() {
     float strength = 0.4;
     float t = u_time / 100.0;
 
+    vec2 coord = vec2(gl_FragCoord.x, gl_FragCoord.y - u_scroll * 0.25);
+
     for(int i = -1; i <= 1; i++) {
         for(int j = -1; j <= 1; j++) {
             // use the normalized resolution-independent fragcoord
-            vec2 pos = gl_FragCoord.xy - vec2(0, u_scroll * 0.25) + vec2(i,j) / 3.0;
+            vec2 pos = coord + vec2(i,j) / 3.0;
             pos /= u_resolution.xy;
             pos.y /= u_resolution.x / u_resolution.y;
 
@@ -39,35 +41,29 @@ vec3 c_liquid() {
 }
 
 // generate a mask based on scroll position
-float m_liquid_mask() {
-    float y = (gl_FragCoord.y - u_scroll) / u_resolution.y;
-    y /= u_resolution.x / u_resolution.y;
+// returns a signed distance field (negative if inside shape, positive otherwise)
+float sdf_mask() {
+    float y = gl_FragCoord.y - u_scroll;
 
     float t = u_time * 0.05 + 50.0;
-    float left = sin(t * 0.5 + y * 8.5) * 0.3
-        + cos(t * 1.2 + y * 6.5) * 0.3
-        + sin(t * 1.67 + y * 7.) * 0.4;
-    float right = cos(0.5 + t * 0.5 + y * 3.) * 0.3
-        + sin(10. + t * 1.2 + y * 5.) * 0.3
-        + sin(5. + t * 1.67 + y * 6.) * 0.4;
-    float scale = 0.125;
-    float a = scale + left * scale;
-    float b = 1. - scale + right * scale;
-    float pixel_size = 1.0 / u_resolution.x;
-
-    return min(
-        smoothstep(a - 1.0 * pixel_size, a + 1.0 * pixel_size, gl_FragCoord.x / u_resolution.x),
-        1. - smoothstep(b - pixel_size, b + pixel_size, gl_FragCoord.x / u_resolution.x)
+    float left = sin(t * 0.5 + y * 0.008) * 0.3
+        + cos(t * 1.2 + y * 0.0065) * 0.3
+        + sin(t * 1.67 + y * 0.007) * 0.4;
+    float right = cos(0.5 + t * 0.5 + y * 0.003) * 0.3
+        + sin(10. + t * 1.2 + y * 0.005) * 0.3
+        + sin(5. + t * 1.67 + y * 0.006) * 0.4;
+    float scale = 64.;
+    return max(
+        scale + left * scale - gl_FragCoord.x,
+        gl_FragCoord.x - (u_resolution.x - right * scale - scale) 
     );
 }
 
 void main(){
-    // rescale our position from pixels to [0,0,1,1]
-    vec2 pos = gl_FragCoord.xy / u_resolution.xy;
-    // then rescale to make coordinate system square, regardless of if canvas is rectangular
-    pos.y /= u_resolution.x / u_resolution.y;
-
     vec3 col = c_liquid();
 
-    gl_FragColor = vec4(col, m_liquid_mask());
+    float mask = sdf_mask();
+    float alpha = 1.0 - smoothstep(-1.0, 1.0, mask);
+
+    gl_FragColor = vec4(col, alpha);
 }

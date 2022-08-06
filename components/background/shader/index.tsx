@@ -6,6 +6,7 @@ import shader from "./shader.frag";
 
 import style from "./style.module.css";
 
+/** Canvas that renders our background shader */
 const ShaderCanvas = () => {
   const $canvas = useRef<HTMLCanvasElement>(null);
   const {
