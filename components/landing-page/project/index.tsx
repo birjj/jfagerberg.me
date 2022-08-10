@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "../../common/link";
 
 import style from "./project.module.css";
 
@@ -20,10 +21,10 @@ const Project = ({
     <div className={style.project}>
       <h3>
         <div className={style.icon}>{icon}</div>
-        <a href={url} target="_blank" rel="noopener noreferrer">
+        <Link noIcon href={url}>
           {title}
           <span className="dot">.</span>
-        </a>{" "}
+        </Link>{" "}
         <span className={style.tags}>{tags.join(" ⋅ ")}</span>
       </h3>
       <div className={style.text}>{children}</div>

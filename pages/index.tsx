@@ -1,7 +1,6 @@
 import Head from "next/head";
 import Layout, { siteTitle } from "../components/layout";
 import { getSortedPostsData } from "../lib/posts";
-import Link from "next/link";
 
 import style from "../styles/index.module.css";
 
@@ -16,6 +15,7 @@ import {
   YAMZIcon,
 } from "../components/common/icons";
 import WorkHistory from "../components/landing-page/work-history";
+import Link from "../components/common/link";
 
 export default function Home({
   allPostsData,
@@ -46,8 +46,9 @@ export default function Home({
         </h2>
         <p>
           I've been a maintainer and contributor to several open-source
-          projects, such as <a href="https://simpleicons.org/">Simple Icons</a>{" "}
-          and <a href="https://sweetalert2.github.io/">SweetAlert2</a>.<br />I
+          projects, such as{" "}
+          <Link href="https://simpleicons.org/">Simple Icons</Link> and{" "}
+          <Link href="https://sweetalert2.github.io/">SweetAlert2</Link>.<br />I
           also have a lot of smaller projects, including:
         </p>
         <Project
@@ -56,14 +57,8 @@ export default function Home({
           url="https://github.com/birjj/manatee-inspector"
         >
           A custom dev tool implementation for the{" "}
-          <a
-            href="https://sirenia.eu/products/rpa/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Manatee
-          </a>{" "}
-          RPA application. Provides vastly improved DX compared to the built-in
+          <Link href="https://sirenia.eu/products/rpa/">Manatee</Link> RPA
+          application. Provides vastly improved DX compared to the built-in
           dev&nbsp;tools.
         </Project>
         <Project
@@ -102,11 +97,9 @@ export default function Home({
         >
           <p>
             Responsible for automatization of work processes across the hospital
-            using the
-            <a href="https://sirenia.eu/products/rpa/" target="_blank">
-              Manatee
-            </a>
-            RPA application. Had ownership of the entire process, from customer
+            using the{" "}
+            <Link href="https://sirenia.eu/products/rpa/">Manatee</Link> RPA
+            application. Had ownership of the entire process, from customer
             communication to final implementation.
           </p>
           <p>
@@ -162,12 +155,12 @@ from University of Southern Denmark"
             description of privacy-aware algorithms, and ways to achieve it.
             <br />
             The project can be found{" "}
-            <a
+            <Link
               href="https://github.com/birjj/bachelor-project-privacy/releases/tag/v1.0"
-              target="_blank"
+              noIcon
             >
               on my GitHub.
-            </a>
+            </Link>
           </p>
         </WorkHistory>
       </section>
@@ -182,29 +175,29 @@ from University of Southern Denmark"
         </p>
         <p>
           You can catch me over on{" "}
-          <a href="https://github.com/birjj" target="_blank">
+          <Link noIcon href="https://github.com/birjj">
             GitHub
-          </a>{" "}
+          </Link>{" "}
           or{" "}
-          <a
+          <Link
+            noIcon
             href="https://www.linkedin.com/in/johan-fagerberg-202527120/"
-            target="_blank"
           >
             LinkedIn
-          </a>
+          </Link>
           , or you can send me a good old-fashioned email at{" "}
-          <a href="mailto:johanringmann@gmail.com">johanringmann@gmail.com</a>.
+          <Link href="mailto:johanringmann@gmail.com">
+            johanringmann@gmail.com
+          </Link>
+          .
         </p>
         <div className={style.contactLinks}>
-          <a href="https://github.com/birjj" target="_blank">
+          <Link noIcon href="https://github.com/birjj">
             <GithubIcon />
-          </a>
-          <a
-            href="https://www.linkedin.com/in/johan-fagerberg-202527120/"
-            target="_blank"
-          >
+          </Link>
+          <Link href="https://www.linkedin.com/in/johan-fagerberg-202527120/">
             <LinkedInIcon />
-          </a>
+          </Link>
         </div>
       </section>
     </Layout>
