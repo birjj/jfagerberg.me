@@ -1,10 +1,11 @@
 import Head from "next/head";
 import Image from "next/image";
-import styles from "./layout.module.css";
+import style from "./layout.module.css";
 import Link from "next/link";
 import PageLoader from "./common/page-loader";
 import React from "react";
 import DarkModeSwitcher from "./common/dark-mode-switcher";
+import ShaderCanvas from "./landing-page/background/shader";
 
 const name = "Johan Fagerberg";
 export const siteTitle = "Johan Fagerberg";
@@ -17,9 +18,9 @@ export default function Layout({
   return (
     <div
       className={[
-        styles.container,
-        home ? styles["container--home"] : "",
-        blog ? styles["container--blog"] : "",
+        style.container,
+        home ? style["container--home"] : "",
+        blog ? style["container--blog"] : "",
       ].join(" ")}
     >
       <PageLoader />
@@ -55,6 +56,7 @@ export default function Layout({
         <link rel="prefetch" href="/images/topography_light.svg" as="image" />
       </Head>
       <DarkModeSwitcher />
+      {home ? <ShaderCanvas className="hide--small" /> : null}
       <main>{children}</main>
     </div>
   );

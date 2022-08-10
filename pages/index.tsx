@@ -22,7 +22,6 @@ export default function Home({
 }: Awaited<ReturnType<typeof getStaticProps>>["props"]) {
   return (
     <Layout home>
-      <ShaderCanvas />
       <Head>
         <title>Portfolio | {siteTitle}</title>
       </Head>

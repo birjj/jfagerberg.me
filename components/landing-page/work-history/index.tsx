@@ -13,7 +13,7 @@ const WorkHistory = ({
 }: React.PropsWithChildren<WorkHistoryProps>) => {
   return (
     <div className={style.wrapper}>
-      <div className={style.date}>{date}</div>
+      <div className={`hide--small ${style.date}`}>{date}</div>
       <h3>
         {title}
         <span className="dot">.</span>

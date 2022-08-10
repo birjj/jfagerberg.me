@@ -7,7 +7,10 @@ import shader from "./shader.frag";
 import style from "./style.module.css";
 
 /** Canvas that renders our background shader */
-const ShaderCanvas = () => {
+const ShaderCanvas = ({
+  className,
+  ...props
+}: JSX.IntrinsicElements["canvas"]) => {
   const $canvas = useRef<HTMLCanvasElement>(null);
   const {
     width = 1,
@@ -45,7 +48,7 @@ const ShaderCanvas = () => {
     <WebGLCanvas
       width={width}
       height={height}
-      className={style.canvas}
+      className={`${style.canvas} ${className || ""}`}
       shader={shader}
       ref={onCanvas}
       uniformsGetter={uniformsGetter}

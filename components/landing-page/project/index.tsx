@@ -20,7 +20,7 @@ const Project = ({
   return (
     <div className={style.project}>
       <h3>
-        <div className={style.icon}>{icon}</div>
+        <div className={`hide--small ${style.icon}`}>{icon}</div>
         <Link noIcon href={url}>
           {title}
           <span className="dot">.</span>

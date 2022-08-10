@@ -1,10 +1,13 @@
 .container--home {
   display: grid;
-  grid-template-columns: 6rem 1fr 36rem 7rem;
+  --layout-padding: 6rem;
+  grid-template-columns: var(--layout-padding) [aside-start] 1fr [aside-end] 4rem [main-start] 36rem [main-end] var(
+      --layout-padding
+    );
 }
 
 .container--home > main {
-  grid-column: 3;
+  grid-column: main;
 }
 
 .container--blog {
@@ -17,4 +20,21 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+@media (max-width: 90rem) {
+  .container--home {
+    --layout-padding: 3rem;
+  }
+}
+@media (max-width: 75rem) {
+  .container--home {
+    grid-template-columns:
+      minmax(var(--layout-padding), 1fr) [main-start] minmax(12rem, 36rem)
+      [main-end] minmax(var(--layout-padding), 1fr);
+  }
+
+  .container :global(.hide--small) {
+    display: none;
+  }
 }
