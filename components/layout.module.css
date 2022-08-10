@@ -1,6 +1,6 @@
 .container--home {
   display: grid;
-  grid-template-columns: 6rem 1fr 38rem 6rem;
+  grid-template-columns: 6rem 1fr 36rem 7rem;
 }
 
 .container--home > main {
@@ -17,8 +17,4 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.backToHome {
-  margin: 3rem 0 0;
 }
