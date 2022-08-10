@@ -27,7 +27,7 @@ export default function Home({
         <title>Portfolio | {siteTitle}</title>
       </Head>
 
-      <section className={style.page}>
+      <section className={`${style.page} ${style.full}`}>
         <h1>
           Hi<span className="dot">.</span>
           <br />
@@ -172,7 +172,7 @@ from University of Southern Denmark"
         </WorkHistory>
       </section>
 
-      <section className={style.page}>
+      <section className={`${style.page} ${style.full}`}>
         <h2>
           Contact<span className="dot">.</span>
         </h2>
