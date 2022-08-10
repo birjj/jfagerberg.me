@@ -1,7 +1,7 @@
 .container--home {
   display: grid;
   --layout-padding: 6rem;
-  grid-template-columns: var(--layout-padding) [aside-start] 1fr [aside-end] 4rem [main-start] 36rem [main-end] var(
+  grid-template-columns: var(--layout-padding) [aside-start] 1fr [aside-end] 6rem [main-start] 36rem [main-end] var(
       --layout-padding
     );
 }
