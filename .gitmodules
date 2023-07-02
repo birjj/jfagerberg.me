@@ -1,3 +1,3 @@
 [submodule "src/pages/posts"]
-	path = src/pages/posts
+	path = src/content/blog
 	url = git@github.com:birjj/blog.git
