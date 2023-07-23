@@ -10,6 +10,15 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^2.7.2"
+    "@astrojs/tailwind": "^4.0.0",
+    "@fontsource-variable/cabin": "^5.0.4",
+    "@fontsource/questrial": "^5.0.5",
+    "astro": "^2.9.1",
+    "hyphenopoly": "^5.2.0-beta.1",
+    "tailwindcss": "^3.3.3",
+    "unist-util-visit": "^4.1.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.9"
   }
 }
