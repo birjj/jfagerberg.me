@@ -1,0 +1,50 @@
+---
+import { Icon } from "astro-icon";
+
+export interface Props {
+  icon: string;
+  href?: string;
+  title: string;
+  tags?: string[];
+}
+
+const { icon, href, title, tags = [] } = Astro.props;
+---
+
+<div class="flex flex-row items-center py-4 pb-8">
+  {
+    href ? (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="icon flex-shrink-0 mr-4"
+      >
+        <Icon class="h-24 w-24" name={icon} />
+      </a>
+    ) : (
+      <Icon name={icon} class="flex-shrink-0 h-24 w-24 mr-4" />
+    )
+  }
+  <div
+    class="flex-grow flex flex-col prose-headings:m-0 prose-p:mt-0 prose-p:mb-0"
+  >
+    <h3>
+      {
+        href ? (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-semibold"
+          >
+            {title}
+          </a>
+        ) : (
+          title
+        )
+      }
+    </h3>
+    <slot />
+  </div>
+</div>

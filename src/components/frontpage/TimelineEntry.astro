@@ -1,0 +1,22 @@
+---
+export interface Props {
+  time: string;
+}
+
+const { time } = Astro.props;
+const timeWidth = Math.ceil(time.length / 9) * 4.5;
+---
+
+<div
+  class="flex flex-col sm:flex-row py-4 prose-p:my-2 prose-headings:mt-0 prose-headings:leading-none"
+>
+  <div
+    class="flex-shrink-0 text-base mr-4 opacity-50"
+    style=`width: ${timeWidth}ch`
+  >
+    {time}
+  </div>
+  <div class="flex-grow">
+    <slot />
+  </div>
+</div>

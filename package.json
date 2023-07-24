@@ -14,6 +14,7 @@
     "@fontsource-variable/cabin": "^5.0.4",
     "@fontsource/questrial": "^5.0.5",
     "astro": "^2.9.1",
+    "astro-icon": "^0.8.1",
     "hyphenopoly": "^5.2.0-beta.1",
     "tailwindcss": "^3.3.3",
     "unist-util-visit": "^4.1.2"

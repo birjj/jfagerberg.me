@@ -6,10 +6,14 @@ import tailwind from "@astrojs/tailwind";
 // https://astro.build/config
 export default defineConfig({
   experimental: {
-    assets: true
+    assets: true,
   },
   markdown: {
-    remarkPlugins: [remarkHyphenate]
+    remarkPlugins: [remarkHyphenate],
   },
-  integrations: [tailwind()]
+  integrations: [
+    tailwind({
+      applyBaseStyles: false,
+    }),
+  ],
 });

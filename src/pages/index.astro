@@ -1,126 +1,123 @@
 ---
+import TimelineEntry from "../components/frontpage/TimelineEntry.astro";
+import Section from "../components/frontpage/Section.astro";
 import Layout from "../layouts/Layout.astro";
-import Card from "../components/Card.astro";
+import { Icon } from "astro-icon";
+import ProjectEntry from "../components/frontpage/ProjectEntry.astro";
 ---
 
-<Layout title="Welcome to Astro.">
-  <main class="pb-32">
+<Layout title="Johan Fagerberg - Portfolio">
+  <main class="pb-32 text-xl prose">
     <section class="py-10vh max-w-prose h-screen flex flex-col justify-center">
-      <h1 class="font-headings text-4xl sm:text-7xl font-bold">
-        Hi.<br />I'm Johan
+      <h1 class="font-headings text-4xl sm:text-7xl font-bold no-dot m-0">
+        Hi<span class="text-accent-700">.</span><br />I'm Johan
       </h1>
     </section>
-    <section
-      class="py-8 flex flex-col justify-center prose prose-p:my-2 text-xl"
-    >
+
+    <Section>
       <p>
-        I'm a JavaScript developer with an interest in security, online privacy
-        and automation. I enjoy implementing tools that help improve the
-        development experience.
+        I'm a JavaScript developer with an interest in developer experience,
+        automation, and online privacy.<br />I enjoy working on tools that make
+        daily chores easier, more intuitive and less cumbersome.
       </p>
       <p>
-        I also spend some of my time maintaining open source projects. I've been
-        involved in projects such as <a
-          href="https://simpleicons.org"
-          target="_blank"
-          rel="noopener noreferrer">Simple Icons</a
-        > and <a
-          href="https://sweetalert2.github.io/"
-          target="_blank"
-          rel="noopener noreferrer">SweetAlert2</a
-        >, amongst others. I also have a lot of smaller projects, some of which
-        you can see below.
+        When I have the time, and something interested to share, I write
+        articles on <a href="/blog/">my blog</a>.
       </p>
-      <p>
-        When I have the time, and have something interesting to share, I write
-        on <a href="/blog/">my blog</a>.
-      </p>
-    </section>
-    <section
-      class="py-8 flex flex-col justify-center prose prose-p:my-2 text-xl"
-    >
-      <h2 class="font-headings">Open Source Projects.</h2>
-    </section>
-    <section
-      class="py-8 flex flex-col justify-center prose prose-p:my-2 text-xl"
-    >
-      <h2 class="font-headings">Work History.</h2>
-      <div class="flex flex-row py-4">
-        <div class="flex-shrink-0 text-base mr-4 opacity-50 w-22">
-          2022 - 2023
-        </div>
-        <div class="flex-grow">
-          <h3 class="font-headings mt-0 leading-none">
-            RPA developer at Odense University Hospital
-          </h3>
-          <p>
-            Responsible for automatization of work processes across the hospital
-            using the <a
-              href="https://sirenia.eu/products/rpa/"
-              target="_blank"
-              rel="noopener noreferrer">Manatee</a
-            > RPA application, with ownership of the entire process from customer
-            communication to final implementation.
-          </p>
-          <p>
-            The RPA team was newly formed when I joined, and I was the most
-            experienced developer. I consequently became responsible for the
-            development of work processes, developer tools and documentation in
-            order to improve the DX and productivity of the team.
-          </p>
-          <p>
-            This evolved into a full-stack role for multiple internal projects.
-          </p>
-        </div>
-      </div>
-      <div class="flex flex-col sm:flex-row py-4">
-        <div class="flex-shrink-0 text-base mr-4 opacity-50 w-22">
-          2015 - 2019
-        </div>
-        <div class="flex-grow">
-          <h3 class="font-headings mt-0 leading-none">
-            Frontend developer at CleanManager
-          </h3>
-          <p>
-            A small startup, in which I acted as sole frontend developer. In
-            addition to the on-going frontend work, I was primarily focused on
-            modernizing the codebase.
-          </p>
-          <p>
-            This was during the early days of React, and our existing solution
-            started to show its disadvantages as more members joined the team.
-            As such, my role eventually transitioned entirely to transitioning
-            our platform to React.
-          </p>
-        </div>
-      </div>
-    </section>
-    <section
-      class="py-8 flex flex-col justify-center prose prose-p:my-2 text-xl"
-    >
-      <h2 class="font-headings">Education.</h2>
-      <div class="flex flex-row py-4">
-        <div class="flex-shrink-0 text-base mr-4 opacity-50 w-22">2021</div>
-        <div class="flex-grow">
-          <h3 class="font-headings mt-0 leading-none">
-            BCompSc from University of Southern Denmark
-          </h3>
-          <p>
-            Final bachelor project was on Ɛ-differential privacy, a mathematical
-            description of privacy-aware algorithms, and ways to achieve it.<br
-            />The project can be found <a
-              href="https://github.com/birjj/bachelor-project-privacy/releases/tag/v1.0"
-              target="_blank"
-              rel="noopener noreferrer">on my GitHub.</a
-            >
-          </p>
-        </div>
-      </div>
-    </section>
-    <section
-      class="py-8 flex flex-col justify-center prose prose-p:my-2 text-xl"
-    >
-      <h2 class="font-headings">Contact.</h2>
+    </Section>
+
+    <Section>
+      <h2>Open Source Projects</h2>
+      <ProjectEntry
+        icon="manatee-inspector"
+        title="Manatee Inspector"
+        href="https://github.com/birjj/manatee-inspector/"
+      >
+        <p>
+          A custom dev tool implementation for the <a
+            href="https://sirenia.eu/products/rpa/"
+            target="_blank"
+            rel="noopener noreferrer">Manatee</a
+          > RPA application. Provides vastly improved DX compared to the built-in
+          dev tools.
+        </p>
+      </ProjectEntry>
+      <ProjectEntry
+        icon="yamz"
+        title="Yet Another Medium Zoom"
+        href="https://yamz.jfagerberg.me/"
+      >
+        <p>
+          A fully featured lightbox library inspired by Medium, focusing on
+          being modern, extensible and easy to use.
+        </p>
+      </ProjectEntry>
+      <ProjectEntry
+        icon="svglint"
+        title="SVGLint"
+        href="https://github.com/birjj/svglint/"
+      >
+        <p>
+          A pluggable linter for SVG files, developed while maintaining the
+          Simple Icons project.
+        </p>
+      </ProjectEntry>
+      <ProjectEntry
+        icon="brookshear-machine"
+        title="Brookshear Machine"
+        href="https://brookshear.jfagerberg.me/"
+      >
+        <p>
+          A Brookshear Machine emulator, useful for teaching the basics of CPU
+          instructions and low-level programming.
+        </p>
+      </ProjectEntry>
+    </Section>
+
+    <Section>
+      <h2>Work History</h2>
+      <TimelineEntry time="2022 - 2023">
+        <h3>RPA developer at Odense University Hospital</h3>
+        <p>
+          Responsible for automatization of work processes across the hospital,
+          with ownership of the entire process from customer communication to
+          final implementation.
+        </p>
+        <p>
+          My primary area of focus was the work processes, developer tools and
+          documentation of the team, in order to improve DX and productivity.
+        </p>
+      </TimelineEntry>
+      <TimelineEntry time="2015 - 2019">
+        <h3 class="font-headings mt-0 leading-none">
+          Frontend developer at CleanManager
+        </h3>
+        <p>
+          A small startup, in which I acted as sole frontend developer. In
+          addition to the on-going frontend work, I was primarily focused on
+          modernizing the codebase by transition to React, which was an
+          up-and-coming framework at the time.
+        </p>
+      </TimelineEntry>
+    </Section>
+
+    <Section>
+      <h2>Education</h2>
+      <TimelineEntry time="2021">
+        <h3>BCompSc from University of Southern Denmark</h3>
+        <p>
+          Final bachelor thesis was on Ɛ-differential privacy, a mathematical
+          description of privacy-aware algorithms, and ways to achieve it.<br
+          />The thesis can be found <a
+            href="https://github.com/birjj/bachelor-project-privacy/releases/tag/v1.0"
+            target="_blank"
+            rel="noopener noreferrer">on my GitHub.</a
+          >
+        </p>
+      </TimelineEntry>
+    </Section>
+    <Section>
+      <h2>Contact</h2>
       <p>
         If you want to present a fun opportunity, have questions or just want to
         have a chat, I'm always up to hearing from you.
@@ -140,8 +137,26 @@ import Card from "../components/Card.astro";
           johanringmann@gmail.com</a
         >.
       </p>
-    </section>
+      <div class="mt-8 flex justify-center">
+        <a
+          class="icon mr-8"
+          href="https://github.com/birjj/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Icon name="simple-icons:github" class="w-12 h-12" />
+        </a>
+        <a
+          class="icon"
+          href="https://www.linkedin.com/in/johan-fagerberg-202527120/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Icon name="simple-icons:linkedin" class="w-12 h-12" />
+        </a>
+      </div>
+    </Section>
   </main>
-
-  <style></style>
 </Layout>
+
+<style></style>
