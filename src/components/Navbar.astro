@@ -1,0 +1,148 @@
+---
+import { Icon } from "astro-icon";
+
+export interface Props extends astroHTML.JSX.HTMLAttributes {}
+
+const { ...props } = Astro.props;
+---
+
+<header
+  class="z-50 backdrop-blur-[8px] bg-[#f6f6f6dd] border-y sticky top-[-1px]"
+>
+  <div
+    {...props}
+    class=`font-headings px-4 sm:px-15vw mx-auto h-12 flex flex-row items-stretch ${props.class || ""}`
+  >
+    <a href="/" class="active icon inline-flex items-center relative mr-4 px-2">
+      <Icon name="jfagerberg" class="w-8 h-8 rounded-full" />
+    </a>
+    <div
+      id="nav-container"
+      class="flex-shrink flex-grow flex-nowrap inline-flex items-stretch overflow-y-visible scrollbar-none whitespace-nowrap snap-x"
+    >
+    </div>
+    <a
+      href="/blog/"
+      class="icon inline-flex items-center relative px-2 ml-auto"
+    >
+      Blog
+    </a>
+    <a
+      class="icon inline-flex items-center relative px-2"
+      href="https://github.com/birjj/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <Icon name="simple-icons:github" class="w-6 h-6" />
+    </a>
+    <a
+      class="icon inline-flex items-center relative px-2"
+      href="https://www.linkedin.com/in/johan-fagerberg-202527120/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <Icon name="simple-icons:linkedin" class="w-6 h-6" />
+    </a>
+  </div>
+</header>
+
+<style is:global>
+  header a {
+    box-shadow: 0 4px 3px -4px var(--tw-shadow-color);
+  }
+  header a::after {
+    @apply absolute left-0 right-0 top-full h-4;
+    content: "";
+    box-shadow: 0 -4px 2px -4px var(--tw-shadow-color);
+  }
+  header a::before {
+    @apply absolute left-1 right-1 top-full h-px;
+    content: "";
+  }
+  header a.active {
+    @apply shadow-accent-800/75;
+  }
+  header a.active::before {
+    @apply bg-accent-700/75;
+  }
+  header a:hover {
+    @apply bg-slate-400/5;
+  }
+  header a.active:hover {
+    @apply shadow-accent-800/100;
+  }
+  header a.active:hover::before {
+    @apply bg-accent-700;
+  }
+</style>
+
+<script>
+  type HeaderElement = HTMLElement & {
+    ___$header?: Element;
+  };
+
+  let headerHeight = 50;
+
+  const $header = document.querySelector("header");
+  const $defaultActive = $header?.querySelector(".active") || undefined;
+  const $container = document.getElementById("nav-container");
+  const $titles: NodeListOf<HeaderElement> = document.querySelectorAll(
+    "h1[id], h2[id], h3[id], h4[id]"
+  );
+
+  const setActive = ($target?: Element) => {
+    $header
+      ?.querySelectorAll(".active")
+      .forEach(($elm) => $elm.classList.remove("active"));
+    $target?.classList.add("active");
+  };
+
+  // when a header intersects, update so .active is set on the header (and nothing else)
+  const onIntersection: IntersectionObserverCallback = () => {
+    const scrollTop =
+      (document.documentElement || document.body).scrollTop + headerHeight;
+    for (let i = $titles.length - 1; i >= 0; --i) {
+      const entryTop = $titles[i].offsetTop;
+      if (i === 0) {
+        console.log(
+          entryTop,
+          "<=",
+          scrollTop,
+          $titles[i].___$header?.textContent
+        );
+      }
+      if (entryTop < scrollTop) {
+        setActive($titles[i].___$header);
+        return;
+      }
+    }
+    setActive($defaultActive);
+  };
+
+  const observer = new IntersectionObserver(onIntersection, {
+    root: null,
+    rootMargin: `${-headerHeight}px 0px 0px 0px`,
+    threshold: [0.0, 1.0],
+  });
+
+  // add a header for each entry and track its intersections
+  $titles.forEach(($title: HeaderElement) => {
+    const id = $title.id;
+    const text = $title.getAttribute("data-header") || $title.textContent;
+    const $entry = document.createElement("a");
+    $entry.href = `#${encodeURIComponent(id)}`;
+    $entry.classList.add(
+      "icon",
+      "inline-flex",
+      "items-center",
+      "relative",
+      "px-2",
+      "mr-2",
+      "snap-start"
+    );
+    $entry.textContent = text;
+    $container?.appendChild($entry);
+    $title.___$header = $entry;
+    observer.observe($title);
+  });
+</script>

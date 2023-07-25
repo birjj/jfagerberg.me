@@ -20,6 +20,7 @@
     "unist-util-visit": "^4.1.2"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.9"
+    "@tailwindcss/typography": "^0.5.9",
+    "tailwind-scrollbar": "^3.0.4"
   }
 }

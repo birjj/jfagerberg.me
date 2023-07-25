@@ -4,16 +4,21 @@ import Section from "../components/frontpage/Section.astro";
 import Layout from "../layouts/Layout.astro";
 import { Icon } from "astro-icon";
 import ProjectEntry from "../components/frontpage/ProjectEntry.astro";
+import Navbar from "../components/Navbar.astro";
 ---
 
 <Layout title="Johan Fagerberg - Portfolio">
-  <main class="pb-32 text-xl prose">
+  <main class="mx-4 sm:mx-15vw text-xl prose">
     <section class="py-10vh max-w-prose h-screen flex flex-col justify-center">
       <h1 class="font-headings text-4xl sm:text-7xl font-bold no-dot m-0">
         Hi<span class="text-accent-700">.</span><br />I'm Johan
       </h1>
     </section>
+  </main>
 
+  <Navbar />
+
+  <main class="mt-8 mx-4 sm:mx-15vw pb-32 text-xl prose">
     <Section>
       <p>
         I'm a JavaScript developer with an interest in developer experience,
@@ -27,7 +32,7 @@ import ProjectEntry from "../components/frontpage/ProjectEntry.astro";
     </Section>
 
     <Section>
-      <h2>Open Source Projects</h2>
+      <h2 id="projects" data-header="Projects">Open Source Projects</h2>
       <ProjectEntry
         icon="manatee-inspector"
         title="Manatee Inspector"
@@ -75,7 +80,7 @@ import ProjectEntry from "../components/frontpage/ProjectEntry.astro";
     </Section>
 
     <Section>
-      <h2>Work History</h2>
+      <h2 id="work" data-header="Work history">Work History</h2>
       <TimelineEntry time="2022 - 2023">
         <h3>RPA developer at Odense University Hospital</h3>
         <p>
@@ -117,7 +122,7 @@ import ProjectEntry from "../components/frontpage/ProjectEntry.astro";
       </TimelineEntry>
     </Section>
     <Section>
-      <h2>Contact</h2>
+      <h2 id="contact" data-header="Contact">Contact</h2>
       <p>
         If you want to present a fun opportunity, have questions or just want to
         have a chat, I'm always up to hearing from you.
