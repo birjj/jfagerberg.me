@@ -12,7 +12,7 @@ const { headings, ...props } = Astro.props;
 ---
 
 <header
-  class="z-50 backdrop-blur-[8px] bg-[#f6f6f6dd] dark:bg-[#161a1dee] border-y sticky top-[-1px]"
+  class="transition z-50 backdrop-blur-[8px] bg-[#f6f6f6dd] dark:bg-[#161a1dee] border-y sticky top-[-1px]"
 >
   <div
     {...props}
@@ -29,7 +29,7 @@ const { headings, ...props } = Astro.props;
       Blog
     </a>
     <DarkModeToggle client:load />
-    <div class="mx-2 my-4 border-r"></div>
+    <div class="transition mx-2 my-4 border-r"></div>
     <a
       class="icon inline-flex items-center relative px-2"
       href="https://github.com/birjj/"
