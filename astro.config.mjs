@@ -1,19 +1,18 @@
 import { defineConfig } from "astro/config";
 import { remarkHyphenate } from "./remark-plugins/remark-hyphenate.mjs";
-
 import tailwind from "@astrojs/tailwind";
+
+import preact from "@astrojs/preact";
 
 // https://astro.build/config
 export default defineConfig({
   experimental: {
-    assets: true,
+    assets: true
   },
   markdown: {
-    remarkPlugins: [remarkHyphenate],
+    remarkPlugins: [remarkHyphenate]
   },
-  integrations: [
-    tailwind({
-      applyBaseStyles: false,
-    }),
-  ],
+  integrations: [tailwind({
+    applyBaseStyles: false
+  }), preact()]
 });

@@ -5,6 +5,13 @@ import Layout from "../layouts/Layout.astro";
 import { Icon } from "astro-icon";
 import ProjectEntry from "../components/frontpage/ProjectEntry.astro";
 import Navbar from "../components/Navbar.astro";
+import type { MarkdownHeading } from "astro";
+
+const navbarLinks: MarkdownHeading[] = [
+  { slug: "projects", text: "Projects", depth: 0 },
+  { slug: "work", text: "Work history", depth: 0 },
+  { slug: "contact", text: "Contact", depth: 0 },
+];
 ---
 
 <Layout title="Johan Fagerberg - Portfolio">
@@ -16,14 +23,14 @@ import Navbar from "../components/Navbar.astro";
     </section>
   </main>
 
-  <Navbar />
+  <Navbar headings={navbarLinks} />
 
   <main class="mt-8 mx-4 sm:mx-15vw pb-32 text-xl prose">
     <Section>
       <p>
-        I'm a JavaScript developer with an interest in developer experience,
-        automation, and online privacy.<br />I enjoy working on tools that make
-        daily chores easier, more intuitive and less cumbersome.
+        I'm a JavaScript developer with an interest in automation,
+        user/developer experience, and online privacy.<br />I enjoy working on
+        tools that make daily chores easier, more intuitive and less cumbersome.
       </p>
       <p>
         When I have the time, and something interested to share, I write
@@ -33,6 +40,15 @@ import Navbar from "../components/Navbar.astro";
 
     <Section>
       <h2 id="projects" data-header="Projects">Open Source Projects</h2>
+      <p class="!mb-8">
+        Below are some of the open source projects I have been a leading
+        developer on.<br />
+        For the full list, see <a
+          href="https://github.com/birjj/"
+          target="_blank"
+          rel="noopener noreferrer">my GitHub.</a
+        >
+      </p>
       <ProjectEntry
         icon="manatee-inspector"
         title="Manatee Inspector"
@@ -81,12 +97,21 @@ import Navbar from "../components/Navbar.astro";
 
     <Section>
       <h2 id="work" data-header="Work history">Work History</h2>
+      <TimelineEntry time="2023 +     ">
+        <h3>DevOps Engineer at KMD</h3>
+        <p>Part of a team providing DevOps work for the wider company.</p>
+        <p>
+          With little existing experience, my primary focus has been
+          implementing automation and testing of our existing Terraform
+          codebase.
+        </p>
+      </TimelineEntry>
       <TimelineEntry time="2022 - 2023">
         <h3>RPA developer at Odense University Hospital</h3>
         <p>
           Responsible for automatization of work processes across the hospital,
-          with ownership of the entire process from customer communication to
-          final implementation.
+          with ownership of the process from customer communication to final
+          implementation.
         </p>
         <p>
           My primary area of focus was the work processes, developer tools and
@@ -98,16 +123,18 @@ import Navbar from "../components/Navbar.astro";
           Frontend developer at CleanManager
         </h3>
         <p>
-          A small startup, in which I acted as sole frontend developer. In
-          addition to the on-going frontend work, I was primarily focused on
-          modernizing the codebase by transition to React, which was an
-          up-and-coming framework at the time.
+          Sole frontend developer with responsibility for the frontend, a
+          custom-written beast consisting of multiple intervowen SPAs.
+        </p>
+        <p>
+          I was primarily focused on modernizing the codebase by transitioning
+          to React, which was an up-and-coming framework at the time.
         </p>
       </TimelineEntry>
     </Section>
 
     <Section>
-      <h2>Education</h2>
+      <h2 id="education" data-header="Education">Education</h2>
       <TimelineEntry time="2021">
         <h3>BCompSc from University of Southern Denmark</h3>
         <p>
@@ -162,6 +189,6 @@ import Navbar from "../components/Navbar.astro";
       </div>
     </Section>
   </main>
-</Layout>
 
-<style></style>
+  <style></style>
+</Layout>
