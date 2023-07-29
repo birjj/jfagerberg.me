@@ -18,17 +18,38 @@ const { title } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <script is:inline>
+      /** Inline dark-mode test, to avoid FOUC */
+      if (
+        localStorage["dark-mode"] === "true" ||
+        (!("dark-mode" in localStorage) &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    </script>
   </head>
-  <body class="min-h-full text-gray-900 antialiased transition">
+  <body
+    class="min-h-full text-gray-900 antialiased transition dark:bg-[#161a1d] dark:text-slate-50"
+  >
     <slot />
   </body>
 </html>
+
 <style is:global>
   @tailwind base;
   @tailwind components;
   @tailwind utilities;
 
   @layer base {
+    *,
+    ::before,
+    ::after {
+      @apply dark:border-gray-800;
+    }
+
     h1,
     h2,
     h3,

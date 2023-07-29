@@ -6,14 +6,23 @@ import {
   useRef,
 } from "preact/hooks";
 
-function useUpdateEffect(effect: EffectCallback, deps?: Inputs) {
+function useIsFirstRender(): boolean {
   const isFirst = useRef(true);
+
   if (isFirst.current) {
     isFirst.current = false;
+
+    return true;
   }
 
+  return isFirst.current;
+}
+
+function useUpdateEffect(effect: EffectCallback, deps?: Inputs) {
+  const isFirst = useIsFirstRender();
+
   useEffect(() => {
-    if (!isFirst.current) {
+    if (!isFirst) {
       return effect();
     }
   }, deps);
