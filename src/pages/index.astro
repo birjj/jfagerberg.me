@@ -1,7 +1,7 @@
 ---
 import TimelineEntry from "../components/frontpage/TimelineEntry.astro";
 import Section from "../components/frontpage/Section.astro";
-import Layout from "../layouts/Layout.astro";
+import Layout from "../layouts/BaseLayout.astro";
 import { Icon } from "astro-icon";
 import ProjectEntry from "../components/frontpage/ProjectEntry.astro";
 import Navbar from "../components/Navbar.astro";
@@ -23,6 +23,7 @@ const navbarLinks: MarkdownHeading[] = [
     </section>
   </main>
 
+  <div id="bypass-hero"></div>
   <Navbar headings={navbarLinks} />
 
   <main class="mt-8 mx-4 sm:mx-15vw pb-32 text-xl prose dark:prose-invert">
@@ -190,5 +191,17 @@ const navbarLinks: MarkdownHeading[] = [
     </Section>
   </main>
 
-  <style></style>
+  <script is:inline>
+    // if we navigated here from a different page on the same domain, and we're viewing the hero, scroll past it
+    if (
+      document.referrer &&
+      document.documentElement.scrollTop === 0 &&
+      new URL(document.referrer).host === document.location.host
+    ) {
+      const $bypass = document.getElementById("bypass-hero");
+      if ($bypass) {
+        $bypass.scrollIntoView({ behavior: "instant" });
+      }
+    }
+  </script>
 </Layout>
