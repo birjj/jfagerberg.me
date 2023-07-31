@@ -12,11 +12,18 @@ interface ToCProps {
   items: ToCItem[];
   /** The height of any fixed headers (plus scroll margins on headers) in pixels, so we can track when the headers are scrolled past */
   scrollOffset?: number;
-  /** If set, show a logo as the default link */
+  /** If set, show a logo before the ToC */
   logo?: ComponentChild;
+  /** If true, the logo isn't active by default */
+  logoInactive?: boolean;
 }
 
-const TableOfContents = ({ items, scrollOffset = 50, logo }: ToCProps) => {
+const TableOfContents = ({
+  items,
+  scrollOffset = 50,
+  logo,
+  logoInactive = false,
+}: ToCProps) => {
   const [current, setCurrent] = useState<ToCItem | null>(null);
 
   // start observing intersections with header elements whenever items change
@@ -100,7 +107,7 @@ const TableOfContents = ({ items, scrollOffset = 50, logo }: ToCProps) => {
         <a
           href="/"
           class={`icon inline-flex items-center relative mr-4 px-2 ${
-            current === null ? "active" : ""
+            current === null && logoInactive === false ? "active" : ""
           }`}
           title="Navigate home"
         >

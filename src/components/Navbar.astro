@@ -6,9 +6,10 @@ import DarkModeToggle from "./DarkModeToggle";
 
 export interface Props extends astroHTML.JSX.HTMLAttributes {
   headings: MarkdownHeading[];
+  active?: "home" | "blog" | "none";
 }
 
-const { headings, ...props } = Astro.props;
+const { headings, active = "home", ...props } = Astro.props;
 ---
 
 <header
@@ -18,12 +19,17 @@ const { headings, ...props } = Astro.props;
     {...props}
     class=`font-headings px-4 sm:px-15vw mx-auto h-12 flex flex-row items-stretch ${props.class || ""}`
   >
-    <TableOfContents client:load items={headings} scrollOffset={57}>
+    <TableOfContents
+      client:load
+      items={headings}
+      scrollOffset={57}
+      logoInactive={active !== "home"}
+    >
       <Icon name="jfagerberg" class="w-8 h-8 rounded-full" slot="logo" />
     </TableOfContents>
     <a
       href="/blog/"
-      class="icon inline-flex items-center relative px-2 mr-2 ml-auto"
+      class=`icon inline-flex items-center relative px-2 mr-1 ml-auto ${active === "blog" ? "active" : ""}`
       arial-label="Navigate to blog index"
     >
       Blog
@@ -61,7 +67,7 @@ const { headings, ...props } = Astro.props;
     box-shadow: 0 4px 3px -4px var(--tw-shadow-color);
   }
   :global(.dark) header :global(a) {
-    box-shadow: 0 5px 3px -4px var(--tw-shadow-color);
+    box-shadow: 0 4px 3px -4px var(--tw-shadow-color);
   }
   header :global(a::before) {
     @apply absolute left-1 right-1 top-full h-px;
@@ -73,7 +79,7 @@ const { headings, ...props } = Astro.props;
     box-shadow: 0 -4px 2px -4px var(--tw-shadow-color);
   }
   :global(.dark) header :global(a::after) {
-    box-shadow: 0 -5px 2px -4px var(--tw-shadow-color);
+    box-shadow: 0 -4px 3px -4px var(--tw-shadow-color);
   }
 
   /* when active, each part activates in our accent color */

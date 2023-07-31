@@ -1,77 +1,18 @@
 ---
-import "@fontsource-variable/cabin";
-import "@fontsource/questrial";
+import type { Props as BaseLayoutProps } from "./BaseLayout.astro";
+import BaseLayout from "./BaseLayout.astro";
+import Navbar, { type Props as NavbarProps } from "../components/Navbar.astro";
 
-export interface Props {
-  title: string;
+export interface Props extends BaseLayoutProps {
+  active: NavbarProps["active"];
 }
 
-const { title } = Astro.props;
+const { active, ...props } = Astro.props;
 ---
 
-<!DOCTYPE html>
-<html class="h-full transition" lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="description" content="Astro description" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-    <script is:inline>
-      /** Inline dark-mode test, to avoid FOUC */
-      if (
-        localStorage["dark-mode"] === "true" ||
-        (!("dark-mode" in localStorage) &&
-          window.matchMedia("(prefers-color-scheme: dark)").matches)
-      ) {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-    </script>
-  </head>
-  <body
-    class="min-h-full text-gray-900 antialiased transition dark:bg-[#161a1d] dark:text-slate-50"
-  >
+<BaseLayout {...props}>
+  <Navbar headings={[]} active={active} />
+  <main class="mt-8 mx-4 sm:mx-15vw pb-32 text-xl prose dark:prose-invert">
     <slot />
-  </body>
-</html>
-
-<style is:global>
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
-
-  @layer base {
-    *,
-    ::before,
-    ::after {
-      @apply dark:border-gray-800;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4 {
-      @apply font-headings scroll-mt-14;
-    }
-    h1:not(.no-dot)::after,
-    h2:not(.no-dot)::after {
-      @apply text-accent-700;
-      content: ".";
-    }
-
-    a:not(.icon) {
-      @apply no-underline bg-gradient-to-t from-accent-700/75 to-accent-700/75 bg-bottom bg-no-repeat bg-[length:100%_2px];
-
-      background-position: 0% 100%;
-      background-repeat: no-repeat;
-      background-size: 100% 2px;
-    }
-    a:not(.icon):hover,
-    a:not(.icon):focus-visible {
-      @apply from-accent-700 to-accent-700;
-    }
-  }
-</style>
+  </main>
+</BaseLayout>
