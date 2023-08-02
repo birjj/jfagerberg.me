@@ -1,0 +1,37 @@
+---
+import type { Props as BaseLayoutProps } from "./BaseLayout.astro";
+import BaseLayout from "./BaseLayout.astro";
+import Navbar, { type Props as NavbarProps } from "../components/Navbar.astro";
+import type { MarkdownHeading } from "astro";
+
+export interface Props extends BaseLayoutProps {
+  headings: MarkdownHeading[];
+}
+
+const { title, headings, ...props } = Astro.props;
+---
+
+<BaseLayout {...props} title={title}>
+  <Navbar headings={headings} active="none" />
+  <main
+    class="blog-post mt-16 mx-auto pb-32 text-lg prose dark:prose-invert max-w-2xl"
+  >
+    <h1 class="text-center text-3xl mb-0">{title}</h1>
+    <div class="w-full text-center mb-16 text-gray-500">
+      Published Mar. 21, 2023
+    </div>
+    <slot />
+  </main>
+</BaseLayout>
+
+<style is:global>
+  .blog-post > .expressive-code,
+  .blog-post > img {
+    margin: 2rem -4rem;
+    max-width: calc(100% + 8rem);
+  }
+
+  .blog-post > img {
+    @apply shadow-md;
+  }
+</style>

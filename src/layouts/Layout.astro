@@ -12,7 +12,9 @@ const { active, ...props } = Astro.props;
 
 <BaseLayout {...props}>
   <Navbar headings={[]} active={active} />
-  <main class="mt-8 mx-4 sm:mx-15vw pb-32 text-xl prose dark:prose-invert">
+  <main
+    class="mt-8 mx-auto max-w-3xl px-12 pb-32 text-xl prose dark:prose-invert"
+  >
     <slot />
   </main>
 </BaseLayout>
