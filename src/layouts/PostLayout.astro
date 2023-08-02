@@ -6,9 +6,10 @@ import type { MarkdownHeading } from "astro";
 
 export interface Props extends BaseLayoutProps {
   headings: MarkdownHeading[];
+  date: Date;
 }
 
-const { title, headings, ...props } = Astro.props;
+const { title, headings, date, ...props } = Astro.props;
 ---
 
 <BaseLayout {...props} title={title}>
@@ -16,9 +17,19 @@ const { title, headings, ...props } = Astro.props;
   <main
     class="blog-post mt-16 mx-auto pb-32 text-lg prose dark:prose-invert max-w-2xl"
   >
-    <h1 class="text-center text-3xl mb-0">{title}</h1>
+    <h1
+      class=`text-center text-3xl mb-0 ${title.endsWith("?") ? "no-dot" : ""}`
+    >
+      {title}
+    </h1>
     <div class="w-full text-center mb-16 text-gray-500">
-      Published Mar. 21, 2023
+      Published {
+        date.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "2-digit",
+        })
+      }
     </div>
     <slot />
   </main>
