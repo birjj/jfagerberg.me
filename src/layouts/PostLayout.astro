@@ -32,6 +32,10 @@ const { title, headings, date, ...props } = Astro.props;
       }
     </div>
     <slot />
+    <div
+      class="fixed left-0 bottom-0 h-16 w-full pointer-events-none dark:bg-[#161a1d66] [mask-image:linear-gradient(to_bottom,transparent,#000)]"
+    >
+    </div>
   </main>
 </BaseLayout>
 
