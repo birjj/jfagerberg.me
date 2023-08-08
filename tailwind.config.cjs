@@ -7,6 +7,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        background: "rgb(var(--c-background))",
         accent: {
           50: "#f2fdff",
           100: "#c3f4fd",
