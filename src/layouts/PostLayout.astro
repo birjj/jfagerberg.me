@@ -15,7 +15,7 @@ const { title, headings, date, ...props } = Astro.props;
 <BaseLayout {...props} title={title}>
   <Navbar headings={headings} active="none" />
   <main
-    class="blog-post mt-16 mx-auto pb-32 text-lg prose dark:prose-invert max-w-2xl"
+    class="blog-post mt-20 mx-auto pb-32 text-lg prose dark:prose-invert max-w-2xl"
   >
     <!-- prettier-ignore -->
     <h1
@@ -47,7 +47,7 @@ const { title, headings, date, ...props } = Astro.props;
     position: relative;
   }
 
-  .blog-post > img {
+  .blog-post > img:not(.no-shadow) {
     @apply shadow-md;
   }
 
@@ -57,7 +57,7 @@ const { title, headings, date, ...props } = Astro.props;
   .blog-post dl dd {
     @apply mb-4 px-4;
   }
-  .blog-post dl dd > p {
-    @apply mt-0;
+  .blog-post dl > :where(dd, dt) > p {
+    @apply m-0;
   }
 </style>

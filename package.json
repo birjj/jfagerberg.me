@@ -10,6 +10,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/mdx": "^0.19.7",
     "@astrojs/preact": "^2.2.1",
     "@astrojs/tailwind": "^4.0.0",
     "@fontsource-variable/cabin": "^5.0.4",
