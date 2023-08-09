@@ -2,7 +2,7 @@
 
 My personal website written using Astro, Preact and Tailwind.
 
-See branches of this repo for previous editions built on other technologies. I tend to use my personal website or exploring tech I find interesting.
+See branches of this repo for previous editions built on other technologies. I tend to use my personal website for exploring tech I find interesting.
 
 ## 🧞 Commands
 
