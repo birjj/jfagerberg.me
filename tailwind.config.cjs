@@ -34,6 +34,10 @@ module.exports = {
         "10vw": "10vw",
         "15vw": "15vw",
       },
+      screens: {
+        xs: "384px",
+        ...defaultTheme.screens,
+      },
     },
   },
   plugins: [require("@tailwindcss/typography"), require("tailwind-scrollbar")],
