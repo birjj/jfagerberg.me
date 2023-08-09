@@ -6,7 +6,7 @@ import useDarkMode from "../hooks/use-darkmode";
 export type DarkModeToggleProps = JSX.IntrinsicElements["div"] & {};
 const DarkModeToggle = ({ ...props }: DarkModeToggleProps) => {
   const id = useId();
-  const { isDarkMode, toggle } = useDarkMode(true);
+  const { isDarkMode, toggle } = useDarkMode(false);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", isDarkMode);
