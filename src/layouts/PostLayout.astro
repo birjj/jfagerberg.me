@@ -14,33 +14,34 @@ const { title, headings, date, ...props } = Astro.props;
 
 <BaseLayout {...props} title={title}>
   <Navbar headings={headings} active="none" />
-  <main
-    class="blog-post mt-20 mx-auto pb-32 text-lg prose dark:prose-invert max-w-2xl"
-  >
-    <!-- prettier-ignore -->
-    <h1
+  <main class="mt-20 mx-auto pb-32 text-lg prose dark:prose-invert">
+    <div class="blog-post mx-8 max-w-2xl">
+      <!-- prettier-ignore -->
+      <h1
       class=`text-center text-3xl mb-0 ${title.endsWith("?") ? "no-dot" : ""}`
     >{title.trim()}</h1>
-    <div class="text-center text-base w-full mb-16 text-gray-500">
-      Published {
-        date.toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "short",
-          day: "2-digit",
-        })
-      }
-    </div>
-    <slot />
-    <div
-      class="fixed left-0 bottom-0 h-12 w-full pointer-events-none bg-background transition [mask-image:linear-gradient(to_bottom,transparent,#000)] z-10"
-    >
+      <div class="text-center text-base w-full mb-16 text-gray-500">
+        Published {
+          date.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "2-digit",
+          })
+        }
+      </div>
+      <slot />
+      <div
+        class="fixed left-0 bottom-0 h-12 w-full pointer-events-none bg-background transition [mask-image:linear-gradient(to_bottom,transparent,#000)] z-10"
+      >
+      </div>
     </div>
   </main>
 </BaseLayout>
 
 <style is:global>
   .blog-post > .expressive-code,
-  .blog-post > img {
+  .blog-post > img,
+  .blog-post > div > img {
     margin: 2rem -2rem;
     max-width: calc(100% + 4rem);
     z-index: 11;
