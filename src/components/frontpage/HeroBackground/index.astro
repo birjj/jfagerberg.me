@@ -1,0 +1,111 @@
+---
+export interface Props extends astroHTML.JSX.HTMLAttributes {}
+
+const { ...props } = Astro.props;
+---
+
+<canvas {...props} id="hero-bg"></canvas>
+
+<script>
+  import vertShader from "./shader.vert";
+  import fragShader from "./shader.frag";
+  import AnimatedShaderCanvas, {
+    WebGLUniforms,
+  } from "./animated-shader-canvas";
+  import EasedVec from "./eased-vec";
+
+  // change colors when dark mode updates
+  const COLORS: Record<string, [number, number, number][]> = {
+    dark: [
+      [4, 8, 7],
+      [12, 16, 19],
+      [16, 20, 25],
+      [24, 28, 37],
+      [28, 32, 43],
+    ],
+    light: [
+      [254, 254, 254],
+      [246, 246, 246],
+      [238, 238, 238],
+      [230, 230, 230],
+      [220, 220, 220],
+    ],
+  };
+  const colors = COLORS[
+    document.documentElement.classList.contains("dark") ? "dark" : "light"
+  ].map((v) => new EasedVec<3>(v, 300, (t) => t));
+  const setDarkMode = (dark: boolean) => {
+    const newColors = COLORS[dark ? "dark" : "light"];
+    colors.forEach((vec, i) => vec.set(newColors[i]));
+  };
+  new MutationObserver((records) => {
+    for (const record of records) {
+      if (record.type === "attributes" && record.attributeName === "class") {
+        setDarkMode(document.documentElement.classList.contains("dark"));
+      }
+    }
+  }).observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["class"],
+  });
+
+  // change offset when the mouse moves
+  let mousePos = [0.0, 0.0] as [number, number];
+  document.body.addEventListener("pointermove", (e) => {
+    const { clientX, clientY } = e;
+    const pos = [
+      -0.5 + clientX / (window.innerWidth || 1),
+      -0.5 + clientY / (window.innerHeight || 1),
+    ] as [number, number];
+    mousePos = pos;
+  });
+
+  function getUniforms(gl: WebGLRenderingContext): WebGLUniforms {
+    return {
+      u_offset: mousePos,
+      u_color1: colors[0].vec,
+      u_color2: colors[1].vec,
+      u_color3: colors[2].vec,
+      u_color4: colors[3].vec,
+      u_color5: colors[4].vec,
+    };
+  }
+
+  const $canvas = document.getElementById("hero-bg") as HTMLCanvasElement;
+  const ctx = $canvas.getContext("webgl");
+  if (!ctx) {
+    console.warn("WebGL not supported; not rendering hero background");
+  } else {
+    const renderer = new AnimatedShaderCanvas(
+      ctx,
+      vertShader,
+      fragShader,
+      getUniforms
+    );
+    renderer.draw();
+
+    // resize and redraw whenever the canvas changes size
+    new ResizeObserver((records) => {
+      for (const record of records) {
+        const { width, height } = record.contentRect;
+        $canvas.width = width;
+        $canvas.height = height;
+        ctx.viewport(0, 0, width, height);
+        ctx.clear(ctx.COLOR_BUFFER_BIT);
+        renderer.draw();
+      }
+    }).observe($canvas);
+
+    // stop animating if we're off screen
+    new IntersectionObserver(
+      (records) => {
+        for (const record of records) {
+          renderer.setPaused(!record.isIntersecting);
+        }
+      },
+      {
+        threshold: 0.0,
+      }
+    ).observe($canvas);
+  }
+</script>
