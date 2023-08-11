@@ -1,7 +1,8 @@
 precision mediump float;
 uniform float u_time;
 uniform vec2 u_resolution;
-uniform vec2 u_offset;
+uniform vec2 u_mousepos;
+
 uniform vec3 u_color1;
 uniform vec3 u_color2;
 uniform vec3 u_color3;
@@ -16,34 +17,33 @@ vec3 c3 = u_color3 / 255.0;
 vec3 c4 = u_color4 / 255.0;
 vec3 c5 = u_color5 / 255.0;
 
+/** Gets the noise value at a particular point (potentially manipulated by e.g. mouse position or closeness to edge) */
+float getNoise(vec3 point) {
+  vec2 normalized_pos = point.xy / u_resolution;
+  normalized_pos.x *= u_resolution.x / u_resolution.y; // remove stretching
+  
+  float maxRes = min(u_resolution.x, u_resolution.y);
+  float distFromMouse = distance(point.xy, vec2(u_mousepos.x, u_resolution.y - u_mousepos.y));
+  float scale = 1.0 - (smoothstep(0.0, maxRes * 1.25, distFromMouse) + pow(smoothstep(0.0, maxRes * 0.67, distFromMouse), 0.25)) / 2.0;
+
+  float n = snoise(vec3(normalized_pos, point.z));
+  return (n + 1.0) * scale - 1.0;
+}
+
 /** Picks one of the uniform colors based on a value in the range [-1.0;1.0] */
-vec3 pickColor(float val) {
+vec3 pickColor(vec2 pos, float time) {
   vec3 c = c1;
-  c = mix(c, c2, step(-0.6, val));
-  c = mix(c, c3, step(-0.2, val));
-  c = mix(c, c4, step(0.2, val));
-  c = mix(c, c5, step(0.6, val));
+  float noise = getNoise(vec3(pos, time));
+  c = mix(c, c2, step(-0.6, noise));
+  c = mix(c, c3, step(-0.2, noise));
+  c = mix(c, c4, step(0.2, noise));
+  c = mix(c, c5, step(0.6, noise));
   return c;
 }
 
-void main() {
-  vec2 normalized_pos = gl_FragCoord.xy / u_resolution;
-  normalized_pos.x *= u_resolution.x / u_resolution.y; // remove stretching
-  
+void main() {  
   float time = u_time / 25000.0;
-  vec2 offset = u_offset * vec2(-1.0, 1.0) * 0.25;
-  normalized_pos *= 1.0; // make the blobs bigger
-  offset *= 0.2;
-  // normalized_pos.x += u_offset.x * 0.2;
-
-  float noise = snoise(vec3(normalized_pos, time));
-
-  vec3 c = c1;
-  c = mix(c, c2, step(-0.6, snoise(vec3(normalized_pos + offset*1.0, time))));
-  c = mix(c, c3, step(-0.2, snoise(vec3(normalized_pos + offset*0.7, time))));
-  c = mix(c, c4, step(0.2, snoise(vec3(normalized_pos + offset*0.4, time))));
-  c = mix(c, c5, step(0.6, snoise(vec3(normalized_pos + offset*0.1, time))));
   
-  gl_FragColor = vec4(c, 1.0);
+  gl_FragColor = vec4(pickColor(gl_FragCoord.xy, time), 1.0);
   return;
 }

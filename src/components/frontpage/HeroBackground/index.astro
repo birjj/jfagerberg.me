@@ -17,18 +17,18 @@ const { ...props } = Astro.props;
   // change colors when dark mode updates
   const COLORS: Record<string, [number, number, number][]> = {
     dark: [
-      [4, 8, 7],
       [12, 16, 19],
       [16, 20, 25],
       [24, 28, 37],
       [28, 32, 43],
+      [32, 36, 48],
     ],
     light: [
-      [254, 254, 254],
       [246, 246, 246],
+      [242, 242, 242],
       [238, 238, 238],
+      [234, 234, 234],
       [230, 230, 230],
-      [220, 220, 220],
     ],
   };
   const colors = COLORS[
@@ -50,19 +50,22 @@ const { ...props } = Astro.props;
   });
 
   // change offset when the mouse moves
-  let mousePos = [0.0, 0.0] as [number, number];
-  document.body.addEventListener("pointermove", (e) => {
-    const { clientX, clientY } = e;
-    const pos = [
-      -0.5 + clientX / (window.innerWidth || 1),
-      -0.5 + clientY / (window.innerHeight || 1),
-    ] as [number, number];
-    mousePos = pos;
+  let scrollOffset = 0;
+  let mousePos = [0, 0] as [number, number];
+  window.addEventListener("scroll", (e) => {
+    scrollOffset = (document.documentElement || document.body).scrollTop;
   });
+  const pointerListener = (e: PointerEvent) => {
+    const { clientX, clientY } = e;
+    const pos = [clientX, clientY] as [number, number];
+    mousePos = pos;
+  };
+  document.body.addEventListener("pointermove", pointerListener);
+  document.body.addEventListener("pointerdown", pointerListener);
 
   function getUniforms(gl: WebGLRenderingContext): WebGLUniforms {
     return {
-      u_offset: mousePos,
+      u_mousepos: [mousePos[0], mousePos[1] + scrollOffset],
       u_color1: colors[0].vec,
       u_color2: colors[1].vec,
       u_color3: colors[2].vec,
