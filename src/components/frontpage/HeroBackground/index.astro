@@ -55,13 +55,15 @@ const { ...props } = Astro.props;
   window.addEventListener("scroll", (e) => {
     scrollOffset = (document.documentElement || document.body).scrollTop;
   });
-  const pointerListener = (e: PointerEvent) => {
-    const { clientX, clientY } = e;
+  const pointerListener = (e: PointerEvent | TouchEvent) => {
+    const { clientX, clientY } = "touches" in e ? e.touches[0] || {} : e;
     const pos = [clientX, clientY] as [number, number];
     mousePos = pos;
   };
   document.body.addEventListener("pointermove", pointerListener);
   document.body.addEventListener("pointerdown", pointerListener);
+  document.body.addEventListener("touchmove", pointerListener);
+  document.body.addEventListener("touchstart", pointerListener);
 
   function getUniforms(gl: WebGLRenderingContext): WebGLUniforms {
     return {
