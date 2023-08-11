@@ -95,7 +95,9 @@ const TableOfContents = ({
 
     const onResize: ResizeObserverCallback = (entries) => {
       const hasOverflow = $nav.scrollWidth > $nav.clientWidth;
-      setHasOverflow(hasOverflow);
+      if (hasOverflow) {
+        setHasOverflow(hasOverflow);
+      }
     };
     navResizeObserver.current = new ResizeObserver(onResize);
     navResizeObserver.current.observe($nav);
@@ -117,7 +119,7 @@ const TableOfContents = ({
       <nav
         id="nav-container"
         class={`flex-shrink flex-grow flex-nowrap inline-flex items-stretch overflow-y-visible w-0 scrollbar-none whitespace-nowrap snap-x mr-4 ${
-          hasOverflow ? "invisible" : ""
+          hasOverflow ? "hidden" : ""
         }`}
         ref={navRef}
       >
