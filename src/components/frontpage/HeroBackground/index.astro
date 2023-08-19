@@ -51,7 +51,7 @@ const { ...props } = Astro.props;
 
   // change offset when the mouse moves
   let scrollOffset = 0;
-  let mousePos = [0, 0] as [number, number];
+  let mousePos = [-9999, -9999] as [number, number];
   window.addEventListener("scroll", (e) => {
     scrollOffset = (document.documentElement || document.body).scrollTop;
   });

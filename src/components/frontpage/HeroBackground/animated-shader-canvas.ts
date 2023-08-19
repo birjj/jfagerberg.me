@@ -166,11 +166,13 @@ export default class AnimatedShaderCanvas {
     });
 
     // finally draw
+    console.time("Draw");
     gl.drawArrays(
       gl.TRIANGLE_STRIP, // type of geometry
       0, // no offset
       4 // 4 vertices
     );
+    console.timeEnd("Draw");
 
     // and call ourselves again
     this.animationTimeout = requestAnimationFrame(this.draw);
