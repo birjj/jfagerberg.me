@@ -1,3 +1,4 @@
 [submodule "src/content/blog"]
 	path = "src/content/blog"
 	url = https://github.com/birjj/blog.git
+	branch = master
