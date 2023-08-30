@@ -29,15 +29,14 @@ const { headings, active = "home", ...props } = Astro.props;
     </TableOfContents>
     <a
       href="/blog/"
-      class=`icon inline-flex items-center relative px-2 mr-1 ml-auto ${active === "blog" ? "active" : ""}`
+      class=`icon inline-flex items-center relative px-2 mr-1 ml-auto -mb-1 pb-1 ${active === "blog" ? "active" : ""}`
       arial-label="Navigate to blog index"
     >
       Blog
     </a>
-    <DarkModeToggle client:load />
     <div class="transition mx-2 my-4 border-r"></div>
     <a
-      class="icon inline-flex items-center relative px-2"
+      class="icon inline-flex items-center relative px-2 -mb-1 pb-1"
       href="https://github.com/birjj/"
       target="_blank"
       rel="noopener noreferrer"
@@ -46,7 +45,7 @@ const { headings, active = "home", ...props } = Astro.props;
       <Icon name="simple-icons:github" class="w-6 h-6" />
     </a>
     <a
-      class="icon inline-flex items-center relative px-2"
+      class="icon inline-flex items-center relative px-2 -mb-1 pb-1"
       href="https://www.linkedin.com/in/johan-fagerberg-202527120/"
       target="_blank"
       rel="noopener noreferrer"
@@ -54,50 +53,35 @@ const { headings, active = "home", ...props } = Astro.props;
     >
       <Icon name="simple-icons:linkedin" class="w-6 h-6" />
     </a>
+    <div class="transition mx-2 my-4 border-r"></div>
+    <DarkModeToggle client:load />
   </div>
 </header>
 
 <style>
-  /* each link is highlighted using 3 components:
-    - the downwards box-shadow (on the <a> itself),
-    - the lower border (on the ::before, so we can offset it), and
-    - the upwards box-shadow (on ::after) */
-
-  header :global(a) {
-    box-shadow: 0 4px 3px -4px var(--tw-shadow-color);
-  }
-  :global(.dark) header :global(a) {
-    box-shadow: 0 4px 3px -4px var(--tw-shadow-color);
-  }
+  /* each link is highlighted using 2 components:
+    - the indicator (::before), and
+    - the background (on ::after) */
   header :global(a::before) {
-    @apply absolute left-1 right-1 top-full h-px;
+    @apply absolute left-1 right-1 bottom-1 h-px;
     content: "";
+    box-shadow: 0 0 2px 1px var(--tw-shadow-color);
   }
   header :global(a::after) {
-    @apply absolute left-0 right-0 top-full h-4;
+    @apply absolute left-0 right-0 top-0 bottom-1;
     content: "";
-    box-shadow: 0 -4px 2px -4px var(--tw-shadow-color);
-  }
-  :global(.dark) header :global(a::after) {
-    box-shadow: 0 -4px 3px -4px var(--tw-shadow-color);
   }
 
-  /* when active, each part activates in our accent color */
-  header :global(a.active) {
-    @apply shadow-accent-800/75;
-  }
+  /* when active, the indicator actives in our accent color */
   header :global(a.active::before) {
-    @apply bg-accent-700/75;
-  }
-  header :global(a.active:hover) {
-    @apply shadow-accent-800/100;
+    @apply bg-accent-700/75 shadow-accent-700/20;
   }
   header :global(a.active:hover::before) {
     @apply bg-accent-700;
   }
 
   /* when hovered, we also apply a very faint background for immediate feedback */
-  header :global(:is(a, button):hover) {
-    @apply bg-slate-400/5;
+  header :global(:is(a, button):hover::after) {
+    @apply bg-slate-400/10;
   }
 </style>

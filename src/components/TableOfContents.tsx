@@ -91,7 +91,7 @@ const TableOfContents = ({
           href="/"
           class={`icon inline-flex items-center relative mr-4 px-2 ${
             current === null && logoInactive === false ? "active" : ""
-          }`}
+          } -mb-1 pb-1`}
           title="Navigate home"
         >
           {logo}
@@ -99,12 +99,12 @@ const TableOfContents = ({
       ) : null}
       <nav
         id="nav-container"
-        class={`flex-shrink flex-grow flex-nowrap inline-flex items-stretch overflow-y-visible w-0 scrollbar-none whitespace-nowrap snap-x mr-4`}
+        class="flex-shrink flex-grow flex-nowrap inline-flex items-stretch overflow-y-auto w-0 scrollbar-none whitespace-nowrap snap-x mr-4 -mb-1"
       >
         {items.map((i) => (
           <a
             href={`#${i.slug}`}
-            class={`icon inline-flex items-center relative px-2 mr-2 snap-start ${
+            class={`icon inline-flex items-center relative px-2 mr-2 snap-start pb-1 ${
               current === i ? "active" : ""
             }`}
             onClick={onLinkClick}
