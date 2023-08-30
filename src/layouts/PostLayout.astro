@@ -13,7 +13,7 @@ const { title, headings, date, ...props } = Astro.props;
 ---
 
 <BaseLayout {...props} title={title}>
-  <Navbar headings={headings} active="none" />
+  <Navbar headings={[]} active="none" />
   <main class="mt-20 mx-auto pb-32 text-lg prose dark:prose-invert">
     <div class="blog-post mx-8 max-w-2xl">
       <!-- prettier-ignore -->

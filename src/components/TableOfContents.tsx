@@ -84,25 +84,6 @@ const TableOfContents = ({
     [items]
   );
 
-  // keep track of when we have overflow, so we should show the mobile dropdown instead
-  const [hasOverflow, setHasOverflow] = useState(false);
-  const navResizeObserver = useRef<ResizeObserver>();
-  const navRef = ($nav: HTMLElement | null) => {
-    navResizeObserver.current?.disconnect();
-    if (!$nav) {
-      return;
-    }
-
-    const onResize: ResizeObserverCallback = (entries) => {
-      const hasOverflow = $nav.scrollWidth > $nav.clientWidth;
-      if (hasOverflow) {
-        setHasOverflow(hasOverflow);
-      }
-    };
-    navResizeObserver.current = new ResizeObserver(onResize);
-    navResizeObserver.current.observe($nav);
-  };
-
   return (
     <>
       {logo ? (
@@ -118,10 +99,7 @@ const TableOfContents = ({
       ) : null}
       <nav
         id="nav-container"
-        class={`flex-shrink flex-grow flex-nowrap inline-flex items-stretch overflow-y-visible w-0 scrollbar-none whitespace-nowrap snap-x mr-4 ${
-          hasOverflow ? "hidden" : ""
-        }`}
-        ref={navRef}
+        class={`flex-shrink flex-grow flex-nowrap inline-flex items-stretch overflow-y-visible w-0 scrollbar-none whitespace-nowrap snap-x mr-4`}
       >
         {items.map((i) => (
           <a
