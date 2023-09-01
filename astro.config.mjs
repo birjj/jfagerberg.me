@@ -6,9 +6,11 @@ import preact from "@astrojs/preact";
 import expressiveCode from "astro-expressive-code";
 import glslify from "vite-plugin-glslify";
 import mdx from "@astrojs/mdx";
+import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
+  site: "https://jfagerberg.me",
   experimental: {
     assets: true,
   },
@@ -28,5 +30,6 @@ export default defineConfig({
     preact(),
     expressiveCode(),
     mdx(),
+    sitemap(),
   ],
 });
