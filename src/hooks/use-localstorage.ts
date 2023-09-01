@@ -1,5 +1,10 @@
 /** Taken from https://usehooks-ts.com/react-hook/use-local-storage */
-import { StateUpdater, useCallback, useEffect, useState } from "preact/hooks";
+import {
+  type StateUpdater,
+  useCallback,
+  useEffect,
+  useState,
+} from "preact/hooks";
 
 function useLocalStorage<T>(
   key: string,

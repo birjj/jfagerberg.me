@@ -1,10 +1,5 @@
-import type {
-  ComponentChild,
-  ComponentChildren,
-  JSX,
-  RefCallback,
-} from "preact";
-import { useCallback, useEffect, useRef, useState } from "preact/hooks";
+import type { ComponentChild, JSX } from "preact";
+import { useCallback, useEffect, useState } from "preact/hooks";
 
 export type ToCItem = { slug: string; text: string };
 interface ToCProps {

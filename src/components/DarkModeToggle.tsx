@@ -1,5 +1,4 @@
-import type { ComponentChildren } from "preact";
-import { useEffect, useId, useState } from "preact/hooks";
+import { useEffect, useId } from "preact/hooks";
 import type { JSX } from "preact/jsx-runtime";
 import useDarkMode from "../hooks/use-darkmode";
 
