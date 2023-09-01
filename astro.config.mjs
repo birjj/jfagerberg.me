@@ -7,6 +7,7 @@ import expressiveCode from "astro-expressive-code";
 import glslify from "vite-plugin-glslify";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
+import robotsTxt from "astro-robots-txt";
 
 // https://astro.build/config
 export default defineConfig({
@@ -31,5 +32,6 @@ export default defineConfig({
     expressiveCode(),
     mdx(),
     sitemap(),
+    robotsTxt(),
   ],
 });
