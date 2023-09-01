@@ -1,0 +1,62 @@
+---
+---
+
+<figure class="scroll-indicator">
+  <div class="wheel"></div>
+</figure>
+
+<style>
+  .scroll-indicator {
+    @apply absolute left-1/2 bottom-4 m-0 flex justify-center p-1;
+    @apply rounded-2xl w-5 h-7 border-2 transition;
+    @apply pointer-events-none;
+    animation: fade-in 1s 5s backwards;
+  }
+  body.has-scrolled .scroll-indicator {
+    opacity: 0;
+    animation: none;
+  }
+  .wheel {
+    @apply rounded-full w-1 h-2 bg-slate-300 dark:bg-slate-700 transition;
+    animation: scroll 5s infinite;
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes scroll {
+    0% {
+      transform: translateY(0%);
+      opacity: 1;
+    }
+    50% {
+      transform: translateY(0%);
+      opacity: 1;
+    }
+    75% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    76% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0%);
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  const hasScrolledListener = () => {
+    document.body.classList.add("has-scrolled");
+    window.removeEventListener("scroll", hasScrolledListener);
+  };
+  window.addEventListener("scroll", hasScrolledListener);
+</script>

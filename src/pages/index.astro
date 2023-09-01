@@ -7,6 +7,7 @@ import ProjectEntry from "../components/frontpage/ProjectEntry.astro";
 import Navbar from "../components/Navbar.astro";
 import HeroBackground from "../components/frontpage/HeroBackground/index.astro";
 import type { MarkdownHeading } from "astro";
+import ScrollPrompter from "../components/frontpage/ScrollPrompter.astro";
 
 const navbarLinks: MarkdownHeading[] = [
   { slug: "projects", text: "Projects", depth: 0 },
@@ -25,6 +26,7 @@ const navbarLinks: MarkdownHeading[] = [
         Hi<span class="text-accent-700">.</span><br />I'm Johan
       </h1>
     </section>
+    <ScrollPrompter />
   </main>
 
   <div id="bypass-hero"></div>
