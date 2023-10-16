@@ -50,15 +50,32 @@ const { ...props } = Astro.props;
   });
 
   // change offset when the mouse moves
-  let scrollOffset = 0;
+  let scrollOffset = new EasedVec<1>([0], 500, x => 1 - Math.pow(1 - x, 3));
   let mousePos = (
     typeof window !== "undefined"
       ? [window.innerWidth / 2, window.innerHeight / 2]
       : [0, 0]
   ) as [number, number];
-  window.addEventListener("scroll", (e) => {
-    scrollOffset = (document.documentElement || document.body).scrollTop;
-  });
+  const throttle = <A extends any[], R extends any>(fn: (...args: A) => R, delay: number): (...args: A) => R | void => {
+    let time = Date.now();
+    let timeout: number | undefined = undefined;
+    const throttled = (...args: A) => {
+      const now = Date.now();
+      const delta = now - time;
+      if (delta >= delay) {
+        clearTimeout(timeout);
+        timeout = undefined;
+        time = now;
+        return fn(...args);
+      } else if (timeout === undefined) {
+        timeout = setTimeout(throttled, delay - delta);
+      }
+    }
+    return throttled;
+  } 
+  window.addEventListener("scroll", throttle((e) => {
+    scrollOffset.set([(document.documentElement || document.body).scrollTop]);
+  }, 150));
   const pointerListener = (e: PointerEvent | TouchEvent) => {
     const { clientX, clientY } = "touches" in e ? e.touches[0] || {} : e;
     const pos = [clientX, clientY] as [number, number];
@@ -71,7 +88,7 @@ const { ...props } = Astro.props;
 
   function getUniforms(gl: WebGLRenderingContext): WebGLUniforms {
     return {
-      u_mousepos: [mousePos[0], mousePos[1] + scrollOffset],
+      u_mousepos: [mousePos[0], mousePos[1] + scrollOffset.vec[0]],
       u_color1: colors[0].vec,
       u_color2: colors[1].vec,
       u_color3: colors[2].vec,
