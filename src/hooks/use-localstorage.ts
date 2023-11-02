@@ -8,10 +8,10 @@ import {
 
 function useLocalStorage<T>(
   key: string,
-  initialValue: T
+  initialValue: T,
+  supportSSR = true
 ): [T, StateUpdater<T>] {
-  // Get from local storage then
-  // parse stored json or return initialValue
+  // Get from local storage then parse stored JSON or return initialValue
   const readValue = useCallback((): T => {
     // Prevent SSR "window is undefined"
     if (typeof window === "undefined") {
@@ -29,7 +29,8 @@ function useLocalStorage<T>(
 
   // State to store our value
   // Pass initial state function to useState so logic is only executed once
-  const [storedValue, setStoredValue] = useState<T>(readValue);
+  // We use initial value as the default to support SSR
+  const [storedValue, setStoredValue] = useState<T>(supportSSR ? initialValue : readValue);
 
   // Return a wrapped version of useState's setter function that ...
   // ... persists the new value to localStorage.
