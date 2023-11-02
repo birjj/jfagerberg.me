@@ -61,4 +61,24 @@ const { title, headings, date, ...props } = Astro.props;
   .blog-post dl > :where(dd, dt) > p {
     @apply m-0;
   }
+  .blog-post dl > :where(dd,dt) > ul {
+    @apply mt-0;
+  }
+
+  .blog-post .aside-container {
+    @apply relative;
+  }
+  .blog-post .aside-container aside {
+    @apply absolute w-48;
+    @apply text-sm;
+    left: calc(100% + 4rem);
+  }
+  .blog-post .aside-container aside > p {
+    @apply mt-0;
+  }
+  @media (max-width: 74rem) {
+    .blog-post .aside-container aside {
+      @apply static w-auto;
+    }
+  }
 </style>
