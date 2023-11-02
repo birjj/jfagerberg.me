@@ -10,15 +10,13 @@
     @apply absolute left-1/2 bottom-4 m-0 flex justify-center p-1;
     @apply rounded-2xl w-5 h-7 border-2 transition;
     @apply pointer-events-none;
-    animation: fade-in 1s 5s backwards;
   }
   body.has-scrolled .scroll-indicator {
     opacity: 0;
-    animation: none;
   }
   .wheel {
     @apply rounded-full w-1 h-2 bg-slate-300 dark:bg-slate-700 transition;
-    animation: scroll 5s infinite;
+    animation: scroll 2s infinite;
   }
 
   @keyframes fade-in {
@@ -55,6 +53,7 @@
 
 <script>
   const hasScrolledListener = () => {
+    if (window.scrollY <= 0) { return; }
     document.body.classList.add("has-scrolled");
     window.removeEventListener("scroll", hasScrolledListener);
   };
