@@ -6,6 +6,7 @@ import remarkUnwrapImages from "remark-unwrap-images";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import expressiveCode from "astro-expressive-code";
+import { pluginCollapsibleSections } from "@expressive-code/plugin-collapsible-sections";
 
 import tailwind from "@astrojs/tailwind";
 import preact from "@astrojs/preact";
@@ -28,7 +29,9 @@ export default defineConfig({
       applyBaseStyles: false,
     }),
     preact(),
-    expressiveCode(),
+    expressiveCode({
+      plugins: [pluginCollapsibleSections()]
+    }),
     mdx(),
     sitemap(),
     robotsTxt(),
