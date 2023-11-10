@@ -39,16 +39,21 @@ const { title, headings, date, ...props } = Astro.props;
 </BaseLayout>
 
 <style is:global>
-  .blog-post > .expressive-code,
-  .blog-post > img,
-  .blog-post > div > img {
+  .blog-post > :is(.expressive-code, img),
+  .blog-post > :is(div, astro-island, p) > :is(.expressive-code, img) {
     margin: 2rem -2rem;
     max-width: calc(100% + 4rem);
     z-index: 11;
     position: relative;
   }
+  .blog-post .expand-width {
+    margin-left: -2rem;
+    margin-right: -2rem;
+    max-width: calc(100% + 4rem);
+  }
 
-  .blog-post > img:not(.no-shadow) {
+  .blog-post > :is(.expressive-code, img):not(.no-shadow),
+  .blog-post > :is(div, astro-island, p) > :is(.expressive-code, img):not(.no-shadow) {
     @apply shadow-md;
   }
 
