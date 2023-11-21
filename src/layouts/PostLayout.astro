@@ -15,7 +15,7 @@ const { title, headings, date, ...props } = Astro.props;
 <BaseLayout {...props} title={title}>
   <Navbar headings={[]} active="none" />
   <main class="mt-20 mx-auto pb-32 text-lg prose dark:prose-invert">
-    <div class="blog-post mx-8 max-w-2xl">
+    <div class="blog-post max-w-2xl">
       <!-- prettier-ignore -->
       <h1
       class=`text-center text-3xl mb-0 ${title.endsWith("?") ? "no-dot" : ""}`
@@ -39,21 +39,16 @@ const { title, headings, date, ...props } = Astro.props;
 </BaseLayout>
 
 <style is:global>
-  .blog-post > :is(.expressive-code, img),
-  .blog-post > :is(div, astro-island, p) > :is(.expressive-code, img) {
-    margin: 2rem -2rem;
-    max-width: calc(100% + 4rem);
+  .blog-post > :not(.expressive-code):not(img):not(.expand-width) {
+    @apply mx-8;
+    z-index: initial;
+  }
+  .blog-post > :is(.expressive-code, img, .expand-width) {
     z-index: 11;
     position: relative;
   }
-  .blog-post .expand-width {
-    margin-left: -2rem;
-    margin-right: -2rem;
-    max-width: calc(100% + 4rem);
-  }
 
-  .blog-post > :is(.expressive-code, img):not(.no-shadow),
-  .blog-post > :is(div, astro-island, p) > :is(.expressive-code, img):not(.no-shadow) {
+  .blog-post > :is(.expressive-code, img):not(.no-shadow) {
     @apply shadow-md;
   }
 
