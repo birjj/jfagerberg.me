@@ -1,0 +1,180 @@
+---
+title: FE-CTF 2023 - Brute force ahoy
+date: 2023-10-27
+tags: ["ctf"]
+---
+
+import Base64Playground from "./_components/Base64Playground";
+
+This is my write-up for the 2023 CTF qualifier held by the Danish Defence Intelligence Service: [The UniPwnie Experience](https://fe-ctf.dk/). This was an open CTF event, with the top 10 teams being invited to an in-person event.  
+In this write-up, I will focus on how I solved the "Login&nbsp;Level&nbsp;3" challenge, a brute-force based challenge that was released early in the CTF.
+
+## The Challenge
+
+When first opening the challenge page I was greeted by a simple login form with a username and password field. Attempting to log in, I was met with increasingly absurd password requirements, ranging from _"password must be at least 10 characters long"_ to _"sum of digits in password must be a cube"_ - presumably these would be the subject of the challenge.  
+
+Hoping against hope, I tried bypassing the validation and just submitting a password directly to the backend - but was met with a 403 Unauthorized. That would've been too easy anyway. Guess we'll have to take another look at those password requirements.
+
+Opening the Chrome DevTools quickly revealed [a single JavaScript file](https://gist.github.com/birjj/15a1eb5fdafa112046804146042f18e9) containing the relevant logic, nice and unobscured, written in a `submit` handler on the login form. Reading the code we can quickly see that the password requirements fall can be summarized as:
+
+1. Must consist of ASCII characters, with each of the following groups represented:
+    - uppercase letters,
+    - lowercase letters,
+    - digits,
+    - symbols,
+    - and Roman numerals (CDILMVX).
+1. There must be at least 8 unique characters in the password.
+1. Must be between 10 and 20 characters long.
+1. Must have an unbroken sequence of letters of at least length 5.
+1. Cannot contain any of a long list of words (case insensitive).
+1. Must be a palindrome.
+1. Summing up all the digits must give a cube number (that is, its third root must be an integer).
+1. When encoded in Base64, the result cannot contain anything but lowercase letters.
+
+There are no rules for the username, and no clues are given to its value.
+From an earlier challenge in the same series, I knew that the login system would accept arbitrary usernames. Presumably, the password would be the same: as long as it fulfilled the requirements, the login would go through and the flag be mine.
+
+So I guess all that's left to do is find a password that fulfills all the requirements. How hard can that be?
+
+## Initial thoughts and prayers
+
+Cracking the password would most likely involve brute-forcing it locally, trying out combinations of strings until one fulfilled all the rules.  
+With a bit of napkin math, it quickly became clear that this was somewhat infeasible to do naïvely. Although the password must be a palindrome, and we'd therefore only have to generate 5-10 characters to get the password to the required 10-20 character requirement, that still meant more than $$95^{10} \approx 5.99 \cdot 10^{19}$$ possibilities if using the 95 characters the code considered ASCII.  
+Even if I could try a billion combinations a second, that'd still take over 1897 years.
+
+I'd therefore have to limit the available possibilities as much as possible, in a way that could be implemented as early as possible in the brute force process. Although there are many ways to cut down on the required work, it seemed like the most promising way was to focus on the _"must encode to purely lowercase letters in Base64"_ requirement.  
+This was what I immediately jumped on.
+
+### Aside: Base64 encoding
+
+[Base64](https://en.wikipedia.org/wiki/Base64) is an encoding algorithm that takes arbitrary binary data (in our case this is the binary representation of our password) and turns it into a string consisting only of a subset of ASCII characters.
+
+It does this by splitting up the binary data into groups of 6 bits each (and padding with `0` if it doesn't split nicely). Each of these sextets can be represented by one of $2^6 = 64$ pre-chosen ASCII characters.
+In our case, we want a password that only contains sextets ranging from `011010` (26) to `110011` (51), as those are the ones that are represented by lowercase letters a-z.
+
+Most common implementations of Base64 output padded results, appending `=` to the encoded output until its length is divisible by 4: this ensures that the Base64 representation represents a whole number of our usual 8-bit bytes.
+
+<Base64Playground client:visible />
+
+### Back to our thoughts
+
+With this in mind, we can conclude a few things:
+
+1. The password's length must be divisible by 3. If it was not, the Base64 encoding would be padded with the `=` character, which isn't a lowercase letter.
+1. Since the sum of all digits must be 27, an uneven number, the palindrome must be of uneven length. Combined with knowing the length must be divisible by 3, and be between 10 and 20, this means that we know the password to be of length 15.
+1. Encoding characters are locked once every bit representing them has been covered by an input bit. When brute forcing our password we can use this to quickly discard any branches that encode into a character we don't want.
+1. As one of the requirements is to have 8 unique characters, and our password is a palindrome of length 15, the first half of the palindrome cannot have any duplicate characters.
+
+Although not enough to get us all the way to our final password, this can be used to significantly lower the cost of brute forcing.
+
+## Limiting our search space
+
+To use the above observations to cut down on our brute force work, we'll slowly build up passwords one character at a time until we reach a length of 15. We'll be careful to only use characters that maintain the lowercase-only Base64 encoding.  
+This means we'll only have to check strings that at the very least encode to the right format, saving us the work of diving into any branches that start with e.g. `a` (as that'll always encode into a Base64 string starting with `Y`).
+
+We can implement it using simple bit-checking, filtering out any characters that would create a 6-bit group that doesn't represent a lowercase letter in Base64:
+
+```javascript
+// The ASCII characters we can use in our password are represented by char codes 32-126,
+// and the sextets we want are in the range 26-51
+const asciiCodes = [32..127];
+const permittedBits = new Set([26..52].map(i => i.toBinary(wordLength=6)));
+// Using this we can recursively generate all the passwords that encode to the wanted format
+const generateStrings = (currentString, targetLength) => {
+  if (targetLength <= 0) { return [currentString]; }
+  return getAllowedCodes(currentString)
+    .flatMap(code => {
+      const candidateStr = currentString + char(code);
+      // abort if it doesn't encode correctly
+      const binary = candidateStr.toBinary(wordLength=8);
+      for (let i = 0; i + 6 < binary.length; i += 6) {
+        if (!permittedBits.has(binary[i..i+6])) { return []; }
+      }
+      // otherwise dive into this branch
+      return generateStrings(candidateStr, targetLength - 1)
+    });
+};
+```
+
+Unfortunately, this still turned out to be slightly too slow to be reasonable. Clearly, there was still work to do.
+
+To further limit the search space we can consider the requirement that the password must be a palindrome.  
+Currently, we only check if the encoding works on the password as we build it up - but since we know that the password will eventually be reversed and added to itself to make a palindrome, we can also check that it encodes correctly in the reverse direction.
+
+We don't know what offset the latter half will be at, so we'll simply test each of the three possible offsets and abort if none of them work:
+
+<div class="aside-container"><aside style="top:-4.75rem">
+
+_We actually know that it'll be offset by 4 bits since we know the password to be 15 characters long. Unfortunately, I didn't realize this at the time - CTF brain fog 🤷_
+
+</aside></div>
+
+```javascript
+// The ASCII characters we can use in our password are represented by char codes 32-126,
+// and the sextets groups we want are in the range 26-51
+const asciiCodes = [32..127];
+const permittedBits = new Set([26..52].map(i => i.toBinary(wordLength=6)));
+// Checks if the binary data encodes into only the sextets groups we want
+const encodesCorrectly = (binary, offset) => {
+  for (let i = offset; i + 6 < binary.length; i += 6) {
+    if (!permittedBits.has(binary[i..i+6])) { return false; }
+  }
+  return true;
+}
+// Using this we can recursively generate all the passwords that encode to the wanted format
+const generateStrings = (currentString, targetLength) => {
+  if (targetLength <= 0) { return [currentString]; }
+  return getAllowedCodes(currentString)
+    .flatMap(code => {
+      const candidateStr = currentString + char(code);
+      // abort if it doesn't encode safely in the forwards direction
+      const binary = candidateStr.toBinary(wordLength=8);
+      if (!encodesCorrectly(binary, 0)) { return []; }
+      // and if it doesn't encode in at least one of the possible offsets in the backwards direction
+      const reverseBinary = candidateStr.reverse().toBinary(wordLength=8);
+      if (![0,2,4].any(offset => encodesCorrectly(reverseBinary, offset))) {
+        return [];
+      }
+      // otherwise dive into this branch
+      return generateStrings(candidateStr, targetLength - 1);
+    });
+};
+```
+
+## Brute-forcing
+
+With the above code, we can limit our search space to be just small enough that we can test all possibilities in a reasonable time. Another improvement I ended up implementing was aborting any branch that included any of the [disallowed words](https://gist.github.com/birjj/15a1eb5fdafa112046804146042f18e9#file-words-json) (only checking words of length 3 or below, for the sake of performance).
+
+With these improvements, I was able to get a list of 36 valid passwords:
+
+```javascript {10}
+const fulfillsRequirements = str => { /* ... validation method from website */ };
+const toPalindrome = str => {
+  if (str.length % 2 === 0) {
+    return str + str.reverse();
+  }
+  return str + str[0...str.length - 1].reverse();
+}
+const getValidPasswords = () => generateStrings("", 8).map(toPalindrome).filter(fulfillsRequirements);
+getValidPasswords();
+// ["o'knXjs8sjXnk'o", "o'sjXnk8knXjs'o", "o(knXjs8sjXnk(o", ...]
+```
+
+Trying to use one of them in the login form only passed the frontend validation, returning a 403 Forbidden from the backend. This was exactly the same error as would be given if we bypassed the client-side validation and submitted an invalid password.
+
+Luckily this was easily solved by trying each of the valid passwords, which showed that the backend accepted exactly one of them:
+
+```javascript
+const $form = document.querySelector("form");
+getValidPasswords()
+  .forEach(async (pass) => {
+    const data = new FormData($form);
+    data.set("password", pass);
+    const resp = await fetch("/login", { method: "POST", body: data });
+    if (resp.ok) { console.log("VALID:", pass); }
+  });
+```
+
+Why the backend would accept arbitrary usernames, but only one password, is a mystery that isn't meant to be solved ;)
+
+Entering the successful password gave us the flag, earning us a few points for the leaderboard.
