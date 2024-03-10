@@ -10,33 +10,25 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/mdx": "^1.0.0",
-    "@astrojs/preact": "^3.0.0",
-    "@astrojs/sitemap": "^3.0.3",
-    "@astrojs/tailwind": "^5.0.0",
-    "@expressive-code/plugin-collapsible-sections": "^0.26.2",
+    "@astrojs/mdx": "^2.1.1",
+    "@astrojs/preact": "^3.1.1",
+    "@astrojs/sitemap": "^3.1.1",
     "@fontsource-variable/cabin": "^5.0.4",
+    "@fontsource/poppins": "^5.0.8",
     "@fontsource/questrial": "^5.0.5",
-    "astro": "^3.4.3",
-    "astro-expressive-code": "^0.26.2",
+    "astro": "^4.4.15",
+    "astro-expressive-code": "^0.33.4",
     "astro-icon": "^0.8.1",
     "astro-robots-txt": "^0.5.0",
-    "astro-seo-meta": "^3.0.0",
-    "astro-seo-schema": "^3.0.0",
-    "glsl-noise": "^0.0.0",
     "hyphenopoly": "^5.2.0-beta.1",
-    "preact": "^10.16.0",
+    "preact": "^10.19.6",
     "rehype-katex": "^7.0.0",
     "remark-math": "^6.0.0",
     "remark-unwrap-images": "^3.0.1",
-    "tailwindcss": "^3.3.3",
     "unist-util-visit": "^4.1.2"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.9",
     "prettier": "^3.0.3",
-    "prettier-plugin-astro": "^0.12.0",
-    "tailwind-scrollbar": "^3.0.4",
-    "vite-plugin-glslify": "^2.0.2"
+    "prettier-plugin-astro": "^0.12.0"
   }
 }

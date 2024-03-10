@@ -2,11 +2,14 @@
 /** Replacement for <figure> in blog posts */
 export type Props = astroHTML.JSX.IntrinsicElements["figure"] & {
   "data-captionOnLeft"?: boolean;
-}
+};
 const { "data-captionOnLeft": captionOnLeft = false, ...props } = Astro.props;
 ---
 
-<figure {...props} class:list={[props.class, captionOnLeft ? "caption-left" : "caption-right"]}>
+<figure
+  {...props}
+  class:list={[props.class, captionOnLeft ? "caption-left" : "caption-right"]}
+>
   <slot />
 </figure>
 
@@ -32,7 +35,7 @@ const { "data-captionOnLeft": captionOnLeft = false, ...props } = Astro.props;
     clear: both;
   }
 
-  figure :global(figcaption) {
+  figure > :global(figcaption) {
     font-size: 0.75rem;
     line-height: 1.33em;
     margin-top: 0.625rem;
@@ -40,31 +43,31 @@ const { "data-captionOnLeft": captionOnLeft = false, ...props } = Astro.props;
     color: var(--body-color-secondary, #666);
   }
   @media (min-width: 45rem) {
-    figure :global(figcaption) {
+    figure > :global(figcaption) {
       font-size: 0.875rem;
       line-height: 1.28em;
     }
   }
   /* on very small displays, we display the caption inline with the article */
-  @media (max-width:45rem) {
-    figure :global(figcaption) {
+  @media (max-width: 45rem) {
+    figure > :global(figcaption) {
       padding-left: var(--article-inset);
       padding-right: var(--article-inset);
     }
   }
   /* on very wide displays, we display the :where(figure :global(figcaption)) next to the figure */
   @media (min-width: 90rem) {
-    figure :global(figcaption) {
+    figure > :global(figcaption) {
       --figcap-margin: 1.25rem;
       bottom: 0;
       position: absolute;
       width: 9.375rem;
     }
-    .caption-right :global(figcaption) {
+    .caption-right > :global(figcaption) {
       left: 100%;
       margin-left: var(--figcap-margin);
     }
-    .caption-left :global(figcaption) {
+    .caption-left > :global(figcaption) {
       right: 100%;
       margin-right: var(--figcap-margin);
       text-align: right;

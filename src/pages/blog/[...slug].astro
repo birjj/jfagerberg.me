@@ -30,5 +30,5 @@ const { Content, headings } = await entry.render();
 ---
 
 <Layout title={entry.data.title} headings={headings} date={entry.data.date}>
-  <Content components={{ figure: Figure, h1: Title, aside: Aside, blockquote: Quote }} />
+  <Content components={{ blockquote: Quote }} />
 </Layout>

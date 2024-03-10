@@ -15,7 +15,7 @@ const { title, headings, date, ...props } = Astro.props;
 ---
 
 <BaseLayout {...props} title={title}>
-  <Navbar headings={[]} active="none" />
+  {/*<Navbar headings={[]} active="none" />*/}
   <main>
     <Article>
       <Title>
@@ -23,9 +23,7 @@ const { title, headings, date, ...props } = Astro.props;
         <Fragment slot="subheading">Foobar</Fragment>
       </Title>
       <slot />
-      <div class="scroll-shadow"
-      >
-      </div>
+      <div class="scroll-shadow"></div>
     </Article>
   </main>
 </BaseLayout>

@@ -1,3 +1,4 @@
+import { h, Fragment } from "preact";
 import { useEffect, useId } from "preact/hooks";
 import type { JSX } from "preact/jsx-runtime";
 import useDarkMode from "../hooks/use-darkmode";
@@ -5,7 +6,9 @@ import useDarkMode from "../hooks/use-darkmode";
 export type DarkModeToggleProps = JSX.IntrinsicElements["div"] & {};
 const DarkModeToggle = ({ ...props }: DarkModeToggleProps) => {
   const id = useId();
-  const { isDarkMode, toggle } = useDarkMode(false);
+  // const { isDarkMode, toggle } = useDarkMode(false);
+  const isDarkMode = false;
+  const toggle = () => {};
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", isDarkMode);

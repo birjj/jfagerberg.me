@@ -21,7 +21,6 @@
 		"vscode": {
 			"extensions": [
 				"astro-build.astro-vscode",
-				"bradlc.vscode-tailwindcss",
 				"unifiedjs.vscode-mdx",
 				"esbenp.prettier-vscode"
 			],
@@ -30,15 +29,6 @@
 				"editor.formatOnSave": true
 			}
 		},
-		"codespaces": {
-			"repositories": {
-				"birjj/blog": {
-					"permissions": {
-						"contents": "write"
-					}
-				}
-			}
-		}
 	}
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
