@@ -17,5 +17,13 @@ export default defineConfig({
     remarkPlugins: [remarkUnwrapImages, remarkMath],
     rehypePlugins: [rehypeKatex],
   },
-  integrations: [expressiveCode(), mdx(), sitemap(), robotsTxt(), preact()],
+  integrations: [
+    expressiveCode({
+      themes: ["github-dark", "github-light"],
+    }),
+    mdx(),
+    sitemap(),
+    robotsTxt(),
+    preact(),
+  ],
 });

@@ -10,6 +10,7 @@ const DarkModeToggle = ({ ...props }: DarkModeToggleProps) => {
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", isDarkMode);
+    document.documentElement.setAttribute("data-theme", isDarkMode ? "github-dark" : "github-light");
   }, [isDarkMode]);
 
   const title = isDarkMode ? `Switch to light mode` : `Switch to dark mode`;
