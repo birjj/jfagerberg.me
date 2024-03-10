@@ -54,6 +54,12 @@ This is a normal paragraph following a header. GitHub is a code hosting platform
 > 
 > <a slot="citation" href="https://google.com" title="Link to google.com">Google.com</a>
 
+Text between blockquotes
+
+> This is a blockquote following a header.
+>
+> When something is important enough, you do it even if the odds are not in your favor.
+
 ### Header 3
 
 ```js
@@ -71,25 +77,27 @@ GitHubPages::Dependencies.gems.each do |gem, version|
 end
 ```
 
-#### Header 4 `with code not transformed`
+### Header 3
 
 *   This is an unordered list following a header.
 *   This is an unordered list following a header.
 *   This is an unordered list following a header.
 
-##### Header 5
+### Header 3
 
 1.  This is an ordered list following a header.
 2.  This is an ordered list following a header.
 3.  This is an ordered list following a header.
 
-###### Header 6
+### Header 3
 
 [This is a very long link which wraps and therefore doesn't overflow
 even when it comes at the beginning](.) of the line.
 
 - [This is a very long link which wraps and therefore doesn't overflow the line
   when used first in an item ](.) in a list.
+
+### Tables
 
 | head1        | head two          | three |
 |:-------------|:------------------|:------|
@@ -102,37 +110,21 @@ even when it comes at the beginning](.) of the line.
 
 * * *
 
-### Here is an unordered list:
+### Unordered list
 
 *   Item foo
 *   Item bar
 *   Item baz
 *   Item zip
 
-### And an ordered list:
+### Ordered list:
 
 1.  Item one
 1.  Item two
 1.  Item three
 1.  Item four
 
-### And an ordered list, continued:
-
-1.  Item one
-1.  Item two
-
-Some text
-
-1.  Item three
-1.  Item four
-
-### And an ordered list starting from 42:
-
-1.  Item 42
-1.  Item 43
-1.  Item 44
-
-### And a nested list:
+### Nested list
 
 - level 1 item
   - level 2 item
@@ -206,21 +198,7 @@ Some text
 
 "[Wroclaw University Library digitizing rare archival texts](https://www.flickr.com/photos/97810305@N08/9401451269)" by [j_cadmus](https://www.flickr.com/photos/97810305@N08) is marked with [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/?ref=openverse).
 
-### Labels
-
-I'm a label
-
-blue
-green
-purple
-yellow
-red
-
-**bold**
-*italic*
-***bold + italic***
-
-### Definition lists can be used with HTML syntax.
+### Definition lists
 
 <dl>
 <dt>Name</dt>
@@ -233,34 +211,37 @@ red
 <dd>Green</dd>
 </dl>
 
-#### Multiple description terms and values
+### Mathematics
 
-Term
-: Brief description of Term
+You can write $math$ using dollar signs, which gets rendered using $\KaTeX$. $\frac{1}{2}$ is a fraction.
 
-Longer Term
-: Longer description of Term,
-  possibly more than one line
+$$
+L = \frac{1}{2} \rho v^2 S C_L
+$$
 
-Term
-: First description of Term,
-  possibly more than one line
+This also supports aligned code, matrices, complex environments, etc. through $\KaTeX$. See [their list of supported environments](https://katex.org/docs/supported.html#environments) for more.
 
-: Second description of Term,
-  possibly more than one line
+$$
+\begin{align}
+a&=b+c \\
+d+e&=f
+\end{align}
+$$
 
-Term1
-Term2
-: Single description of Term1 and Term2,
-  possibly more than one line
+$$
+\begin{bmatrix}
+   a & b \\
+   c & d
+\end{bmatrix}
+$$
 
-Term1
-Term2
-: First description of Term1 and Term2,
-  possibly more than one line
-
-: Second description of Term1 and Term2,
-  possibly more than one line
+$$
+\begin{CD}
+   A @>a>> B \\
+@VbVV @AAcA \\
+   C @= D
+\end{CD}
+$$
 
 ### More code
 
