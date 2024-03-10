@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^2.1.1",
-    "@astrojs/preact": "^3.1.1",
+    "@astrojs/preact": "3.0.2",
     "@astrojs/sitemap": "^3.1.1",
     "@fontsource-variable/cabin": "^5.0.4",
     "@fontsource/poppins": "^5.0.8",
