@@ -1,0 +1,86 @@
+---
+/** Replacement for <article> in blog posts. Primarily contains typography styling */
+export type Props = astroHTML.JSX.IntrinsicElements["article"];
+const { ...props } = Astro.props;
+---
+
+<article {...props}>
+  <slot />
+</article>
+
+<style>
+  article {
+    margin: 0 auto;
+    font-family: var(--font-sans, sans-serif);
+    padding: 3.75rem 0; /* add a bit of padding to the top and bottom of the article for readability */
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  /* resize the article width and child inset as the screen becomes smaller */
+  article {
+    max-width: 37rem;
+    --article-inset: 1rem; /* used by children to inset them, if they need to be */
+  }
+  @media (min-width: 45rem) {
+    article {
+      --article-inset: 2.5rem;
+      max-width: 43.75rem;
+    }
+  }
+  @media (min-width: 60rem) {
+    article {
+      max-width: 51.75rem;
+      --article-inset: 4rem;
+    }
+  }
+  /* inset children using low specificity, so they can easily overwrite it if they want to */
+  :where(article) > :global(:where(:not(img,figure,pre))) {
+    padding-left: var(--article-inset);
+    padding-right: var(--article-inset);
+  }
+
+  /* style the text selection for sh*ts and giggles */
+  article ::selection {
+    background-color: var(--selection-bg, rgba(0 0 0 / 20%));
+    color: var(--selection-fg, var(--body-color-emphasis, #000));
+  }
+
+  /* style child images to avoid scroll */
+  article :global(img) {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  article > :global(.expressive-code) {
+    padding-left: 0;
+    padding-right: 0;
+    margin-bottom: 1.25rem;
+  }
+
+  /* typography - paragraphs */
+  article :global(p) {
+    color: var(--body-color, #333);
+    font-size: 1rem;
+    margin-bottom: 0;
+    margin-top: 0;
+    padding-bottom: 1.25rem;
+    position: relative;
+  }
+  @media (min-width:45rem) {
+    article :global(p) {
+      font-size: 1.125rem;
+      line-height: 1.44em;
+    }
+  }
+  /* typography - links */
+  article :global(a) {
+    color: var(--body-color-emphasis, #666);
+  }
+  @media (min-width: 30rem) {
+    article :global(p a[title]) {
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      -webkit-text-decoration: underline dotted;
+    }
+  }
+</style>

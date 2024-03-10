@@ -1,0 +1,62 @@
+---
+/** Replacement for <aside> in blog posts. Displays as a floated block in the article */
+export type Props = astroHTML.JSX.IntrinsicElements["aside"] & {
+  "data-left"?: boolean;
+}
+const { "data-left": left = false, ...props } = Astro.props;
+---
+
+<aside {...props} class:list={[props.class, left ? "left" : "right"]}>
+  <slot />
+</aside>
+
+<style>
+  /* On very small screens, we display the aside inline with the text */
+  aside {
+    clear: both;
+    margin: 0 auto;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    position: relative;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.25em;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  /* on bigger screens we position them next to the text */
+  @media (min-width:72.5rem) {
+    aside {
+      margin-top: 0;
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+      padding-left: 0;
+      padding-right: 0;
+      width: 18.75rem;
+      z-index: 1;
+    }
+    aside.right {
+      clear: right;
+      float: right;
+      margin-left: 2.5rem;
+      margin-right: calc(24.375rem - 50vw);
+      margin-right: -8.75rem;
+    }
+    aside.left {
+      clear: left;
+      float: left;
+      margin-left: calc(24.375rem - 50vw);
+      margin-right: 2.5rem;
+      margin-left: -8.75rem;
+    }
+  }
+  @media (min-width:90rem) {
+    aside.right {
+      margin-right: -15rem;
+    }
+    aside.left {
+      margin-left: -15rem;
+    }
+  }
+</style>

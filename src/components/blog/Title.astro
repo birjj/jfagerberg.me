@@ -1,0 +1,50 @@
+---
+/** Replacement for <h1> in blog posts */
+export type Props = astroHTML.JSX.IntrinsicElements["h1"];
+const props = Astro.props;
+---
+
+<h1 {...props} class:list={[props.class, "heading"]}>
+  <slot />
+</h1>
+{Astro.slots.has("subheading") && <p class="subheading">
+  <slot name="subheading" />
+</p>}
+
+<style>
+  .heading {
+    font-size: 2.25rem;
+    font-weight: 600;
+    line-height: 1.167em;
+    margin-bottom: 1.5rem;
+    margin-top: 0;
+    hyphens: auto;
+  }
+  @media (min-width:45rem) {
+    .heading {
+      font-size: 2.5rem;
+      line-height: 1.125em;
+      margin-bottom: 2rem;
+    }
+  }
+  @media (min-width:60rem) {
+    .heading {
+      font-size: 3rem;
+      line-height: 1.1em;
+    }
+  }
+
+  .subheading {
+    color: var(--body-color, #333);
+    font-size: 1.125rem;
+    font-weight: 400;
+    line-height: 1.33em;
+    margin: .625rem 0;
+  }
+  @media (min-width:45rem) {
+    .subheading {
+      font-size: 1.5rem;
+      line-height: 1.25em;
+    }
+  }
+</style>

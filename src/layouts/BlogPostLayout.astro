@@ -1,0 +1,39 @@
+---
+import type { Props as BaseLayoutProps } from "./BaseLayout.astro";
+import BaseLayout from "./BaseLayout.astro";
+import Navbar, { type Props as NavbarProps } from "../components/Navbar.astro";
+import type { MarkdownHeading } from "astro";
+import Article from "../components/blog/Article.astro";
+import Title from "../components/blog/Title.astro";
+
+export interface Props extends BaseLayoutProps {
+  headings: MarkdownHeading[];
+  date: Date;
+}
+
+const { title, headings, date, ...props } = Astro.props;
+---
+
+<BaseLayout {...props} title={title}>
+  <Navbar headings={[]} active="none" />
+  <main>
+    <Article>
+      <Title>
+        {title}
+        <Fragment slot="subheading">Foobar</Fragment>
+      </Title>
+      <slot />
+      <div class="scroll-shadow"
+      >
+      </div>
+    </Article>
+  </main>
+</BaseLayout>
+
+<style>
+  :root {
+    /* TODO: move this out into a shared style */
+    --font-sans: Poppins, Arial, sans-serif;
+    --font-lineheight: 1.625em;
+  }
+</style>

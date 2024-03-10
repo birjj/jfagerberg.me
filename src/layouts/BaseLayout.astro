@@ -1,8 +1,6 @@
 ---
 import "@fontsource-variable/cabin";
 import "@fontsource/questrial";
-import { Seo } from "astro-seo-meta";
-import { Schema } from "astro-seo-schema";
 
 export interface Props {
   title: string;
@@ -16,10 +14,6 @@ const { title, description = "" } = Astro.props;
 <html class="h-full transition" lang="en">
   <head>
     <meta charset="UTF-8" />
-    <Seo
-      title={title}
-      description={description},
-    />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
@@ -35,82 +29,30 @@ const { title, description = "" } = Astro.props;
         document.documentElement.classList.remove("dark");
       }
     </script>
-    <Schema
-      item={{
-        "@context": "https://schema.org",
-        "@type": "Person",
-        name: "Johan Fagerberg",
-        url: "https://jfagerberg.me",
-        image: "",
-        sameAs: [
-          "https://github.com/birjj",
-          "https://www.linkedin.com/in/johan-fagerberg-202527120/"
-        ],
-        jobTitle: "DevOps Engineer",
-        worksFor: {
-          "@type": "Organization",
-          "name": "KMD A/S"
-        },
-        alumniOf: {
-          "@type": "CollegeOrUniversity",
-          name: ["Univeristy of Southern Denmark"],
-        },
-        knowsAbout: ["React", "JavaScript", "TypeScript", "PowerShell", "CI"],
-        knowsLanguage: ["da-DK", "en-US"],
-
-      }}
-    />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
   </head>
-  <body
-    class="min-h-full bg-background text-gray-900 antialiased transition dark:text-slate-50"
-  >
+  <body>
     <slot />
   </body>
 </html>
 
 <style is:global>
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
+  @font-face {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 400;
+    src: url(https://cdn.jsdelivr.net/fontsource/fonts/poppins@latest/latin-400-normal.woff2) format('woff2'), url(https://cdn.jsdelivr.net/fontsource/fonts/poppins@latest/latin-400-normal.woff) format('woff'), url(https://cdn.jsdelivr.net/fontsource/fonts/poppins@latest/latin-400-normal.ttf) format('truetype');
+    unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+  }
 
-  @layer base {
-    html {
-      --c-background: 246 246 246;
-      overflow-x: hidden;
-    }
-    html.dark {
-      --c-background: 12 16 19;
-    }
-
-    *,
-    ::before,
-    ::after {
-      @apply dark:border-gray-800;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4 {
-      @apply font-headings scroll-mt-14;
-    }
-    h1:not(.no-dot)::after,
-    h2:not(.no-dot)::after {
-      @apply text-accent-700;
-      content: ".";
-    }
-
-    a:not(.icon) {
-      @apply no-underline bg-gradient-to-t from-accent-700/75 to-accent-700/75 bg-bottom bg-no-repeat bg-[length:100%_2px];
-
-      background-position: 0% 100%;
-      background-repeat: no-repeat;
-      background-size: 100% 2px;
-    }
-    a:not(.icon):hover,
-    a:not(.icon):focus-visible {
-      @apply from-accent-700 to-accent-700;
-    }
+  /* poppins-latin-600-normal */
+  @font-face {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 600;
+    src: url(https://cdn.jsdelivr.net/fontsource/fonts/poppins@latest/latin-600-normal.woff2) format('woff2'), url(https://cdn.jsdelivr.net/fontsource/fonts/poppins@latest/latin-600-normal.woff) format('woff'), url(https://cdn.jsdelivr.net/fontsource/fonts/poppins@latest/latin-600-normal.ttf) format('truetype');
+    unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
   }
 </style>

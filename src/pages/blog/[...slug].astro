@@ -5,8 +5,15 @@ import type {
   GetStaticPaths,
 } from "astro";
 import { getCollection } from "astro:content";
-import Layout from "../../layouts/PostLayout.astro";
 
+// import the Astro components we'll use for the blog
+import Layout from "../../layouts/BlogPostLayout.astro";
+import Figure from "../../components/blog/Figure.astro";
+import Title from "../../components/blog/Title.astro";
+import Aside from "../../components/blog/Aside.astro";
+import Quote from "../../components/blog/Quote.astro";
+
+// tell Astro what paths we want to generate when generating the static site
 export const getStaticPaths = (async () => {
   const blogEntries = await getCollection("blog");
   return blogEntries.map((entry) => ({
@@ -14,14 +21,14 @@ export const getStaticPaths = (async () => {
     props: { entry },
   }));
 }) satisfies GetStaticPaths;
-
 type Params = InferGetStaticParamsType<typeof getStaticPaths>;
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
+// then pull out data from the above paths
 const { entry } = Astro.props;
 const { Content, headings } = await entry.render();
 ---
 
 <Layout title={entry.data.title} headings={headings} date={entry.data.date}>
-  <Content />
+  <Content components={{ figure: Figure, h1: Title, aside: Aside, blockquote: Quote }} />
 </Layout>
