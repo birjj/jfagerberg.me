@@ -14,7 +14,7 @@ import preact from "@astrojs/preact";
 export default defineConfig({
   site: "https://jfagerberg.me",
   markdown: {
-    remarkPlugins: [remarkHyphenate, remarkUnwrapImages, remarkMath],
+    remarkPlugins: [remarkUnwrapImages, remarkMath],
     rehypePlugins: [rehypeKatex],
   },
   integrations: [expressiveCode(), mdx(), sitemap(), robotsTxt(), preact()],
