@@ -2,7 +2,7 @@
 /** Replacement for <aside> in blog posts. Displays as a floated block in the article */
 export type Props = astroHTML.JSX.IntrinsicElements["aside"] & {
   "data-left"?: boolean;
-}
+};
 const { "data-left": left = false, ...props } = Astro.props;
 ---
 
@@ -26,7 +26,8 @@ const { "data-left": left = false, ...props } = Astro.props;
     word-break: break-word;
   }
   /* on bigger screens we position them next to the text */
-  @media (min-width:72.5rem) {
+  @media (min-width: 72.5rem) {
+    /* breakpoint should be at `calc(--article-max-width + 10rem + small buffer)` - in this case we've used a buffer of 1rem */
     aside {
       margin-top: 0;
       padding-top: 1.5rem;
@@ -40,23 +41,13 @@ const { "data-left": left = false, ...props } = Astro.props;
       clear: right;
       float: right;
       margin-left: 2.5rem;
-      margin-right: calc(24.375rem - 50vw);
       margin-right: -8.75rem;
     }
     aside.left {
       clear: left;
       float: left;
-      margin-left: calc(24.375rem - 50vw);
       margin-right: 2.5rem;
       margin-left: -8.75rem;
-    }
-  }
-  @media (min-width:90rem) {
-    aside.right {
-      margin-right: -15rem;
-    }
-    aside.left {
-      margin-left: -15rem;
     }
   }
 </style>

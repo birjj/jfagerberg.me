@@ -1,18 +1,22 @@
 ---
-import { Icon } from 'astro-icon';
+import { Icon } from "astro-icon";
 
 /** Replacement for <aside> in blog posts. Displays as a floated block in the article */
 export type Props = astroHTML.JSX.IntrinsicElements["blockquote"] & {
   "data-iconless"?: boolean;
-}
+};
 const { "data-iconless": iconless = false, ...props } = Astro.props;
 ---
 
 <blockquote {...props}>
-  { Astro.slots.has("citation") && <div class="citation">
-    <Icon name="quote" class="icon" />
-    <slot name="citation" />
-  </div>}
+  {
+    Astro.slots.has("citation") && (
+      <div class="citation">
+        <Icon name="quote" class="icon" />
+        <slot name="citation" />
+      </div>
+    )
+  }
   <slot />
 </blockquote>
 
@@ -34,9 +38,10 @@ const { "data-iconless": iconless = false, ...props } = Astro.props;
     margin-bottom: 0.5rem;
     margin-top: -1rem;
     text-align: right;
-    position: relative; z-index: 99; /* otherwise the floated citation would be underneath its siblings */
+    position: relative;
+    z-index: 99; /* otherwise the floated citation would be underneath its siblings */
 
-    color: var(--body-color-secondary, rgb(0 0 0 / 60%));
+    color: var(--c-text-secondary, rgb(0 0 0 / 60%));
     font-size: 0.6875rem;
     font-style: normal;
     font-weight: 400;

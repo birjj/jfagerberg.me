@@ -10,8 +10,8 @@ export interface Props {
 const { title, description = "" } = Astro.props;
 ---
 
-<!DOCTYPE html>
-<html class="h-full transition" lang="en">
+<!doctype html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -25,11 +25,13 @@ const { title, description = "" } = Astro.props;
           window.matchMedia("(prefers-color-scheme: dark)").matches)
       ) {
         document.documentElement.classList.add("dark");
+        document.documentElement.setAttribute("data-theme", "github-dark");
       } else {
         document.documentElement.classList.remove("dark");
+        document.documentElement.removeAttribute("data-theme");
       }
     </script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <slot name="head" />
   </head>
   <body>
     <slot />
@@ -37,22 +39,117 @@ const { title, description = "" } = Astro.props;
 </html>
 
 <style is:global>
-  @font-face {
-    font-family: 'Poppins';
-    font-style: normal;
-    font-display: swap;
-    font-weight: 400;
-    src: url(https://cdn.jsdelivr.net/fontsource/fonts/poppins@latest/latin-400-normal.woff2) format('woff2'), url(https://cdn.jsdelivr.net/fontsource/fonts/poppins@latest/latin-400-normal.woff) format('woff'), url(https://cdn.jsdelivr.net/fontsource/fonts/poppins@latest/latin-400-normal.ttf) format('truetype');
-    unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+  /** This style block contains CSS variables */
+  :root {
+    --font-sans: Cabin Variable, ui-sans-serif, system-ui, -apple-system,
+      BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans,
+      sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol,
+      "Noto Color Emoji";
+    --font-headings: Questrial, ui-sans-serif, system-ui, -apple-system,
+      BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans,
+      sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol,
+      "Noto Color Emoji";
+    --font-lineheight: 1.625em;
   }
 
-  /* poppins-latin-600-normal */
-  @font-face {
-    font-family: 'Poppins';
-    font-style: normal;
-    font-display: swap;
+  html {
+    --c-text: #333;
+    --c-text-emphasis: #000;
+    --c-text-secondary: #666;
+    --c-background: #f6f6f6;
+    --c-accent: #0089ce;
+    --c-accent-oklch: 0.6 0.14 241;
+    --c-selection-bg: oklch(var(--c-accent-oklch) / 35%);
+  }
+  html.dark {
+    --c-text: #ddd;
+    --c-text-emphasis: #fff;
+    --c-text-secondary: #aaa;
+    --c-background: #0c1013;
+  }
+</style>
+<style>
+  /** This style block contains styles for this specific layout */
+  html {
+    height: 100%;
+  }
+  body {
+    min-height: 100%;
+    margin: 0;
+
+    transition-property: color, background-color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 0.15s;
+  }
+</style>
+<style is:global>
+  /** This style block contains global typography */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    color: var(--c-text);
+    background: var(--c-background);
+  }
+
+  /* style headers with a blue dot */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-headings);
+  }
+  h2:not(.no-dot)::after {
+    color: var(--c-accent);
+    content: ".";
+  }
+
+  /* add a blue underline beneath non-icon links */
+  a:not(.icon) {
+    @apply bg-bottom bg-no-repeat bg-[length:100%_2px];
+
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 2px;
+
+    text-decoration-line: none;
+    background-image: linear-gradient(
+      to top,
+      oklch(var(--c-accent-oklch) / 75%) 0%,
+      oklch(var(--c-accent-oklch) / 75%) 100%
+    );
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 2px;
+  }
+  a:not(.icon):hover,
+  a:not(.icon):focus-visible {
+    background-image: linear-gradient(
+      to top,
+      oklch(var(--c-accent-oklch) / 100%) 0%,
+      oklch(var(--c-accent-oklch) / 100%) 100%
+    );
+  }
+
+  /* style definition lists globally */
+  dl dt {
+    margin-top: 1rem;
     font-weight: 600;
-    src: url(https://cdn.jsdelivr.net/fontsource/fonts/poppins@latest/latin-600-normal.woff2) format('woff2'), url(https://cdn.jsdelivr.net/fontsource/fonts/poppins@latest/latin-600-normal.woff) format('woff'), url(https://cdn.jsdelivr.net/fontsource/fonts/poppins@latest/latin-600-normal.ttf) format('truetype');
-    unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+    font-style: italic;
+  }
+  dl dd {
+    margin-bottom: 1rem;
+    padding-inline: 1rem;
+  }
+  dl > :where(dd, dt) > p {
+    margin-top: 0;
+  }
+  dl > :where(dd, dt) > ul {
+    margin-top: 0;
+  }
+
+  /* style selection for shits and giggles */
+  ::selection {
+    background-color: var(--c-selection-bg);
   }
 </style>

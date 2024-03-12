@@ -15,12 +15,19 @@ const { title, headings, date, ...props } = Astro.props;
 ---
 
 <BaseLayout {...props} title={title}>
+  <link
+    slot="head"
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+    integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV"
+    crossorigin="anonymous"
+  />
+
   <Navbar headings={[]} active="none" />
   <main>
     <Article>
       <Title>
         {title}
-        <Fragment slot="subheading">Foobar</Fragment>
       </Title>
       <slot />
       <div class="scroll-shadow"></div>
@@ -29,9 +36,18 @@ const { title, headings, date, ...props } = Astro.props;
 </BaseLayout>
 
 <style>
-  :root {
-    /* TODO: move this out into a shared style */
-    --font-sans: Poppins, Arial, sans-serif;
-    --font-lineheight: 1.625em;
+  .scroll-shadow {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 3rem;
+    width: 100%;
+
+    z-index: 10;
+    background-color: var(--c-background);
+    mask-image: linear-gradient(to bottom, transparent, rgb(0 0 0 / 75%));
+    transition: background-color cubic-bezier(0.4, 0, 0.2, 1) 0.15s;
+
+    pointer-events: none;
   }
 </style>
