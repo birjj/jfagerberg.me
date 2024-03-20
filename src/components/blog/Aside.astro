@@ -3,10 +3,10 @@
 export type Props = astroHTML.JSX.IntrinsicElements["aside"] & {
   "data-left"?: boolean;
 };
-const { "data-left": left = false, ...props } = Astro.props;
+const { "data-left": left = false, class: className, ...props } = Astro.props;
 ---
 
-<aside {...props} class:list={[props.class, left ? "left" : "right"]}>
+<aside {...props} class:list={[className, left ? "left" : "right"]}>
   <slot />
 </aside>
 

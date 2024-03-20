@@ -1,0 +1,103 @@
+---
+import Icon from "astro-icon";
+import Item from "./Item.astro";
+import Splitter from "./Splitter.astro";
+import DarkModeToggle from "./DarkModeToggle";
+
+export type Props = astroHTML.JSX.IntrinsicElements["header"] & {
+  active?: "home" | "blog" | "none";
+};
+
+const { active = "home", ...props } = Astro.props;
+---
+
+<header {...props}>
+  <div class="container">
+    <Item active={active === "home"} href="/" title="Go to homepage">
+      <Icon name="jfagerberg" class="logo-icon" />
+    </Item>
+    <Item
+      active={active === "blog"}
+      href="/blog/"
+      title="Go to blog"
+      class="blog"
+    >
+      Blog
+    </Item>
+    <Splitter />
+    <Item
+      href="https://github.com/birjj/"
+      target="_blank"
+      rel="noopener noreferrer"
+      title="Visit my GitHub profile"
+    >
+      <Icon name="simple-icons:github" class="social-icon" />
+    </Item>
+    <Item
+      href="https://www.linkedin.com/in/johan-fagerberg-202527120/"
+      target="_blank"
+      rel="noopener noreferrer"
+      title="Visit my LinkedIn profile"
+    >
+      <Icon name="simple-icons:linkedin" class="social-icon" />
+    </Item>
+    <Splitter />
+    <DarkModeToggle client:idle />
+  </div>
+</header>
+
+<style>
+  /** this style block contains styles for the header itself */
+  header {
+    transition-property: background-color, color, border-color;
+    transition-timing-function: var(--easing-default);
+    transition-duration: var(--easing-default-duration);
+    font-family: var(--font-headings, sans-serif);
+
+    /* make the header slightly glass-like, with the normal page background */
+    background: oklch(var(--c-background-oklch) / 90%);
+    backdrop-filter: blur(8px);
+
+    /* add borders to the top and bottom of the header (top is only shown if the header isn't fixed) */
+    border-width: 1px 0;
+    border-style: solid;
+    border-color: var(--c-border);
+    top: -1px;
+    position: sticky;
+
+    /* make sure the header is displayed over everything */
+    z-index: 50;
+
+    position: sticky;
+    top: 0;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+
+    max-width: 53.75rem;
+    height: 3rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+</style>
+
+<style>
+  /** this style block contains styles for content that is directly embedded in the navbar (e.g. the logo) */
+  .logo-icon {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 999999px;
+  }
+
+  .blog {
+    margin-left: auto;
+  }
+
+  .social-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+</style>

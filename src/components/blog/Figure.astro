@@ -3,12 +3,16 @@
 export type Props = astroHTML.JSX.IntrinsicElements["figure"] & {
   "data-captionOnLeft"?: boolean;
 };
-const { "data-captionOnLeft": captionOnLeft = false, ...props } = Astro.props;
+const {
+  "data-captionOnLeft": captionOnLeft = false,
+  class: className,
+  ...props
+} = Astro.props;
 ---
 
 <figure
   {...props}
-  class:list={[props.class, captionOnLeft ? "caption-left" : "caption-right"]}
+  class:list={[className, captionOnLeft ? "caption-left" : "caption-right"]}
 >
   <slot />
 </figure>

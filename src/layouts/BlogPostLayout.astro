@@ -1,7 +1,7 @@
 ---
 import type { Props as BaseLayoutProps } from "./BaseLayout.astro";
 import BaseLayout from "./BaseLayout.astro";
-import Navbar, { type Props as NavbarProps } from "../components/Navbar.astro";
+import Navbar from "../components/navbar/Navbar.astro";
 import type { MarkdownHeading } from "astro";
 import Article from "../components/blog/Article.astro";
 import Title from "../components/blog/Title.astro";
@@ -23,7 +23,7 @@ const { title, headings, date, ...props } = Astro.props;
     crossorigin="anonymous"
   />
 
-  <Navbar headings={[]} active="none" />
+  <Navbar active="blog" />
   <main>
     <Article>
       <Title>
@@ -46,7 +46,9 @@ const { title, headings, date, ...props } = Astro.props;
     z-index: 10;
     background-color: var(--c-background);
     mask-image: linear-gradient(to bottom, transparent, rgb(0 0 0 / 75%));
-    transition: background-color cubic-bezier(0.4, 0, 0.2, 1) 0.15s;
+    transition-property: background-color;
+    transition-timing-function: var(--easing-default);
+    transition-duration: var(--easing-default-duration);
 
     pointer-events: none;
   }

@@ -1,15 +1,12 @@
 ---
-import type { MarkdownHeading } from "astro";
 import { Icon } from "astro-icon";
-import TableOfContents from "./TableOfContents";
-import DarkModeToggle from "./DarkModeToggle";
+import DarkModeToggle from "./navbar/DarkModeToggle";
 
 export interface Props extends astroHTML.JSX.HTMLAttributes {
-  headings: MarkdownHeading[];
   active?: "home" | "blog" | "none";
 }
 
-const { headings, active = "home", ...props } = Astro.props;
+const { active = "home", ...props } = Astro.props;
 ---
 
 <header
@@ -83,5 +80,19 @@ const { headings, active = "home", ...props } = Astro.props;
   /* when hovered, we also apply a very faint background for immediate feedback */
   header :global(:is(a, button):hover::after) {
     @apply bg-slate-400/10;
+  }
+</style>
+
+<style>
+  header {
+    transition-property: background-color, color, border-color;
+    transition-timing-function: var(--easing-default);
+    transition-duration: var(--easing-default-duration);
+
+    /* make the header slightly glass-like, with the normal page background */
+    background: oklch(var(--c-background-oklch) / 90%);
+    backdrop-filter: blur(8px);
+
+    /* add borders to the top and bottom of the header (top is)
   }
 </style>
