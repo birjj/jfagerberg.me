@@ -43,7 +43,7 @@ const { title, headings, date, ...props } = Astro.props;
     height: 3rem;
     width: 100%;
 
-    z-index: 10;
+    z-index: calc(var(--z-noshadow, 11) - 1);
     background-color: var(--c-background);
     mask-image: linear-gradient(to bottom, transparent, rgb(0 0 0 / 75%));
     transition-property: background-color;

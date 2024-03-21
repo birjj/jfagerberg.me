@@ -43,13 +43,18 @@ const { ...props } = Astro.props;
   /* style child images to avoid scroll */
   article :global(img) {
     max-width: 100%;
+    height: auto;
     margin-left: auto;
     margin-right: auto;
+    z-index: var(--z-noshadow);
+    position: relative; /* otherwise z-index won't work */
   }
   article > :global(.expressive-code) {
     padding-left: 0;
     padding-right: 0;
     margin-bottom: 1.25rem;
+    z-index: var(--z-noshadow);
+    position: relative; /* otherwise z-index won't work */
   }
 
   /* typography - paragraphs */
@@ -57,9 +62,8 @@ const { ...props } = Astro.props;
     color: var(--c-text, #333);
     font-size: 1rem;
     line-height: 1.5rem;
-    margin-bottom: 0;
     margin-top: 0;
-    padding-bottom: 1.25rem;
+    margin-bottom: 1.25rem;
     position: relative;
   }
   @media (min-width: 45rem) {
@@ -67,6 +71,10 @@ const { ...props } = Astro.props;
       font-size: 1.125rem;
       line-height: 1.6em;
     }
+  }
+  /* typography - headers */
+  article :global(:where(h1, h2, h3)) {
+    margin-top: calc(2 * 0.83em + 1.25rem);
   }
   /* typography - links */
   article :global(a) {
@@ -78,5 +86,42 @@ const { ...props } = Astro.props;
       text-decoration-style: dotted;
       -webkit-text-decoration: underline dotted;
     }
+  }
+  /* typography - lists */
+  article > :global(:is(ul, ol)) {
+    padding-left: calc(var(--article-inset) + 2rem);
+  }
+  article :global(li::marker) {
+    color: var(--c-text-secondary);
+    font-family: var(--font-headings);
+  }
+  /* typography - tables */
+  article :global(:where(table)) {
+    width: calc(100% - 2 * var(--article-inset));
+    padding: initial;
+    margin-left: var(--article-inset);
+    margin-right: var(--article-inset);
+    border-collapse: collapse;
+    margin-bottom: 1.25rem;
+  }
+  article :global(:where(td, th)) {
+    border-left: 1px solid var(--c-border);
+    padding: 0.25rem 0.5rem;
+  }
+  article :global(:where(td:first-child, th:first-child)) {
+    border-left: none;
+  }
+  article :global(:where(th)) {
+    border-bottom: 2px solid var(--c-border);
+    border-bottom-color: color-mix(
+      in oklch,
+      var(--c-border) 90%,
+      var(--c-text)
+    );
+  }
+
+  article :global(hr) {
+    border: none;
+    border-bottom: 2px solid var(--c-accent);
   }
 </style>

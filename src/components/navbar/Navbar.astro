@@ -66,7 +66,7 @@ const { active = "home", ...props } = Astro.props;
     position: sticky;
 
     /* make sure the header is displayed over everything */
-    z-index: 50;
+    z-index: var(--z-navbar, 50);
 
     position: sticky;
     top: 0;

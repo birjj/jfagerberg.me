@@ -17,6 +17,9 @@ export default defineConfig({
     remarkPlugins: [remarkUnwrapImages, remarkMath],
     rehypePlugins: [rehypeKatex],
   },
+  image: {
+    domains: ["images.unsplash.com"],
+  },
   integrations: [
     expressiveCode({
       themes: ["github-dark", "github-light"],

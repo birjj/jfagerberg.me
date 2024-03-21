@@ -4,10 +4,10 @@ import Section from "../components/frontpage/Section.astro";
 import Layout from "../layouts/BaseLayout.astro";
 import { Icon } from "astro-icon";
 import ProjectEntry from "../components/frontpage/ProjectEntry.astro";
-import Navbar from "../components/Navbar.astro";
 import HeroBackground from "../components/frontpage/HeroBackground/index.astro";
 import type { MarkdownHeading } from "astro";
 import ScrollPrompter from "../components/frontpage/ScrollPrompter.astro";
+import Navbar from "../components/navbar/Navbar.astro";
 
 const navbarLinks: MarkdownHeading[] = [
   { slug: "projects", text: "Projects", depth: 0 },
@@ -33,7 +33,7 @@ const navbarLinks: MarkdownHeading[] = [
   </main>
 
   <div id="bypass-hero"></div>
-  <Navbar headings={navbarLinks} />
+  <Navbar />
 
   <main class="mt-8 mx-4 sm:mx-15vw pb-32 text-xl prose dark:prose-invert">
     <Section>
@@ -53,7 +53,7 @@ const navbarLinks: MarkdownHeading[] = [
       <p class="!mb-8">
         Below are some of the open source projects I have been a leading
         developer on.<br />
-         For the full list, see <a
+        For the full list, see <a
           href="https://github.com/birjj/"
           target="_blank"
           rel="noopener noreferrer">my GitHub.</a
@@ -69,8 +69,8 @@ const navbarLinks: MarkdownHeading[] = [
             href="https://sirenia.eu/products/rpa/"
             target="_blank"
             rel="noopener noreferrer">Manatee</a
-          > RPA application. Provides vastly improved DX compared to the
-          built-in dev tools.
+          > RPA application. Provides vastly improved DX compared to the built-in
+          dev tools.
         </p>
       </ProjectEntry>
       <ProjectEntry
@@ -159,9 +159,7 @@ const navbarLinks: MarkdownHeading[] = [
       <h2 id="education" data-header="Education">Education and Certificates</h2>
       <TimelineEntry time="2023">
         <h3>Certified Kubernetes Administrator (CKA)</h3>
-        <p>
-          
-        </p>
+        <p></p>
       </TimelineEntry>
       <TimelineEntry time="2021">
         <h3>BCompSc from University of Southern Denmark</h3>
