@@ -1,11 +1,11 @@
 ---
 /** Replacement for <h1> in blog posts */
-export type Props = astroHTML.JSX.IntrinsicElements["h1"];
-const { class: className, ...props } = Astro.props;
+export type Props = { noDot?: boolean } & astroHTML.JSX.IntrinsicElements["h1"];
+const { class: className, noDot = false, ...props } = Astro.props;
 ---
 
 <h1 {...props} class:list={[className, "heading"]}>
-  <slot /><span class="dot">.</span>
+  <slot />{noDot ? null : <span class="dot">.</span>}
 </h1>
 {
   Astro.slots.has("subheading") && (

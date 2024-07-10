@@ -2,6 +2,7 @@
 title: A framework for page-modifying web extensions in an SPA-world
 date: 2023-05-30
 tags: ["web-extensions"]
+draft: true
 ---
 
 The world of frontend web development has in recent years transitioned largely to SPA development; frameworks like React, Angular and Vue, and the massive ecosystem of tools that surround them, make it attractive to write applications that update the DOM themselves instead of relying on the browser's built-in navigation.
@@ -48,7 +49,7 @@ type InjectedReactElement = InjectedHTMLElement & {
 function reactInjection(
   selector: string, // selectors for elements we're interested in
   rootGenerator: ($elm: HTMLElement) => HTMLElement, // generates the root element we want to insert our React node into
-  reactNode: ($elm: HTMLElement) => React.ReactNode // generates the React node we want to render (e.g. <App />)
+  reactNode: ($elm: HTMLElement) => React.ReactNode, // generates the React node we want to render (e.g. <App />)
 ): InjectionConfig {
   return {
     selector,
@@ -102,7 +103,7 @@ class InjectionObserver {
     this.#injections.forEach((config) => {
       const { selector, mount } = config;
       const $elms: InjectedHTMLElement[] = Array.from(
-        $elm.querySelectorAll ? $elm.querySelectorAll(selector) : []
+        $elm.querySelectorAll ? $elm.querySelectorAll(selector) : [],
       );
       if ($elm.matches && $elm.matches(selector)) {
         $elms.push($elm);

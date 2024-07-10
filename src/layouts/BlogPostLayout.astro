@@ -26,7 +26,7 @@ const { title, headings, date, ...props } = Astro.props;
   <Navbar active="blog" />
   <main>
     <Article>
-      <Title>
+      <Title noDot={/[?!]$/.test(title)}>
         {title}
       </Title>
       <slot />
