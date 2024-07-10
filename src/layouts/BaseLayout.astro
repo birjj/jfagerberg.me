@@ -155,13 +155,12 @@ const { title, description = "" } = Astro.props;
 
   /* style definition lists globally */
   dl dt {
-    margin-top: 1rem;
     font-weight: 600;
-    font-style: italic;
   }
   dl dd {
-    margin-bottom: 1rem;
+    margin-bottom: 1.75rem;
     padding-inline: 1rem;
+    margin-inline: 0;
   }
   dl > :where(dd, dt) > p {
     margin-top: 0;

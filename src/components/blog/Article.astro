@@ -59,7 +59,7 @@ const { ...props } = Astro.props;
   article > :global(.expressive-code) {
     padding-left: 0;
     padding-right: 0;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.75rem;
     z-index: var(--z-noshadow);
     position: relative; /* otherwise z-index won't work */
   }
@@ -69,7 +69,7 @@ const { ...props } = Astro.props;
     color: var(--c-text, #333);
     font-size: 1rem;
     margin-top: 0;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.75rem;
     position: relative;
     line-height: var(--font-lineheight, 1.725em);
   }
@@ -133,5 +133,8 @@ const { ...props } = Astro.props;
   article :global(hr) {
     border: none;
     border-bottom: 2px solid var(--c-accent);
+    padding: 0;
+    width: 2rem;
+    margin: 0 auto 1.75rem;
   }
 </style>

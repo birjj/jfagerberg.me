@@ -25,11 +25,14 @@ const { "data-iconless": iconless = false, ...props } = Astro.props;
     padding-block: 0.25rem;
     padding-inline: 1rem 0;
     margin-inline: var(--article-inset);
+    margin-bottom: 1.75rem;
     border-left: 2px solid var(--c-accent, #0089ce);
+    font-style: italic;
   }
 
   blockquote > :global(:last-child) {
     padding-bottom: 0;
+    margin-bottom: 0;
   }
 
   .citation {
