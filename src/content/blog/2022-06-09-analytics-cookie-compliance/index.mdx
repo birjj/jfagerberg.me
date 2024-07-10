@@ -10,15 +10,15 @@ import Aside from "../../../components/blog/Aside.astro";
 import CookieImage from "./upgraded-jonathan-taylor-22GUPUuOqkE-unsplash.jpg";
 
 <Figure>
-  <Image alt="Photo showing cutouts of " inferSize src={CookieImage} />
+  <Image alt="Photo showing multiple variants of cookie banners pasted over a photo of cookues (the baked goods kind)" inferSize src={CookieImage} />
   <figcaption class="left">Photo by [Jonathan Taylor](https://unsplash.com/@jontaylor?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/brown-star-and-star-print-textile-22GUPUuOqkE?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash). Slightly enhanced for comedic effect.</figcaption>
 </Figure>
 
-When I recently reworked my personal website, I figured it'd be neat to see how many ~~days~~ ~~weeks~~ years it took between having visitors, just for my own curiosity. At the same time I wanted to avoid ugly banners, since they're an incredible eyesore (for the few users that don't block annoyances with uBlock Origin), and collecting data on visitors comes with all kinds of ethical concerns (if you're just some dude, at least -- big companies have it easy. Ethics are for non-capitalists).
+When I recently reworked my personal website, I figured it'd be neat to see how many ~~days~~ ~~weeks~~ months it took between having visitors, just for my own curiosity. At the same time I wanted to avoid ugly banners, since they're an incredible eyesore (for the few users that don't block annoyances with uBlock Origin), and collecting data on visitors comes with all kinds of ethical concerns.
 
 That left me with the option of "privacy-aware analytics", a group of analytics solutions that _claim_ to do analytics without any of that Big Brother stuff. Oh, and as a plus, they let you do without those icky banner.
 
-But... do they _actually_ let you track analytics without asking your users first? The following will be a dive into EU laws on "cookie popups" from the perspective of some dude who has no legal background, but too much time on his hands.
+But... do they _actually_ let you track analytics without asking your users first? I was a bit skeptical. The following will be a dive into EU laws on "cookie popups" from the perspective of some dude who has no legal background, but too much time on his hands.
 
 ## Technical background
 
@@ -53,8 +53,6 @@ When we're talking about analytics there are primarily two different EU laws we'
 <dd>Directive from 2002, later amended in 2009.<br/>One of the early attempts at legislating online privacy. Of interest to us is its regulations on what data can be processed for what uses without requiring informed consent from the user.<br/>Enforces privacy of any data read from a user's device, <em>personal or not</em>. This will be especially important for us, as it limits us greatly in what data we can use, even if we anonymize it heavily.<br/>Note that this is a directive, not a regulation, meaning it is up to the individual EU countries to implement the directive into law. This distinction isn't that important for our uses, and I will only be considering the wording of the directive itself in this article.</dd>
 </dl>
 
-<Aside>I might refer to the ePrivacy Directive by its informal name "the cookie law", or its shorthand "ePD", in the following text -- don't be confused though, it's still a directive, and it isn't particularly tied to cookies.</Aside>
-
 We'll be focusing our efforts on the ePrivacy Directive, since (I believe) the consent required by GDPR can be largely skirted around by anonymizing data properly.
 
 ## Legal analysis
@@ -66,7 +64,7 @@ As put in [Article 5(3) of the ePrivacy Directive](https://eur-lex.europa.eu/leg
 
 This is where the ubiquitous cookie banners come from. Because the directive requires user consent before _even accessing_ data on a users device, and we usually need that for analytics, site owners are put in a bit of an awkward dilemma: do they just... _not_ track users, losing out on that sweet, sweet data that they need to raise their stock prices, or do they ask the users ~~manipulatively~~ nicely when they visit the site if they're allowed to track them? If you've used the internet in the last few years, you probably know the answer that most site owners choose.
 
-Notably this article covers not just information in cookies, but also information in localStorage, and even (as we shall see later) information previously stored on the device by others, such as browser user agents. We therefore can't skirt the legislation by simply using other storage mechanisms, despite the unofficial "cookie law" misnomer. What a bummer. If we want to _store_ data on the user's device, we'll have to ask first -- and that's just too much for lil' ol' me.
+Notably this Article 5(3) covers not just information in cookies, but also information in localStorage, and even (as we shall see later) information previously stored on the device by others, such as browser user agents. We therefore can't skirt the legislation by simply using other storage mechanisms, despite the unofficial "cookie law" misnomer. If we want to access data on the user's device, we'll have to ask first -- and that's just too much for lil' ol' me.
 
 ---
 
@@ -76,45 +74,35 @@ Another notable thing is that the directive doesn't have any exceptions for anon
 
 Not only can we not read user data from users without asking them nicely first, those buggers in the EU Data Protection Working Party don't even let us claim that our ethical high ground of anonymization makes us exempt.
 
-## So... what is covered by the ePrivacy Directive?
+## So... what _is_ covered by the ePrivacy Directive?
 
 Let's have a look at the various data points we can use to identify repeat visits, and what the ePrivacy Directive says about them:
 
-<dl>
-<dt>IP address or other traffic data</dt>
-<dd>
+### IP address or other traffic data
 
-Covered by [the Directive](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32002L0058) in Article 26 (emphasis mine):
+Covered by the Directive in [Article 6](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:02002L0058-20091219#tocId8) (emphasis mine):
 
-> (26) The data [...] processed within electronic communications networks to establish connections [...] may only be stored to the extent that is necessary for the provision of the service for the purpose of billing and for interconnection payments, and for a limited time. **Any further processing of such data [...] may only be allowed if the subscriber has agreed to this** on the basis of accurate and full information given by the provider [...] 
+> Processing of traffic data [...] must be restricted to persons [...] handling billing or traffic management, customer enquiries, fraud detection, marketing electronic communications services or providing a value added service, and **must be restricted to what is necessary for the purposes of such activities.**
 
-Since a user's IP address almost certainly falls under this category, we'll _also_ have to ask for informed consent before processing it for use in analytics. You can of course use still use the IP address for traffic purposes, but anything else requires informed consent.
+Since a user's IP address almost certainly falls under "traffic data", whether or not we can use it for analytics hinges on whether that is one of the permitted use cases. None of them really appear to fit, depending on your definition of "marketing electronic communications services" (which isn't clearly defined in the Directive). I certainly wasn't certain that I was in the clear to process user IPs without consent.
 
-Since things like GeoIP lookups use the IP address and therefore require accessing it first, using a user's country or city is also covered.
+Since things like GeoIP lookups use the IP address and therefore require processing it first, using a user's country or city also seemed dodgy.
 
-</dd>
+### Screen size, browser version and other client data
 
-<dt>Screen size, browser version and other client data</dt>
-<dd>
-
-Covered by the Directive as data that has previously been stored by the browser vendor or device manufacturer, which we then access. As put by the EU Data Protection Working Party in <a href="https://ec.europa.eu/justice/article-29/documentation/opinion-recommendation/files/2014/wp224_en.pdf">a 2014 opinion on fingerprinting</a>:
+Covered by the Directive as data that has previously been stored by the browser vendor or device manufacturer, which we then process. As put by the EU Data Protection Working Party in <a href="https://ec.europa.eu/justice/article-29/documentation/opinion-recommendation/files/2014/wp224_en.pdf">a 2014 opinion on fingerprinting</a>:
 
 > Information that is stored by one party (including information stored by the user or device manufacturer) which is later accessed by another party is therefore within the scope of Article 5(3). [...] The consent requirement also applies when a read-only value is accessed (e.g. requesting the MAC address of a network interface via the OS API).
 
 In the same opinion, they also cover the act of fingerprinting using HTTP headers, using the User-Agent header as an example, but do not specifically mention it as requiring informed consent.
 
-</dd>
-<dt>User-Agent, Referer, and other HTTP headers</dt>
-<dd>
+### User-Agent, Referer, and other HTTP headers
 
 It could be argued that reading these headers isn't gaining access to data stored on the user's terminal equipment. However, these headers are specifically designed to allow tailoring of a response to the requester, and are sent for the purpose of allow the server to transmit the correct data (as described in <a href="https://httpwg.org/specs/rfc7231.html#header.user-agent">the specification</a>).
 
 Since the ePrivacy Directive defines traffic data as being <em>"any data processed for the purpose of the conveyance of a communication on an electronic communications network or for the billing thereof"</em>, this means these HTTP headers probably also require informed consent to be processed.
 
-</dd>
-
-<dt>Any data stored by third parties (or us)</dt>
-<dd>
+### Any data stored by third parties (or us)
 
 This is trivially covered by Article 5(3) of the Directive, which we have covered already:
 
@@ -122,8 +110,7 @@ This is trivially covered by Article 5(3) of the Directive, which we have covere
 
 As pointed out by the Working Party in the previously quoted [opinion on fingerprinting](https://ec.europa.eu/justice/article-29/documentation/opinion-recommendation/files/2014/wp224_en.pdf), this includes information stored by the user themselves or by device manufacturers - not to mention third parties. It blocks essentially all direct tracking, as it is intended to.
 
-</dd>
-</dl>
+---
 
 This leaves us with very few, if any, data points left to use for fingerprinting without asking the user for informed consent. While this is certainly a win for privacy when it comes to companies that are interested in finding loopholes that let them track users, it does extinguish any hope we have of escaping the popup nightmare the web has become today.
 
@@ -137,7 +124,9 @@ Every other privacy-aware analytics solution I've found, including [Ackee](https
 
 ## So what _can_ we use cookies for?
 
-Just because we cannot _track_ users using any sort of data without consent doesn't mean we need consent to use cookies. As put by article 5.3: _"[the restrictions] shall not prevent any technical storage or access for the sole purpose of carrying out the transmission of a communication over an electronic communications network, or as strictly necessary in order for the provider of an information society service explicitly requested by the subscriber or user to provide the service."_.
+Just because we cannot _track_ users using any sort of data without consent doesn't mean we need consent to use cookies. As put by article 5.3: 
+
+> [the restrictions] shall not prevent any technical storage or access for the sole purpose of carrying out the transmission of a communication over an electronic communications network, or as strictly necessary in order for the provider of an information society service explicitly requested by the subscriber or user to provide the service.
 
 The first part, using stored or accessed data for the sole purpose of transmission, allows us to store information we may need to send information to the correct place (e.g. an assigned server when using load balancing). The second part, using stored or accessed data to service an explicit request by the user, allows us to use cookies for many of the common website tasks we have, such as tracking whether a user is logged in, what they have in their cart on e-commerce sites, and how far they've come in questionnaires.
 
@@ -151,6 +140,6 @@ If you are interested in a more in-depth analysis of when these exemptions apply
 
 ## Conclusion
 
-Although it might come as a surprise (it certainly did for me), privacy-aware and cookie-free analytics aren't going to save us from cookie banners with the way the legislation is currently written.
+Although it might come as a surprise (it certainly did for me), privacy-aware and cookie-free analytics aren't going to save us from cookie banners with the way the legislation is currently written. If you are interested in avoiding cookie popups on your website, you'll have to make do with the very basic analytics that don't require knowing whether you've seen a user before -- making them essentially useless.
 
-If you are interested in avoiding cookie popups on your website, there, unfortunately, aren't any useful analytics solutions that will legally allow that. Like it or not, the cookie banners are here to stay.
+Or do without. That's where I ended up.
