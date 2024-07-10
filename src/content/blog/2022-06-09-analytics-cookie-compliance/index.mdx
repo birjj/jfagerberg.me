@@ -6,6 +6,16 @@ tags: ["analytics", "privacy"]
 
 It might sound like a bit of a weird question; if we don't use cookies, surely there's no way we'd be violating cookie laws. That's why it was surprising to me to learn that we actually do: if we want to be in compliance with the EU's ePrivacy Directive (commonly called the cookie law) without using cookie banners, we'll need to meet far stricter criteria than just "not using cookies". Keep reading for a deep dive.
 
+import { Image } from 'astro:assets';
+import Figure from "../../../components/blog/Figure.astro";
+import Aside from "../../../components/blog/Aside.astro";
+import CookieImage from "./upgraded-jonathan-taylor-22GUPUuOqkE-unsplash.jpg";
+
+<Figure>
+  <Image alt="Photo showing cutouts of " inferSize src={CookieImage} />
+  <figcaption class="left">Photo by [Jonathan Taylor](https://unsplash.com/@jontaylor?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/brown-star-and-star-print-textile-22GUPUuOqkE?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash).</figcaption>
+</Figure>
+
 ## Technical background
 
 In recent years there has been an increased focus on online privacy and how our data is handled when we browse the web. This comes in the wake of the massively privacy-invading tracking done by companies like Google and Facebook becoming public knowledge, of EU legislation forcing companies to get informed consent before processing our data, and of better privacy tools becoming easily available in our browsers.
@@ -26,9 +36,9 @@ When we're talking about analytics there are primarily two different EU laws we'
 
 <dl>
 <dt><a href="http://data.europa.eu/eli/reg/2016/679/oj">GDPR [Regulation (EU) 2016/679]</a></dt>
-<dd>Regulation adopted in 2016, came into force in 2018.<br>Huge law primarily addressing the right of an individual to control their <em>personal data</em>. Trivial examples include names, birthdays, and emails; more complicated examples include browsing history, timestamps, and preferences. If there is any theoretical way that data can be traced back to a person, that data is probably covered by GDPR.<br>GDPR is a huge beast and one that I am far from competent enough to cover. I will be assuming that the analytics solution you're looking to implement already strongly anonymizes all data, and therefore won't cover GDPR further.</dd>
+<dd>Regulation adopted in 2016, came into force in 2018.<br/>Huge law primarily addressing the right of an individual to control their <em>personal data</em>. Trivial examples include names, birthdays, and emails; more complicated examples include browsing history, timestamps, and preferences. If there is any theoretical way that data can be traced back to a person, that data is probably covered by GDPR.<br/>GDPR is a huge beast and one that I am far from competent enough to cover. I will be assuming that the analytics solution you're looking to implement already strongly anonymizes all data, and therefore won't cover GDPR further.</dd>
 <dt><a href="http://data.europa.eu/eli/dir/2002/58/2009-12-19">ePrivacy Directive [Directive 2002/58/EC]</a></dt>
-<dd>Directive from 2002, later amended in 2009.<br>One of the early attempts at legislating online privacy. Of interest to us is its regulations on what data can be processed for what uses without requiring informed consent from the user.<br>Enforces privacy of any data read from a user's device, <em>personal or not</em>. This will be especially important for us, as it limits us greatly in what data we can use, even if we anonymize it heavily.<br>Note that this is a directive, not a regulation, meaning it is up to the individual EU countries to implement the directive into law. This distinction isn't that important for our uses, and I will only be considering the wording of the directive itself in this article.</dd>
+<dd>Directive from 2002, later amended in 2009.<br/>One of the early attempts at legislating online privacy. Of interest to us is its regulations on what data can be processed for what uses without requiring informed consent from the user.<br/>Enforces privacy of any data read from a user's device, <em>personal or not</em>. This will be especially important for us, as it limits us greatly in what data we can use, even if we anonymize it heavily.<br/>Note that this is a directive, not a regulation, meaning it is up to the individual EU countries to implement the directive into law. This distinction isn't that important for our uses, and I will only be considering the wording of the directive itself in this article.</dd>
 </dl>
 
 We'll be focusing our efforts on the cookie law since the consent required by GDPR can be largely skirted around by anonymizing data properly.
@@ -53,7 +63,9 @@ Let's have a look at the various data points we can use to identify repeat visit
 
 <dl>
 <dt>IP address or other traffic data</dt>
-<dd>Covered by the Directive under traffic data:
+<dd>
+
+Covered by the Directive under traffic data:
 
 <blockquote>(26) The data [...] processed within electronic communications networks to establish connections and to transmit information contain information on the private life of natural persons [...]. Such data may only be stored to the extent that is necessary for the provision of the service for the purpose of billing and for interconnection payments, and for a limited time. Any further processing of such data [...] may only be allowed if the subscriber has agreed to this on the basis of accurate and full information given by the provider [...]. Traffic data used for marketing communications services or for the provision of value added services should also be erased or made anonymous after the provision of the service. Service providers should always keep subscribers informed of the types of data they are processing and the purposes and duration for which this is done.</blockquote>
 
@@ -64,7 +76,9 @@ Since things like GeoIP lookups use the IP address and therefore require accessi
 </dd>
 
 <dt>Screen size, browser version and other client data</dt>
-<dd>Covered by the Directive as data that has previously been stored by the browser vendor or device manufacturer, which we then access. As put by the EU Data Protection Working Party in <a href="https://ec.europa.eu/justice/article-29/documentation/opinion-recommendation/files/2014/wp224_en.pdf">a 2014 opinion on fingerprinting</a>:
+<dd>
+
+Covered by the Directive as data that has previously been stored by the browser vendor or device manufacturer, which we then access. As put by the EU Data Protection Working Party in <a href="https://ec.europa.eu/justice/article-29/documentation/opinion-recommendation/files/2014/wp224_en.pdf">a 2014 opinion on fingerprinting</a>:
 
 <blockquote>Information that is stored by one party (including information stored by the user or device manufacturer) which is later accessed by another party is therefore within the scope of Article 5(3). [...] The consent requirement also applies when a read-only value is accessed (e.g. requesting the MAC address of a network interface via the OS API).</blockquote>
 
@@ -72,14 +86,18 @@ In the same opinion, they also cover the act of fingerprinting using HTTP header
 
 </dd>
 <dt>User-Agent, Referer, and other HTTP headers</dt>
-<dd>It could be argued that reading these headers isn't gaining access to data stored on the user's terminal equipment. However, these headers are specifically designed to allow tailoring of a response to the requester, and are sent for the purpose of allow the server to transmit the correct data (as described in <a href="https://httpwg.org/specs/rfc7231.html#header.user-agent">the specification</a>).
+<dd>
+
+It could be argued that reading these headers isn't gaining access to data stored on the user's terminal equipment. However, these headers are specifically designed to allow tailoring of a response to the requester, and are sent for the purpose of allow the server to transmit the correct data (as described in <a href="https://httpwg.org/specs/rfc7231.html#header.user-agent">the specification</a>).
 
 Since the ePrivacy Directive defines traffic data as being <em>"any data processed for the purpose of the conveyance of a communication on an electronic communications network or for the billing thereof"</em>, this means these HTTP headers also require informed consent.
 
 </dd>
 
 <dt>Any data stored by third parties (or us)</dt>
-<dd>This is trivially covered by Article 5(3) of the Directive, which we have covered already:
+<dd>
+
+This is trivially covered by Article 5(3) of the Directive, which we have covered already:
 
 <blockquote>[...] the storing of information, or the gaining of access to information already stored, in the terminal equipment of a subscriber or user is only allowed on condition that the subscriber or user concerned has given his or her consent [...]</blockquote>
 
