@@ -49,6 +49,12 @@ const { ...props } = Astro.props;
     margin-right: auto;
     z-index: var(--z-noshadow);
     position: relative; /* otherwise z-index won't work */
+    border-radius: 6px;
+    box-shadow:
+      0 1px 1px hsl(0deg 0% 0% / 0.05),
+      0 2px 2px hsl(0deg 0% 0% / 0.05),
+      0 6px 6px hsl(0deg 0% 0% / 0.05),
+      0 16px 16px hsl(0deg 0% 0% / 0.05);
   }
   article > :global(.expressive-code) {
     padding-left: 0;
@@ -65,13 +71,18 @@ const { ...props } = Astro.props;
     margin-top: 0;
     margin-bottom: 1.25rem;
     position: relative;
+    line-height: var(--font-lineheight, 1.725em);
   }
   @media (min-width: 45rem) {
     article :global(p) {
       font-size: 1.125rem;
+      line-height: var(--font-lineheight, 1.725em);
     }
   }
   /* typography - headers */
+  article :global(h2) {
+    font-size: 2rem;
+  }
   article :global(:where(h1, h2, h3)) {
     margin-top: calc(2 * 0.83em + 1.25rem);
   }

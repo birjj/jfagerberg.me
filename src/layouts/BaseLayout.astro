@@ -69,20 +69,20 @@ const { title, description = "" } = Astro.props;
   }
 
   html {
-    --c-text: #333;
-    --c-text-oklch: 32.11% 0 0;
+    --c-text: rgb(0 0 0 / 90%);
+    --c-text-oklch: 0% 0 0 / 90%;
     --c-text-emphasis: #000;
     --c-text-secondary: #666;
-    --c-background: #f6f6f6;
-    --c-background-oklch: 97.31% 0 0;
+    --c-background: #fff;
+    --c-background-oklch: 100% 0 0;
     --c-accent: #0089ce;
     --c-accent-oklch: 60% 0.14 241;
     --c-border: #e5e7eb;
     --c-selection-bg: oklch(var(--c-accent-oklch) / 35%);
   }
   html.dark {
-    --c-text: #ddd;
-    --c-text-oklch: 89.75% 0 0;
+    --c-text: rgb(255 255 255 / 100%);
+    --c-text-oklch: 100% 0 0 / 90%;
     --c-text-emphasis: #fff;
     --c-text-secondary: #aaa;
     --c-background: #0c1013;

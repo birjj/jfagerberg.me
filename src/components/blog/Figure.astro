@@ -38,11 +38,13 @@ const {
   figure::after {
     clear: both;
   }
+  figure :global(a) {
+    background-image: none;
+  }
 
   figure > :global(figcaption) {
     font-size: 0.75rem;
     line-height: 1.33em;
-    margin-top: 0.625rem;
     position: relative;
     color: var(--c-text-secondary, #666);
   }
@@ -63,7 +65,7 @@ const {
   @media (min-width: 90rem) {
     figure > :global(figcaption) {
       --figcap-margin: 1.25rem;
-      bottom: 0;
+      bottom: 1rem;
       position: absolute;
       width: 9.375rem;
     }
@@ -75,6 +77,11 @@ const {
       right: 100%;
       margin-right: var(--figcap-margin);
       text-align: right;
+    }
+  }
+  @media (max-width: 90rem) {
+    figure > :global(figcaption) {
+      padding-left: 1rem;
     }
   }
 </style>
