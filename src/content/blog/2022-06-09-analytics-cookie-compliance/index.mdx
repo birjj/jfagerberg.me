@@ -10,7 +10,15 @@ import Aside from "../../../components/blog/Aside.astro";
 import CookieImage from "./upgraded-jonathan-taylor-22GUPUuOqkE-unsplash.jpg";
 
 <Figure>
-  <Image alt="Photo showing multiple variants of cookie banners pasted over a photo of cookues (the baked goods kind)" inferSize src={CookieImage} />
+  <Image
+    alt="Photo showing multiple variants of cookie banners pasted over a photo of cookies (the baked goods kind)"
+    inferSize
+    widths={[240, 540, 880, 1920, CookieImage.width]}
+    sizes="((min-width: 60rem)) 51.75rem,
+              ((min-width: 45rem) and (max-width: 60rem)) 43.75rem,
+              (max-width: 45rem) 100vw"
+    src={CookieImage}
+  />
   <figcaption class="left">Photo by [Jonathan Taylor](https://unsplash.com/@jontaylor?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/brown-star-and-star-print-textile-22GUPUuOqkE?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash). Slightly enhanced for comedic effect.</figcaption>
 </Figure>
 
@@ -30,15 +38,29 @@ Privacy-aware analytics are faced with an obstacle: most analytics requires some
 
 Traditionally this has been done by storing a small token - in the form of a cookie, usually - on the user's device, which their browser then attaches to future requests. The analytics backend can then compare that to a list of previously seen tokens, and thereby know whether the user is new or has visited before.
 
+import ClassicAnalyticsDiagram from "./classic-analytics.svg";
+
+<Figure>
+  <Image class="no-shadow" alt="Diagram of how classic analytics work" inferSize src={ClassicAnalyticsDiagram} />
+  <figcaption class="right">Classic analytics solutions usually use a cookie to check if a request comes from a previously seen user. This is needed for statistics like bounce rates and number of unique visitors.</figcaption>
+</Figure>
+
 ---
 
 Cookie-free analytics work slightly differently: instead of storing a small token on the user's device, the backend instead calculates a unique token when the request comes in based on the user's available data.
 
 This process -- known as [fingerprinting](https://amiunique.org/) -- allows the analytics solution to skirt any legislation that limits when data can be stored on a user's device, and often works just as well as cookie-based tokens. Privacy-aware analytics usually combine this concept with a significant focus on privacy and extends it with things like hashing, rotating salts, and limited fingerprint data (for more information see [Fathom's great explainer](https://usefathom.com/blog/anonymization) on their algorithm). This generally produces what most people would consider anonymized data: in almost all situations it is impossible to trace any data back to the individual user, especially once the salt has been rotated.
 
-While this implementation is enough to satisfy even me when it comes to respecting users' privacy, it also causes a common misconception: namely that since privacy-aware analytics solutions don't use cookies, implementors of them don't have to ask users for consent.
+import NewAnalyticsDiagram from "./new-analytics.svg";
 
-To work out whether that's true, we'll have to look at why we ask for consent in the first place.
+<Figure>
+  <Image class="no-shadow" alt="Diagram of how privacy-aware analytics work" inferSize src={NewAnalyticsDiagram} />
+  <figcaption>Privacy-aware analytics instead calculate some kind of persistent fingerprint for the user, usually based on their IP, User-Agent, and a rotating salt. The fingerprint is usually designed to minimize information disclosure, while still allowing the analytics to check if a user has been seen previously.</figcaption>
+</Figure>
+
+While fingerprinting has a bit of a bad reputation, this implementation can be genuinely designed to respect our users' privacy. This is done by ensuring that the generated fingerprint can't be correlated back to the individual user, mostly by instantly binning the collected analytics into things like _"number of unique visitors"_ or _"total bounce rate"_, instead of storing data on how a specific hash interacted with the site.
+
+Since this variant doesn't store anything on the end-user device, a common misconception is that using them means we don't have to ask users for consent. To work out whether that's true, we'll have to look at why we ask for consent in the first place.
 
 ## A bit of legal background
 
