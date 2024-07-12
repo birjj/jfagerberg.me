@@ -1,0 +1,64 @@
+/** Root variables */
+:root {
+  --font-sans: 'Overpass Variable', ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol,
+    "Noto Color Emoji";
+  --font-headings: Questrial, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol,
+    "Noto Color Emoji";
+  --font-lineheight: 1.725em;
+
+  --easing-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-default-duration: 0.15s;
+
+  --z-noshadow: 15;
+  --z-navbar: 50;
+  --z-floating: 99;
+
+  box-sizing: border-box;
+}
+/** Light/dark variables */
+html {
+  /* the variables below usually exists in both plain and oklch variants
+     the oklch variants are used for tints as such: oklch(var(--c-var-oklch) / 35%); */
+  --c-text: #171717;
+  --c-text-oklch: 20.46% 0 0;
+  --c-text-emphasis: #000;
+  --c-text-secondary: #666;
+  --c-background: #fff;
+  --c-background-oklch: 100% 0 0;
+  --c-accent: #0089ce;
+  --c-accent-oklch: 60% 0.14 241;
+  --c-border: #e5e7eb;
+  --c-selection-bg: oklch(var(--c-accent-oklch) / 35%);
+}
+html.dark {
+  --c-text: #E8E8E8;
+  --c-text-oklch: 93.1% 0 0;
+  --c-text-emphasis: #fff;
+  --c-text-secondary: #aaa;
+  --c-background: #0c1013;
+  --c-background-oklch: 17% 0.01 240.5;
+  --c-border: #1f2937;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+/** Styling */
+html {
+  height: 100%;
+}
+body {
+  min-height: 100%;
+  margin: 0;
+
+  transition-property: color, background-color;
+  transition-timing-function: var(--easing-default);
+  transition-duration: var(--easing-default-duration);
+}
