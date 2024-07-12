@@ -2,13 +2,14 @@
 import { getCollection } from "astro:content";
 import Layout from "../layouts/PageLayout.astro";
 const blogEntries = await getCollection("blog");
+const activeBlogEntries = blogEntries.filter(post => !post.data.draft);
 ---
 
 <Layout title="Blog - Johan Fagerberg" active="blog">
   <h1 class="text-3xl mb-8">My blog</h1>
   <ul class="flex flex-col gap-8 list-none p-0 text-lg">
     {
-      blogEntries
+      activeBlogEntries
         .sort((a, b) => +b.data.date - +a.data.date)
         .map((entry) => (
           <li class="group m-0 p-0">

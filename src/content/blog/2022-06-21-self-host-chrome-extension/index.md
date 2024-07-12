@@ -4,25 +4,19 @@ date: 2022-06-21
 tags: ["web-extensions", "automation"]
 ---
 
-When I made my first extension back in ye olden days - in the times of 30°C summers and $1.5 Costco hot dog meals - Google allowed developers to self-host Chrome extensions. This allowed users to install extensions directly from their website, without having to go through the Chrome Web Store.
+When I made my first extension back in ye olden days -- in the times of 30°C summers and $1.5 Costco hot dog meals -- Google allowed developers to self-host Chrome extensions. This allowed users to install extensions directly from their website, without having to go through the Chrome Web Store.
 
-But as with all good things, a few bad apples spoil it for the rest of us. By allowing users to install extensions from anywhere, Google didn't have any control over what extensions were allowed. This made extensions a prime target for malware and search hijacking, with no way to revoke bad extensions once they were out there. In its continuous quest to protect users (... and maybe gain a bit of control over their ecosystem. It _is_ Google, after all), Google [blocked installation of extensions](https://developer.chrome.com/docs/extensions/mv2/hosting_changes/) from outside the Web Store on all other platforms than Linux.
+But as with all good things, a few bad apples spoil it for the rest of us. By allowing users to install extensions from anywhere, Google didn't have any control over what extensions were allowed. This made extensions a prime target for malware and search hijacking, with no way to revoke bad extensions once they were out there.
+
+In its continuous quest to protect users (... and maybe gain a bit of control over their ecosystem. It _is_ Google, after all), Google [blocked installation of extensions](https://developer.chrome.com/docs/extensions/mv2/hosting_changes/) from outside the Web Store on all other platforms than Linux.
 
 The block is pretty extensive. If you try to install an extension by simply following a link, as you used to be able to, you'll be met with a `CRX_REQUIRED_PROOF_MISSING` error with no way to bypass it:
 
-<div align="center">
-  
 ![Screenshot of the CRX_REQUIRED_PROOF_MISSING error](./imgs/ext_required_proof.png)
-
-</div>
 
 If you manually download the .crx and drag it onto the `chrome://extensions` page you'll get a bit further - you'll even be able to install it! Immediately upon installing it, however, you'll be met with an error and the extension will be [hard-disabled](https://support.google.com/chrome_webstore/answer/2811969?visit_id=637914365688248290-669006669&rd=1):
 
-<div align="center">
-
 ![Screenshot of the hard-disabled extension](./imgs/ext_hard_disabled.png)
-
-</div>
 
 This is a bit problematic for a small number of use cases. I recently ran into a situation where I wanted to install an extension on computers in an organization, without access to the great big Internet. With no way to reach the Chrome Web Store, downloading the extension from there was a no-go.
 

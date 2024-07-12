@@ -59,8 +59,9 @@ a:not(.icon):focus-visible {
 img {
   max-width: 100%;
   height: auto;
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline: auto;
+  margin-bottom: 1.75rem;
+  display: block;
   z-index: var(--z-noshadow);
   position: relative; /* otherwise z-index won't work */
   border-radius: 6px;
@@ -114,6 +115,7 @@ li::marker {
 dl dt {
   font-weight: 600;
 }
+dl dt > p:only-child { margin-bottom: 0; }
 dl dd {
   margin-bottom: 1.75rem;
   padding-inline: 1rem;

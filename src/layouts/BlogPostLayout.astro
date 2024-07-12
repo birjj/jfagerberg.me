@@ -30,26 +30,6 @@ const { title, headings, date, ...props } = Astro.props;
         {title}
       </Title>
       <slot />
-      <div class="scroll-shadow"></div>
     </Article>
   </main>
 </BaseLayout>
-
-<style>
-  .scroll-shadow {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    height: 3rem;
-    width: 100%;
-
-    z-index: calc(var(--z-noshadow, 11) - 1);
-    background-color: var(--c-background);
-    mask-image: linear-gradient(to bottom, transparent, rgb(0 0 0 / 75%));
-    transition-property: background-color;
-    transition-timing-function: var(--easing-default);
-    transition-duration: var(--easing-default-duration);
-
-    pointer-events: none;
-  }
-</style>
