@@ -38,10 +38,10 @@ Privacy-aware analytics are faced with an obstacle: most analytics requires some
 
 Traditionally this has been done by storing a small token - in the form of a cookie, usually - on the user's device, which their browser then attaches to future requests. The analytics backend can then compare that to a list of previously seen tokens, and thereby know whether the user is new or has visited before.
 
-import ClassicAnalyticsDiagram from "./classic-analytics.svg";
+import ClassicAnalyticsDiagram from "./classic-analytics.svg?raw";
 
 <Figure>
-  <Image class="no-shadow" alt="Diagram of how classic analytics work" inferSize src={ClassicAnalyticsDiagram} />
+  <Fragment set:html={ClassicAnalyticsDiagram} />
   <figcaption class="right">Classic analytics solutions usually use a cookie to check if a request comes from a previously seen user. This is needed for statistics like bounce rates and number of unique visitors.</figcaption>
 </Figure>
 
@@ -51,10 +51,10 @@ Cookie-free analytics work slightly differently: instead of storing a small toke
 
 This process -- known as [fingerprinting](https://amiunique.org/) -- allows the analytics solution to skirt any legislation that limits when data can be stored on a user's device, and often works just as well as cookie-based tokens. Privacy-aware analytics usually combine this concept with a significant focus on privacy and extends it with things like hashing, rotating salts, and limited fingerprint data (for more information see [Fathom's great explainer](https://usefathom.com/blog/anonymization) on their algorithm). This generally produces what most people would consider anonymized data: in almost all situations it is impossible to trace any data back to the individual user, especially once the salt has been rotated.
 
-import NewAnalyticsDiagram from "./new-analytics.svg";
+import NewAnalyticsDiagram from "./new-analytics.svg?raw";
 
 <Figure>
-  <Image class="no-shadow" alt="Diagram of how privacy-aware analytics work" inferSize src={NewAnalyticsDiagram} />
+  <Fragment set:html={NewAnalyticsDiagram} />
   <figcaption>Privacy-aware analytics instead calculate some kind of persistent fingerprint for the user, usually based on their IP, User-Agent, and a rotating salt. The fingerprint is usually designed to minimize information disclosure, while still allowing the analytics to check if a user has been seen previously.</figcaption>
 </Figure>
 
