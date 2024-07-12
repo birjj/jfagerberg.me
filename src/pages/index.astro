@@ -4,34 +4,15 @@ import Section from "../components/frontpage/Section.astro";
 import Layout from "../layouts/BaseLayout.astro";
 import { Icon } from "astro-icon";
 import ProjectEntry from "../components/frontpage/ProjectEntry.astro";
-import HeroBackground from "../components/frontpage/HeroBackground/index.astro";
-import type { MarkdownHeading } from "astro";
-import ScrollPrompter from "../components/frontpage/ScrollPrompter.astro";
 import Navbar from "../components/navbar/Navbar.astro";
-
-const navbarLinks: MarkdownHeading[] = [
-  { slug: "projects", text: "Projects", depth: 0 },
-  { slug: "work", text: "Work history", depth: 0 },
-  { slug: "contact", text: "Contact", depth: 0 },
-];
+import Hero from "../components/frontpage/Hero/index.astro";
 ---
 
 <Layout
   title="Johan Fagerberg - Portfolio"
   description="Johan Fagerberg - developer with an interest in automation, user/developer experience, and online privacy."
 >
-  <main class="mx-5vw xs:mx-10vw sm:mx-15vw text-xl prose dark:prose-invert">
-    <HeroBackground class="absolute w-screen h-screen inset-0 -z-10" />
-    <section class="py-10vh max-w-prose h-screen flex flex-col justify-center">
-      <h1
-        class="font-headings text-4xl xs:text-6xl sm:text-7xl font-bold no-dot m-0"
-      >
-        Hi<span class="text-accent-700">.</span><br />I'm Johan
-      </h1>
-    </section>
-    <ScrollPrompter />
-  </main>
-
+  <Hero />
   <div id="bypass-hero"></div>
   <Navbar />
 
@@ -223,6 +204,7 @@ const navbarLinks: MarkdownHeading[] = [
     if (
       document.referrer &&
       document.documentElement.scrollTop === 0 &&
+      document.referrer !== document.location.toString() &&
       new URL(document.referrer).host === document.location.host
     ) {
       const $bypass = document.getElementById("bypass-hero");
