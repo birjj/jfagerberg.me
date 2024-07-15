@@ -204,11 +204,20 @@ import Hero from "../components/frontpage/Hero/index.astro";
     if (
       document.referrer &&
       document.documentElement.scrollTop === 0 &&
-      document.referrer !== document.location.toString() &&
       new URL(document.referrer).host === document.location.host
     ) {
+      // on page reload, most browsers scroll to the old scroll position
+      // this happens at an unpredictable time, causing flash-of-scroll-position if we do our scroll too
+      // we try to avoid doing our scroll if it's a reload
+      const isReload =
+        window.performance &&
+        window.performance.getEntriesByType &&
+        window.performance
+          .getEntriesByType("navigation")
+          .map((nav) => nav.type)
+          .includes("reload");
       const $bypass = document.getElementById("bypass-hero");
-      if ($bypass) {
+      if (!isReload && $bypass) {
         $bypass.scrollIntoView({ behavior: "instant" });
       }
     }

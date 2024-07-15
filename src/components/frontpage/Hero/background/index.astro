@@ -17,17 +17,19 @@ const { ...props } = Astro.props;
   // change colors when dark mode updates
   const COLORS: Record<string, [number, number, number][]> = {
     dark: [
-      [0,0,0],
-      [0,37,56],
-      [0,50,75],
-      [0,87,131],
+      [0, 0, 0],
+      [0, 50, 75],
+      [0, 87, 131],
+      [0, 137, 206],
+      // [0, 37, 56],
       [0, 137, 206],
     ],
     light: [
       [255, 255, 255],
-      [232,244,251],
-      [185,223,242],
-      [93,180,224],
+      [185, 223, 242],
+      [93, 180, 224],
+      [0, 137, 206],
+      // [232, 244, 251],
       [0, 137, 206],
     ],
   };
@@ -50,13 +52,16 @@ const { ...props } = Astro.props;
   });
 
   // change offset when the mouse moves
-  let scrollOffset = new EasedVec<1>([0], 500, x => 1 - Math.pow(1 - x, 3));
+  let scrollOffset = new EasedVec<1>([0], 500, (x) => 1 - Math.pow(1 - x, 3));
   let mousePos = (
     typeof window !== "undefined"
       ? [window.innerWidth / 2, window.innerHeight / 2]
       : [0, 0]
   ) as [number, number];
-  const throttle = <A extends any[], R extends any>(fn: (...args: A) => R, delay: number): (...args: A) => R | void => {
+  const throttle = <A extends any[], R extends any>(
+    fn: (...args: A) => R,
+    delay: number
+  ): ((...args: A) => R | void) => {
     let time = Date.now();
     let timeout: number | undefined = undefined;
     const throttled = (...args: A) => {
@@ -70,12 +75,15 @@ const { ...props } = Astro.props;
       } else if (timeout === undefined) {
         timeout = setTimeout(throttled, delay - delta);
       }
-    }
+    };
     return throttled;
-  } 
-  window.addEventListener("scroll", throttle((e) => {
-    scrollOffset.set([(document.documentElement || document.body).scrollTop]);
-  }, 150));
+  };
+  window.addEventListener(
+    "scroll",
+    throttle((e) => {
+      scrollOffset.set([(document.documentElement || document.body).scrollTop]);
+    }, 150)
+  );
   const pointerListener = (e: PointerEvent | TouchEvent) => {
     const { clientX, clientY } = "touches" in e ? e.touches[0] || {} : e;
     const pos = [clientX, clientY] as [number, number];
