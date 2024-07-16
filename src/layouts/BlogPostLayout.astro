@@ -1,0 +1,62 @@
+---
+import type { Props as BaseLayoutProps } from "./BaseLayout.astro";
+import BaseLayout from "./BaseLayout.astro";
+import Navbar from "../components/navbar/Navbar.astro";
+import type { MarkdownHeading } from "astro";
+import Article from "../components/blog/Article.astro";
+import Title from "../components/blog/Title.astro";
+
+export interface Props extends BaseLayoutProps {
+  headings: MarkdownHeading[];
+  date: Date;
+  updated?: Date;
+}
+
+const { title, headings, date, updated, ...props } = Astro.props;
+---
+
+<BaseLayout {...props} title={title}>
+  <link
+    slot="head"
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+    integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV"
+    crossorigin="anonymous"
+  />
+
+  <Navbar active="blog" />
+  <main>
+    <Article>
+      <Title noDot={/[?!]$/.test(title)}>
+        {title}
+      </Title>
+      <p class="date">
+        Published {
+          date.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "2-digit",
+          })
+        }{
+          updated
+            ? ` — last updated ${updated.toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "2-digit",
+              })}`
+            : ""
+        }
+      </p>
+      <slot />
+    </Article>
+  </main>
+</BaseLayout>
+<style>
+  .date {
+    display: flex;
+    align-items: center;
+    color: var(--c-text-secondary);
+    margin-top: -2rem;
+    font-size: 1rem;
+  }
+</style>

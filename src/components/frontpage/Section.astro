@@ -1,6 +1,22 @@
 ---
+
 ---
 
-<section class="py-8 flex flex-col justify-center prose-p:my-2 prose-h2:mb-4">
+<section>
   <slot />
 </section>
+<style scoped>
+  section {
+    margin-block: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    margin-inline: auto;
+    max-width: 53.75rem;
+  }
+  section > :global(:where(h1, h2, h3, h4):first-child) {
+    margin-block-start: 0;
+  }
+</style>

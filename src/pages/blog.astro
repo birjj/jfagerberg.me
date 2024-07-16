@@ -1,30 +1,24 @@
 ---
 import { getCollection } from "astro:content";
-import Layout from "../layouts/Layout.astro";
+import Layout from "../layouts/PageLayout.astro";
+import Title from "../components/blog/Title.astro";
+
 const blogEntries = await getCollection("blog");
+const activeBlogEntries = blogEntries.filter((post) => !post.data.draft);
 ---
 
 <Layout title="Blog - Johan Fagerberg" active="blog">
-  <h1 class="text-3xl mb-8">My blog</h1>
-  <ul class="flex flex-col gap-8 list-none p-0 text-lg">
+  <Title class="full-size">My blog</Title>
+  <ul class="post-list full-size">
     {
-      blogEntries
+      activeBlogEntries
         .sort((a, b) => +b.data.date - +a.data.date)
         .map((entry) => (
-          <li class="group m-0 p-0">
-            <a
-              href={entry.slug}
-              class="group flex items-center gap-x-1 !bg-none -m-4 p-4 relative"
-            >
-              <span class="absolute -z-10 inset-0 h-full w-full scale-95 rounded-xl bg-gray-400 opacity-0 transition-all duration-150 ease-in-out group-hover:scale-100 group-hover:opacity-10" />
-              <span
-                class="w-full sm:w-auto bg-no-repeat bg-bottom group-hover:from-accent-700 group-hover:to-accent-700"
-                style="background-size:100% 2px"
-              >
-                {entry.data.title}
-              </span>
-              <span class="hidden sm:flex flex-grow" />
-              <time class="shrink-0 text-base text-gray-500 dark:text-gray-400">
+          <li>
+            <a href={entry.slug} class="post">
+              <span class="post-background" />
+              <span class="post-title">{entry.data.title}</span>
+              <time class="post-date">
                 {entry.data.date.toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "short",
@@ -37,3 +31,44 @@ const blogEntries = await getCollection("blog");
     }
   </ul>
 </Layout>
+<style>
+  .post-list {
+    list-style: none;
+    padding: 0;
+
+    display: flex;
+    flex-direction: column;
+  }
+  .post {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 0.25rem;
+    padding: 1rem 0;
+    background-image: none !important; /* remove the underline, which normally applies to links */
+  }
+  .post-background {
+    position: absolute;
+    z-index: -10;
+    inset: 0 -1rem;
+    border-radius: 0.75rem;
+    background: var(--c-text);
+    transform: scale(0.95);
+    transform-origin: 50% 50%;
+    opacity: 0;
+    transition-property: opacity, transform;
+    transition-duration: 150ms;
+  }
+  .post:hover .post-background {
+    transform: scale(1);
+    opacity: 0.05;
+  }
+  .post-title {
+    font-weight: 500;
+  }
+  .post-date {
+    flex-shrink: 0;
+    color: var(--c-text-secondary);
+  }
+</style>

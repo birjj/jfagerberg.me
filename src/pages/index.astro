@@ -4,38 +4,23 @@ import Section from "../components/frontpage/Section.astro";
 import Layout from "../layouts/BaseLayout.astro";
 import { Icon } from "astro-icon";
 import ProjectEntry from "../components/frontpage/ProjectEntry.astro";
-import Navbar from "../components/Navbar.astro";
-import HeroBackground from "../components/frontpage/HeroBackground/index.astro";
-import type { MarkdownHeading } from "astro";
-import ScrollPrompter from "../components/frontpage/ScrollPrompter.astro";
-
-const navbarLinks: MarkdownHeading[] = [
-  { slug: "projects", text: "Projects", depth: 0 },
-  { slug: "work", text: "Work history", depth: 0 },
-  { slug: "contact", text: "Contact", depth: 0 },
-];
+import Navbar from "../components/navbar/Navbar.astro";
+import Hero from "../components/frontpage/Hero/index.astro";
 ---
 
 <Layout
   title="Johan Fagerberg - Portfolio"
   description="Johan Fagerberg - developer with an interest in automation, user/developer experience, and online privacy."
 >
-  <main class="mx-5vw xs:mx-10vw sm:mx-15vw text-xl prose dark:prose-invert">
-    <HeroBackground class="absolute w-screen h-screen inset-0 -z-10" />
-    <section class="py-10vh max-w-prose h-screen flex flex-col justify-center">
-      <h1
-        class="font-headings text-4xl xs:text-6xl sm:text-7xl font-bold no-dot m-0"
-      >
-        Hi<span class="text-accent-700">.</span><br />I'm Johan
-      </h1>
-    </section>
-    <ScrollPrompter />
-  </main>
-
+  <Hero />
   <div id="bypass-hero"></div>
-  <Navbar headings={navbarLinks} />
+  <Navbar
+    containerProps={{
+      class: "homepage-navbar",
+    }}
+  />
 
-  <main class="mt-8 mx-4 sm:mx-15vw pb-32 text-xl prose dark:prose-invert">
+  <main>
     <Section>
       <p>
         I'm Johan Fagerberg, a developer with an interest in automation,
@@ -50,10 +35,10 @@ const navbarLinks: MarkdownHeading[] = [
 
     <Section>
       <h2 id="projects" data-header="Projects">Open Source Projects</h2>
-      <p class="!mb-8">
+      <p>
         Below are some of the open source projects I have been a leading
         developer on.<br />
-         For the full list, see <a
+        For the full list, see <a
           href="https://github.com/birjj/"
           target="_blank"
           rel="noopener noreferrer">my GitHub.</a
@@ -69,8 +54,8 @@ const navbarLinks: MarkdownHeading[] = [
             href="https://sirenia.eu/products/rpa/"
             target="_blank"
             rel="noopener noreferrer">Manatee</a
-          > RPA application. Provides vastly improved DX compared to the
-          built-in dev tools.
+          > RPA application. Provides vastly improved DX compared to the built-in
+          dev tools.
         </p>
       </ProjectEntry>
       <ProjectEntry
@@ -107,8 +92,7 @@ const navbarLinks: MarkdownHeading[] = [
 
     <Section>
       <h2 id="work" data-header="Work history">Work History</h2>
-      <TimelineEntry time="2023 +     ">
-        <h3>DevOps Engineer at KMD</h3>
+      <TimelineEntry time="2023 +     " title="DevOps Engineer at KMD">
         <p>
           Managed the cloud infrastructure, CI/CD processes and developer
           interfacing across multiple projects, supporting the application teams
@@ -121,8 +105,10 @@ const navbarLinks: MarkdownHeading[] = [
           their workflows and application code to containers.
         </p>
       </TimelineEntry>
-      <TimelineEntry time="2022 - 2023">
-        <h3>RPA developer at Odense University Hospital</h3>
+      <TimelineEntry
+        time="2022 - 2023"
+        title="RPA developer at Odense University Hospital"
+      >
         <p>
           Headed the team responsible for process automation across a workforce
           of 8000+ healthcare workers. Responsible for projects ranging from
@@ -136,10 +122,10 @@ const navbarLinks: MarkdownHeading[] = [
           issues as they occured.
         </p>
       </TimelineEntry>
-      <TimelineEntry time="2015 - 2019">
-        <h3 class="font-headings mt-0 leading-none">
-          Frontend developer at CleanManager
-        </h3>
+      <TimelineEntry
+        time="2015 - 2019"
+        title="Frontend developer at CleanManager"
+      >
         <p>
           Maintained and developed a web application consisting of multiple
           interwoven SPAs, and the related backends for each. Participated in
@@ -157,14 +143,14 @@ const navbarLinks: MarkdownHeading[] = [
 
     <Section>
       <h2 id="education" data-header="Education">Education and Certificates</h2>
-      <TimelineEntry time="2023">
-        <h3>Certified Kubernetes Administrator (CKA)</h3>
-        <p>
-          
-        </p>
-      </TimelineEntry>
-      <TimelineEntry time="2021">
-        <h3>BCompSc from University of Southern Denmark</h3>
+      <TimelineEntry
+        time="2023"
+        title="Certified Kubernetes Administrator (CKA)"
+      />
+      <TimelineEntry
+        time="2021"
+        title="BCompSc from University of Southern Denmark"
+      >
         <p>
           Final bachelor thesis was on Ɛ-differential privacy, a mathematical
           description of privacy-aware algorithms, and ways to achieve it.<br
@@ -197,7 +183,7 @@ const navbarLinks: MarkdownHeading[] = [
           johanringmann@gmail.com</a
         >.
       </p>
-      <div class="mt-8 flex justify-center">
+      <div class="footer-wrapper">
         <a
           class="icon mr-8"
           href="https://github.com/birjj/"
@@ -205,7 +191,7 @@ const navbarLinks: MarkdownHeading[] = [
           rel="noopener noreferrer"
           aria-label="Link to Johan Fagerberg's GitHub"
         >
-          <Icon name="simple-icons:github" class="w-12 h-12" />
+          <Icon name="simple-icons:github" class="footer-icon" />
         </a>
         <a
           class="icon"
@@ -214,7 +200,7 @@ const navbarLinks: MarkdownHeading[] = [
           rel="noopener noreferrer"
           aria-label="Link to Johan Fagerberg's LinkedIn"
         >
-          <Icon name="simple-icons:linkedin" class="w-12 h-12" />
+          <Icon name="simple-icons:linkedin" class="footer-icon" />
         </a>
       </div>
     </Section>
@@ -227,10 +213,37 @@ const navbarLinks: MarkdownHeading[] = [
       document.documentElement.scrollTop === 0 &&
       new URL(document.referrer).host === document.location.host
     ) {
+      // on page reload, most browsers scroll to the old scroll position
+      // this happens at an unpredictable time, causing flash-of-scroll-position if we do our scroll too
+      // we try to avoid doing our scroll if it's a reload
+      const isReload =
+        window.performance &&
+        window.performance.getEntriesByType &&
+        window.performance
+          .getEntriesByType("navigation")
+          .map((nav) => nav.type)
+          .includes("reload");
       const $bypass = document.getElementById("bypass-hero");
-      if ($bypass) {
+      if (!isReload && $bypass) {
         $bypass.scrollIntoView({ behavior: "instant" });
       }
     }
   </script>
 </Layout>
+
+<style scoped>
+  main {
+    margin-block-start: 2rem;
+    padding-block-end: 8rem; /* margin doesn't extend the page, so we use padding instead */
+  }
+  .footer-wrapper {
+    margin-block-start: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+  }
+  .footer-icon {
+    width: 3rem;
+    height: 3rem;
+  }
+</style>

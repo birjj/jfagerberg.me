@@ -1,8 +1,9 @@
 ---
 import "@fontsource-variable/cabin";
 import "@fontsource/questrial";
-import { Seo } from "astro-seo-meta";
-import { Schema } from "astro-seo-schema";
+import "@fontsource-variable/overpass";
+import "./global.css";
+import "./typography.css";
 
 export interface Props {
   title: string;
@@ -12,14 +13,10 @@ export interface Props {
 const { title, description = "" } = Astro.props;
 ---
 
-<!DOCTYPE html>
-<html class="h-full transition" lang="en">
+<!doctype html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <Seo
-      title={title}
-      description={description},
-    />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
@@ -31,86 +28,35 @@ const { title, description = "" } = Astro.props;
           window.matchMedia("(prefers-color-scheme: dark)").matches)
       ) {
         document.documentElement.classList.add("dark");
+        document.documentElement.setAttribute("data-theme", "github-dark");
       } else {
         document.documentElement.classList.remove("dark");
+        document.documentElement.removeAttribute("data-theme");
       }
     </script>
-    <Schema
-      item={{
-        "@context": "https://schema.org",
-        "@type": "Person",
-        name: "Johan Fagerberg",
-        url: "https://jfagerberg.me",
-        image: "",
-        sameAs: [
-          "https://github.com/birjj",
-          "https://www.linkedin.com/in/johan-fagerberg-202527120/"
-        ],
-        jobTitle: "DevOps Engineer",
-        worksFor: {
-          "@type": "Organization",
-          "name": "KMD A/S"
-        },
-        alumniOf: {
-          "@type": "CollegeOrUniversity",
-          name: ["Univeristy of Southern Denmark"],
-        },
-        knowsAbout: ["React", "JavaScript", "TypeScript", "PowerShell", "CI"],
-        knowsLanguage: ["da-DK", "en-US"],
-
-      }}
-    />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <slot name="head" />
   </head>
-  <body
-    class="min-h-full bg-background text-gray-900 antialiased transition dark:text-slate-50"
-  >
+  <body>
     <slot />
+    <div class="scroll-shadow"></div>
   </body>
 </html>
 
-<style is:global>
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
+<style>
+  .scroll-shadow {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 3rem;
+    width: 100%;
 
-  @layer base {
-    html {
-      --c-background: 246 246 246;
-      overflow-x: hidden;
-    }
-    html.dark {
-      --c-background: 12 16 19;
-    }
+    z-index: calc(var(--z-noshadow, 11) - 1);
+    background-color: var(--c-background);
+    mask-image: linear-gradient(to bottom, transparent, rgb(0 0 0 / 75%));
+    transition-property: background-color;
+    transition-timing-function: var(--easing-default);
+    transition-duration: var(--easing-default-duration);
 
-    *,
-    ::before,
-    ::after {
-      @apply dark:border-gray-800;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4 {
-      @apply font-headings scroll-mt-14;
-    }
-    h1:not(.no-dot)::after,
-    h2:not(.no-dot)::after {
-      @apply text-accent-700;
-      content: ".";
-    }
-
-    a:not(.icon) {
-      @apply no-underline bg-gradient-to-t from-accent-700/75 to-accent-700/75 bg-bottom bg-no-repeat bg-[length:100%_2px];
-
-      background-position: 0% 100%;
-      background-repeat: no-repeat;
-      background-size: 100% 2px;
-    }
-    a:not(.icon):hover,
-    a:not(.icon):focus-visible {
-      @apply from-accent-700 to-accent-700;
-    }
+    pointer-events: none;
   }
 </style>

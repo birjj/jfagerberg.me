@@ -1,22 +1,37 @@
+import { h, Fragment } from "preact";
 import { useEffect, useId } from "preact/hooks";
 import type { JSX } from "preact/jsx-runtime";
-import useDarkMode from "../hooks/use-darkmode";
+import useDarkMode from "../../hooks/use-darkmode";
+import useIsFirstRender from "../../hooks/use-isfirstrender";
 
 export type DarkModeToggleProps = JSX.IntrinsicElements["div"] & {};
 const DarkModeToggle = ({ ...props }: DarkModeToggleProps) => {
   const id = useId();
   const { isDarkMode, toggle } = useDarkMode(false);
+  const isFirstRender = useIsFirstRender();
 
   useEffect(() => {
+    if (isFirstRender) { return; } // applying the localstorage state on first render is handled elsewhere, to avoid FOUC
     document.documentElement.classList.toggle("dark", isDarkMode);
-  }, [isDarkMode]);
+    document.documentElement.setAttribute("data-theme", isDarkMode ? "github-dark" : "github-light");
+  }, [isDarkMode, isFirstRender]);
 
   const title = isDarkMode ? `Switch to light mode` : `Switch to dark mode`;
 
   return (
     <div {...props}>
       <button
-        class={`h-full px-2 items-center flex justify-center`}
+        style={{
+          height: "100%",
+          paddingBlock: "0.5rem",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "transparent",
+          border: "none",
+          cursor: "pointer",
+          color: "inherit"
+        }}
         type="button"
         onClick={toggle}
         title={title}
@@ -25,7 +40,8 @@ const DarkModeToggle = ({ ...props }: DarkModeToggleProps) => {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
-          class="w-5 h-5"
+          width="1.25rem"
+          height="1.25rem"
           stroke-linecap="round"
           stroke-width={2}
           stroke="currentColor"
@@ -40,9 +56,13 @@ const DarkModeToggle = ({ ...props }: DarkModeToggleProps) => {
               stroke="none"
             />
             <circle
-              class={`transition-transform duration-300 origin-center ease-[cubic-bezier(0.2,1,1,1.4)] ${
-                isDarkMode ? "" : "origin-[75%_25%] scale-0"
-              }`}
+              style={{
+                transitionProperty: "transform",
+                transitionDuration: "300ms",
+                transitionTimingFunction: "cubic-bezier(0.2,1,1,1.4)",
+                transformOrigin: isDarkMode ? "center" : "75% 25%",
+                transform: isDarkMode ? "scale(1)" : "scale(0)"
+              }}
               cx="14.5"
               cy="9.5"
               r="4"
@@ -54,19 +74,27 @@ const DarkModeToggle = ({ ...props }: DarkModeToggleProps) => {
             cx="12"
             cy="12"
             r="5"
-            class={`transition-transform duration-300 origin-center ease-[cubic-bezier(0.16,1.24,0.7,1.42)] ${
-              isDarkMode ? "scale-[2]" : "scale-100"
-            }`}
+            style={{
+              transitionProperty: "transform",
+              transitionDuration: "300ms",
+              transitionTimingFunction: "cubic-bezier(0.16,1.24,0.7,1.42)",
+              transformOrigin: "center",
+              transform: isDarkMode ? "scale(2)" : "scale(1)"
+            }}
             fill={isDarkMode ? "currentColor" : "none"}
             stroke={isDarkMode ? "none" : "currentColor"}
             mask={`url(#${id})`}
           />
           <g
-            class={`transition-transform duration-300 origin-center ${
-              isDarkMode
-                ? "scale-0 ease-[cubic-bezier(0,1,0,1)]"
-                : "scale-1 delay-100 ease-[cubic-bezier(0.2,1,1,1.4)]"
-            }`}
+            style={{
+              transitionProperty: "transform",
+              transitionDuration: "300ms",
+              transitionDelay: isDarkMode ? null : "100ms",
+              transitionTimingFunction: isDarkMode ? "cubic-bezier(0,1,0,1)" : "cubic-bezier(0.2,1,1,1.4)",
+              transformOrigin: "center",
+              transform: isDarkMode ? "scale(0)" : "scale(1)",
+
+            }}
           >
             <line x1="12" y1="1" x2="12" y2="3" />
             <line x1="12" y1="21" x2="12" y2="23" />

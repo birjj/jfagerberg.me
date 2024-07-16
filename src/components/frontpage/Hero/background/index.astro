@@ -7,8 +7,8 @@ const { ...props } = Astro.props;
 <canvas {...props} id="hero-bg"></canvas>
 
 <script>
-  import vertShader from "./shader.vert";
-  import fragShader from "./shader.frag";
+  import vertShader from "./shader.vert?raw";
+  import fragShader from "./shader.frag?raw";
   import AnimatedShaderCanvas, {
     type WebGLUniforms,
   } from "./animated-shader-canvas";
@@ -17,18 +17,20 @@ const { ...props } = Astro.props;
   // change colors when dark mode updates
   const COLORS: Record<string, [number, number, number][]> = {
     dark: [
-      [12, 16, 19],
-      [16, 20, 25],
-      [24, 28, 37],
-      [28, 32, 43],
-      [32, 36, 48],
+      [0, 0, 0],
+      [0, 50, 75],
+      [0, 87, 131],
+      [0, 137, 206],
+      // [0, 37, 56],
+      [0, 137, 206],
     ],
     light: [
-      [246, 246, 246],
-      [242, 242, 242],
-      [238, 238, 238],
-      [234, 234, 234],
-      [230, 230, 230],
+      [255, 255, 255],
+      [185, 223, 242],
+      [93, 180, 224],
+      [0, 137, 206],
+      // [232, 244, 251],
+      [0, 137, 206],
     ],
   };
   const colors = COLORS[
@@ -50,13 +52,16 @@ const { ...props } = Astro.props;
   });
 
   // change offset when the mouse moves
-  let scrollOffset = new EasedVec<1>([0], 500, x => 1 - Math.pow(1 - x, 3));
+  let scrollOffset = new EasedVec<1>([0], 500, (x) => 1 - Math.pow(1 - x, 3));
   let mousePos = (
     typeof window !== "undefined"
       ? [window.innerWidth / 2, window.innerHeight / 2]
       : [0, 0]
   ) as [number, number];
-  const throttle = <A extends any[], R extends any>(fn: (...args: A) => R, delay: number): (...args: A) => R | void => {
+  const throttle = <A extends any[], R extends any>(
+    fn: (...args: A) => R,
+    delay: number
+  ): ((...args: A) => R | void) => {
     let time = Date.now();
     let timeout: number | undefined = undefined;
     const throttled = (...args: A) => {
@@ -70,12 +75,15 @@ const { ...props } = Astro.props;
       } else if (timeout === undefined) {
         timeout = setTimeout(throttled, delay - delta);
       }
-    }
+    };
     return throttled;
-  } 
-  window.addEventListener("scroll", throttle((e) => {
-    scrollOffset.set([(document.documentElement || document.body).scrollTop]);
-  }, 150));
+  };
+  window.addEventListener(
+    "scroll",
+    throttle((e) => {
+      scrollOffset.set([(document.documentElement || document.body).scrollTop]);
+    }, 150)
+  );
   const pointerListener = (e: PointerEvent | TouchEvent) => {
     const { clientX, clientY } = "touches" in e ? e.touches[0] || {} : e;
     const pos = [clientX, clientY] as [number, number];

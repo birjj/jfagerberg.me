@@ -1,0 +1,41 @@
+---
+/** Replacement for <article> in blog posts. Primarily contains typography styling */
+export type Props = astroHTML.JSX.IntrinsicElements["article"];
+const { ...props } = Astro.props;
+---
+
+<article {...props}>
+  <slot />
+</article>
+
+<style>
+  article {
+    margin: 0 auto;
+    padding: 3.75rem 0; /* add a bit of padding to the top and bottom of the article for readability */
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  /* resize the article width and child inset as the screen becomes smaller */
+  article {
+    --article-max-width: 37rem;
+    --article-inset: 1rem; /* used by children to inset them, if they need to be */
+    max-width: var(--article-max-width);
+  }
+  @media (min-width: 45rem) {
+    article {
+      --article-inset: 2.5rem;
+      --article-max-width: 43.75rem;
+    }
+  }
+  @media (min-width: 60rem) {
+    article {
+      --article-max-width: 51.75rem;
+      --article-inset: 4rem;
+    }
+  }
+  /* inset children using low specificity, so they can easily overwrite it if they want to */
+  :global(:where(article) > :where(:not(img, figure, pre, .full-size))) {
+    margin-left: var(--article-inset);
+    margin-right: var(--article-inset);
+  }
+</style>
