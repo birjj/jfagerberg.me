@@ -1,6 +1,6 @@
 # [jfagerberg.me](https://jfagerberg.me) - Astro edition
 
-My personal website written using Astro, Preact and Tailwind.
+My personal website written using Astro and Preact.
 
 See branches of this repo for previous editions built on other technologies. I tend to use my personal website for exploring tech I find interesting.
 
