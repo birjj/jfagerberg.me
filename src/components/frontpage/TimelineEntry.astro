@@ -1,22 +1,42 @@
 ---
 export interface Props {
   time: string;
+  title: string;
 }
 
-const { time } = Astro.props;
-const timeWidth = Math.ceil(time.length / 9) * 4.5;
+const { time, title } = Astro.props;
+const timeWidth = Math.ceil(time.length / 6) * 6;
 ---
 
-<div
-  class="flex flex-col sm:flex-row py-4 prose-p:my-2 prose-headings:mt-0 prose-headings:leading-none"
->
-  <div
-    class="flex-shrink-0 text-base mr-4 opacity-75 tabular-nums"
-    style=`width: ${timeWidth}ch`
-  >
+<div class="wrapper">
+  <div class="left" style=`width: ${timeWidth}ch`>
     {time}
   </div>
-  <div class="flex-grow">
+  <div class="right">
+    <h3 class="title">{title}</h3>
     <slot />
   </div>
 </div>
+<style scoped>
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    padding-block: 1rem;
+    @media (min-width: 640px) {
+      flex-direction: row;
+    }
+  }
+
+  .left {
+    flex-shrink: 0;
+    margin-right: 1rem;
+    opacity: 0.75;
+    font-size: 1rem;
+  }
+  .right {
+    flex-grow: 1;
+  }
+  .title {
+    margin-top: 0;
+  }
+</style>

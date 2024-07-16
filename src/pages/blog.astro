@@ -4,21 +4,18 @@ import Layout from "../layouts/PageLayout.astro";
 import Title from "../components/blog/Title.astro";
 
 const blogEntries = await getCollection("blog");
-const activeBlogEntries = blogEntries.filter(post => !post.data.draft);
+const activeBlogEntries = blogEntries.filter((post) => !post.data.draft);
 ---
 
 <Layout title="Blog - Johan Fagerberg" active="blog">
-  <Title>My blog</Title>
-  <ul class="post-list">
+  <Title class="full-size">My blog</Title>
+  <ul class="post-list full-size">
     {
       activeBlogEntries
         .sort((a, b) => +b.data.date - +a.data.date)
         .map((entry) => (
           <li>
-            <a
-              href={entry.slug}
-              class="post"
-            >
+            <a href={entry.slug} class="post">
               <span class="post-background" />
               <span class="post-title">{entry.data.title}</span>
               <time class="post-date">
@@ -47,7 +44,7 @@ const activeBlogEntries = blogEntries.filter(post => !post.data.draft);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    column-gap: .25rem;
+    column-gap: 0.25rem;
     padding: 1rem 0;
     background-image: none !important; /* remove the underline, which normally applies to links */
   }

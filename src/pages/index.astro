@@ -14,9 +14,13 @@ import Hero from "../components/frontpage/Hero/index.astro";
 >
   <Hero />
   <div id="bypass-hero"></div>
-  <Navbar />
+  <Navbar
+    containerProps={{
+      class: "homepage-navbar",
+    }}
+  />
 
-  <main class="mt-8 mx-4 sm:mx-15vw pb-32 text-xl prose dark:prose-invert">
+  <main>
     <Section>
       <p>
         I'm Johan Fagerberg, a developer with an interest in automation,
@@ -31,7 +35,7 @@ import Hero from "../components/frontpage/Hero/index.astro";
 
     <Section>
       <h2 id="projects" data-header="Projects">Open Source Projects</h2>
-      <p class="!mb-8">
+      <p>
         Below are some of the open source projects I have been a leading
         developer on.<br />
         For the full list, see <a
@@ -88,8 +92,7 @@ import Hero from "../components/frontpage/Hero/index.astro";
 
     <Section>
       <h2 id="work" data-header="Work history">Work History</h2>
-      <TimelineEntry time="2023 +     ">
-        <h3>DevOps Engineer at KMD</h3>
+      <TimelineEntry time="2023 +     " title="DevOps Engineer at KMD">
         <p>
           Managed the cloud infrastructure, CI/CD processes and developer
           interfacing across multiple projects, supporting the application teams
@@ -102,8 +105,10 @@ import Hero from "../components/frontpage/Hero/index.astro";
           their workflows and application code to containers.
         </p>
       </TimelineEntry>
-      <TimelineEntry time="2022 - 2023">
-        <h3>RPA developer at Odense University Hospital</h3>
+      <TimelineEntry
+        time="2022 - 2023"
+        title="RPA developer at Odense University Hospital"
+      >
         <p>
           Headed the team responsible for process automation across a workforce
           of 8000+ healthcare workers. Responsible for projects ranging from
@@ -117,10 +122,10 @@ import Hero from "../components/frontpage/Hero/index.astro";
           issues as they occured.
         </p>
       </TimelineEntry>
-      <TimelineEntry time="2015 - 2019">
-        <h3 class="font-headings mt-0 leading-none">
-          Frontend developer at CleanManager
-        </h3>
+      <TimelineEntry
+        time="2015 - 2019"
+        title="Frontend developer at CleanManager"
+      >
         <p>
           Maintained and developed a web application consisting of multiple
           interwoven SPAs, and the related backends for each. Participated in
@@ -138,12 +143,14 @@ import Hero from "../components/frontpage/Hero/index.astro";
 
     <Section>
       <h2 id="education" data-header="Education">Education and Certificates</h2>
-      <TimelineEntry time="2023">
-        <h3>Certified Kubernetes Administrator (CKA)</h3>
-        <p></p>
-      </TimelineEntry>
-      <TimelineEntry time="2021">
-        <h3>BCompSc from University of Southern Denmark</h3>
+      <TimelineEntry
+        time="2023"
+        title="Certified Kubernetes Administrator (CKA)"
+      />
+      <TimelineEntry
+        time="2021"
+        title="BCompSc from University of Southern Denmark"
+      >
         <p>
           Final bachelor thesis was on Ɛ-differential privacy, a mathematical
           description of privacy-aware algorithms, and ways to achieve it.<br
@@ -176,7 +183,7 @@ import Hero from "../components/frontpage/Hero/index.astro";
           johanringmann@gmail.com</a
         >.
       </p>
-      <div class="mt-8 flex justify-center">
+      <div class="footer-wrapper">
         <a
           class="icon mr-8"
           href="https://github.com/birjj/"
@@ -184,7 +191,7 @@ import Hero from "../components/frontpage/Hero/index.astro";
           rel="noopener noreferrer"
           aria-label="Link to Johan Fagerberg's GitHub"
         >
-          <Icon name="simple-icons:github" class="w-12 h-12" />
+          <Icon name="simple-icons:github" class="footer-icon" />
         </a>
         <a
           class="icon"
@@ -193,7 +200,7 @@ import Hero from "../components/frontpage/Hero/index.astro";
           rel="noopener noreferrer"
           aria-label="Link to Johan Fagerberg's LinkedIn"
         >
-          <Icon name="simple-icons:linkedin" class="w-12 h-12" />
+          <Icon name="simple-icons:linkedin" class="footer-icon" />
         </a>
       </div>
     </Section>
@@ -223,3 +230,20 @@ import Hero from "../components/frontpage/Hero/index.astro";
     }
   </script>
 </Layout>
+
+<style scoped>
+  main {
+    margin-block-start: 2rem;
+    padding-block-end: 8rem; /* margin doesn't extend the page, so we use padding instead */
+  }
+  .footer-wrapper {
+    margin-block-start: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+  }
+  .footer-icon {
+    width: 3rem;
+    height: 3rem;
+  }
+</style>

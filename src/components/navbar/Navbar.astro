@@ -6,13 +6,17 @@ import DarkModeToggle from "./DarkModeToggle";
 
 export type Props = astroHTML.JSX.IntrinsicElements["header"] & {
   active?: "home" | "blog" | "none";
+  containerProps?: astroHTML.JSX.IntrinsicElements["div"];
 };
 
-const { active = "home", ...props } = Astro.props;
+const { active = "home", containerProps, ...props } = Astro.props;
 ---
 
 <header {...props}>
-  <div class="container">
+  <div
+    class={`container ${containerProps ? containerProps["class"] ?? "" : ""}`}
+    {...containerProps}
+  >
     <Item active={active === "home"} href="/" title="Go to homepage">
       <Icon name="jfagerberg" class="logo-icon" />
     </Item>

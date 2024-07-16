@@ -34,7 +34,7 @@ const { ...props } = Astro.props;
     }
   }
   /* inset children using low specificity, so they can easily overwrite it if they want to */
-  :global(:where(article) > :where(:not(img, figure, pre))) {
+  :global(:where(article) > :where(:not(img, figure, pre, .full-size))) {
     margin-left: var(--article-inset);
     margin-right: var(--article-inset);
   }
