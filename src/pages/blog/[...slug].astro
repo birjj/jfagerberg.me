@@ -18,7 +18,6 @@ export const getStaticPaths = (async () => {
     props: { entry },
   }));
 }) satisfies GetStaticPaths;
-type Params = InferGetStaticParamsType<typeof getStaticPaths>;
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 // then pull out data from the above paths
@@ -26,6 +25,11 @@ const { entry } = Astro.props;
 const { Content, headings } = await entry.render();
 ---
 
-<Layout title={entry.data.title} headings={headings} date={entry.data.date}>
+<Layout
+  title={entry.data.title}
+  headings={headings}
+  date={entry.data.date}
+  updated={entry.data.updated}
+>
   <Content components={{ blockquote: Quote }} />
 </Layout>

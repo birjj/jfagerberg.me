@@ -1,6 +1,7 @@
 ---
 title: Do cookie-free analytics need cookie compliance popups?
 date: 2022-06-09
+updated: 2024-07-16
 tags: ["analytics", "privacy"]
 ---
 
@@ -167,20 +168,6 @@ As we saw above, the IP address is considered traffic data which is explicitly c
 A similar story is true for [Plausible's algorithm](https://plausible.io/data-policy). It collects the following information: IP address, `User-Agent`, page URL, and referrer. Again the IP address requires consent according to the ePrivacy Directive, so we are in exactly the same boat as with Fathom: privacy-aware and cookie-free or not, a cookie popup is legally required. Even the people behind Plausible seem to be confused here, using (at the time of this writing) "No need for cookie banners or GDPR consent" as one of the titles on their landing page.
 
 Every other privacy-aware analytics solution I've found, including [Ackee](https://github.com/electerious/Ackee/blob/master/docs/Anonymization.md) and [Counter](https://github.com/ihucos/counter.dev#how-can-it-be-free), also uses data covered by the ePrivacy Directive.
-
----
-
-In the more general case, it's worth asking whether you _can_ implement fingerprint based analytics that don't use ePD-covered data.
-
-The goal of the fingerprint is to emulate the token from classic analytics: that is, to attach an identifier to each user, so we can know if we've seen them before. This identifier doesn't have to be _exactly_ unique -- we might accept a risk of error in edge cases, e.g. multiple people on the exact same type of device from the exact same IP -- but we _do_ want it to be somewhat accurate.
-
-Since we can't access any on-device data (e.g. canvas fingerprinting) without running afoul of the ePD, we'll have to make do with what's transmitted over the network.
-
-If we were allowed to use the IP address, then we'd be essentially home free! While it is possible for multiple users to come from the same IP (either because they're from the same physical location, or because they're behind a VPN or NAT), we can generally consider it a _good enough_ approximation if we also disambiguate requests based on the `User-Agent` and other HTTP headers.
-
-Since we aren't, we'd have to rely entirely on HTTP headers. Is this enough to uniquely identify individual users, at least down to a timescale of ~1 day (which appears to be a common interval for salt rotation in the privacy-aware analytics space)?
-
-Surprisingly... maybe? Although it'd definitely require research with a larger sample size than 1 to say with any confidence, a quick look at HTTP header fingerprints ([try for yourself](https://amiunique.org/fingerprint) if you're interested) indicates that just my `User-Agent` is only seen in 0.09% of requests. Combine it with other non-traffic headers, like `Referer` or `Accept-Language`, and we might have a _good enough_ approximation.
 
 ## Exemptions
 

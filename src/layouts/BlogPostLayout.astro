@@ -9,9 +9,10 @@ import Title from "../components/blog/Title.astro";
 export interface Props extends BaseLayoutProps {
   headings: MarkdownHeading[];
   date: Date;
+  updated?: Date;
 }
 
-const { title, headings, date, ...props } = Astro.props;
+const { title, headings, date, updated, ...props } = Astro.props;
 ---
 
 <BaseLayout {...props} title={title}>
@@ -29,7 +30,33 @@ const { title, headings, date, ...props } = Astro.props;
       <Title noDot={/[?!]$/.test(title)}>
         {title}
       </Title>
+      <p class="date">
+        Published {
+          date.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "2-digit",
+          })
+        }{
+          updated
+            ? ` — last updated ${updated.toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "2-digit",
+              })}`
+            : ""
+        }
+      </p>
       <slot />
     </Article>
   </main>
 </BaseLayout>
+<style>
+  .date {
+    display: flex;
+    align-items: center;
+    color: var(--c-text-secondary);
+    margin-top: -2rem;
+    font-size: 1rem;
+  }
+</style>
