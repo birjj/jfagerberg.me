@@ -3,15 +3,14 @@ import { getCollection } from "astro:content";
 import Layout from "../layouts/PageLayout.astro";
 import Title from "../components/blog/Title.astro";
 
-const blogEntries = await getCollection("blog");
-const activeBlogEntries = blogEntries.filter((post) => !post.data.draft);
+const blogEntries = (await getCollection("blog")).filter(post => !post.data.draft);
 ---
 
 <Layout title="Blog - Johan Fagerberg" active="blog">
-  <Title class="full-size">My blog</Title>
-  <ul class="post-list full-size">
+  <Title>My blog</Title>
+  <ul class="post-list">
     {
-      activeBlogEntries
+      blogEntries
         .sort((a, b) => +b.data.date - +a.data.date)
         .map((entry) => (
           <li>
