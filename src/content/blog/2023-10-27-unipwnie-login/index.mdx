@@ -2,7 +2,6 @@
 title: FE-CTF 2023 - Brute force ahoy
 date: 2023-10-27
 tags: ["article", "ctf"]
-draft: true
 ---
 
 import Base64Playground from "./_components/Base64Playground";
@@ -21,8 +20,6 @@ When first opening the challenge page, you're greeted by a simple login form wit
 The real deal wasn't quite as accessible as this is, and was hidden in the source code -- but I figured I shouldn't scare you away just yet.
 </Aside>
 <LoginForm client:idle />
-
-_(there was also a rule that the password couldn't contain any of a list of a few thousand words, but I've removed that from the example for simplicity)_
 
 Hoping against hope, I tried bypassing the validation and just submitting a password directly to the backend, but was met with a `403 Unauthorized`. That would've been too easy anyway. Guess we'll have to take another look at those password requirements.
 
@@ -53,17 +50,31 @@ Most common implementations of Base64 output padded results, appending `=` to th
 
 With this in mind, we can conclude a few things:
 
-1. The password's length must be divisible by 3. If it was not, the Base64 encoding would be padded with the `=` character, which isn't a lowercase letter.
-1. Since the sum of all digits must be 27, an uneven number, the palindrome must be of uneven length. Combined with knowing the length must be divisible by 3, and be between 10 and 20, this means that we know the password to be of length 15.
+1. The password's **length must be divisible by 3**. If it was not, the Base64 encoding would be padded with the `=` character, which isn't a lowercase letter. This means our palindrome length must be either 12, 15 or 18, as it must be between 10 or 20.
+
+1. If the palindromic password is of length 12 or 18, its Base64-triplets would be well-aligned, with the first 2 or 3 of them in the first half of the palindrome, and the last 2 or 3 in the mirrored half. This means that the triplets would be mirrored too.
+
+    Consider if such a password contained the character "`1`" (binary `00110001`):
+
+    - If it's found in the first spot in a Base64-triplet in the first half of the password, then the first 6 bits of its binary value (`001100`) must map to a lowercase letter in Base64. Since the triplets are mirrored in the last half, its last 6 bits (`110001`) must _also_ map to a lowercase letter.  
+        The same logic applies if it's found in the last spot of a triplet in the first half of the password.
+    - If it's found in the center spot in a Base64-triplet, then the first 4 bits of its binary value (`0011`) must be the ending of at least one of the lowercase letter mappings, and the last 4 bits of its binary value (`0001`) must be the start of one.
+
+    It turns out that, out of the 10 digit characters available, only "6", "7", "8" and "9" are valid under the above observation. If the password length is even, those are the only digits available to us.
+
+    Since the sum of digits in the password must be 1, 8 or 27 (the only cube numbers we can sum to with our length of password), which we can only sum to by using an odd number of the valid digits, we can conclude that **the length of the password must be 15**.
+
+1. As one of the requirements is to have 8 unique characters, and our password is a palindrome of length 15, **the first half of the palindrome cannot have any duplicate characters**.
+
 1. Encoding characters are locked once every bit representing them has been covered by an input bit. When brute forcing our password we can use this to quickly discard any branches that encode into a character we don't want.
-1. As one of the requirements is to have 8 unique characters, and our password is a palindrome of length 15, the first half of the palindrome cannot have any duplicate characters.
 
 Although not enough to get us all the way to our final password, this can be used to significantly lower the cost of brute forcing.
 
 ## Limiting our search space
 
-To use the above observations to cut down on our brute force work, we'll slowly build up passwords one character at a time until we reach a length of 15. We'll be careful to only use characters that maintain the lowercase-only Base64 encoding.  
-This means we'll only have to check strings that at the very least encode to the right format, saving us the work of diving into any branches that start with e.g. `a` (as that'll always encode into a Base64 string starting with `Y`).
+To use the above observations to cut down on our brute force work, we'll slowly build up passwords one character at a time until we reach a length of 15. We'll be careful to only use characters that maintain the lowercase-only Base64 encoding.
+
+This means we'll only have to check strings that at the very least encode to the right format, saving us the work of diving into any branches that start with e.g. "`a`" (as that'll always encode into a Base64 string starting with "`Y`").
 
 We can implement it using simple bit-checking, filtering out any characters that would create a 6-bit group that doesn't represent a lowercase letter in Base64:
 
@@ -91,16 +102,17 @@ const generateStrings = (currentString, targetLength) => {
 
 Unfortunately, this still turned out to be slightly too slow to be reasonable. Clearly, there was still work to do.
 
-To further limit the search space we can consider the requirement that the password must be a palindrome.  
+---
+
+To further limit the search space we can consider the requirement that the password must be a palindrome, similar to what we did to rule out even-length passwords.
+
 Currently, we only check if the encoding works on the password as we build it up - but since we know that the password will eventually be reversed and added to itself to make a palindrome, we can also check that it encodes correctly in the reverse direction.
 
-We don't know what offset the latter half will be at, so we'll simply test each of the three possible offsets and abort if none of them work:
-
-<div class="aside-container"><aside style="top:-4.75rem">
-
+<Aside>
 _We actually know that it'll be offset by 4 bits since we know the password to be 15 characters long. Unfortunately, I didn't realize this at the time - CTF brain fog 🤷_
+</Aside>
 
-</aside></div>
+We don't know what offset the latter half will be at, so we'll simply test each of the three possible offsets and abort if none of them work:
 
 ```javascript
 // The ASCII characters we can use in our password are represented by char codes 32-126,
@@ -153,7 +165,7 @@ getValidPasswords();
 // ["o'knXjs8sjXnk'o", "o'sjXnk8knXjs'o", "o(knXjs8sjXnk(o", ...]
 ```
 
-Trying to use one of them in the login form only passed the frontend validation, returning a 403 Forbidden from the backend. This was exactly the same error as would be given if we bypassed the client-side validation and submitted an invalid password.
+Trying to use one of them in the login form only passed the frontend validation, returning a `403 Forbidden` from the backend. This was exactly the same error as would be given if we bypassed the client-side validation and submitted an invalid password.
 
 Luckily this was easily solved by trying each of the valid passwords, which showed that the backend accepted exactly one of them:
 
@@ -170,4 +182,4 @@ getValidPasswords()
 
 Why the backend would accept arbitrary usernames, but only one password, is a mystery that isn't meant to be solved ;)
 
-Entering the successful password gave us the flag, earning us a few points for the leaderboard../_components/LoginForm/LoginForm
+Entering the successful password gave us the flag, earning us a few points for the leaderboard.

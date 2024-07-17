@@ -29,6 +29,7 @@ const LoginForm = () => {
             flexDirection: "row",
             alignItems: "center",
             gap: "1rem",
+            marginBlockEnd: "1rem",
           }}
         >
           Enter password:
