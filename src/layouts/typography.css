@@ -81,7 +81,6 @@ img:not(.no-shadow) {
 
 /* paragraphs */
 p {
-  color: var(--c-text, #333);
   margin-top: 0;
   margin-bottom: 1.75rem;
   position: relative;
@@ -90,7 +89,6 @@ p {
 p:empty {
   display: none;
 }
-
 
 /* links */
 a {
@@ -105,7 +103,8 @@ a {
 }
 
 /* lists */
-ul, ol {
+ul,
+ol {
   padding-left: 2rem;
 }
 li::marker {
@@ -115,7 +114,9 @@ li::marker {
 dl dt {
   font-weight: 600;
 }
-dl dt > p:only-child { margin-bottom: 0; }
+dl dt > p:only-child {
+  margin-bottom: 0;
+}
 dl dd {
   margin-bottom: 1.75rem;
   padding-inline: 1rem;
@@ -130,27 +131,23 @@ dl > :where(dd, dt) > ul {
 
 /* tables */
 table {
-  width: calc(100% - 2 * var(--article-inset));
+  width: 100%;
   padding: initial;
-  margin-left: var(--article-inset);
-  margin-right: var(--article-inset);
   border-collapse: collapse;
   margin-bottom: 1.25rem;
 }
-td, th {
+td,
+th {
   border-left: 1px solid var(--c-border);
   padding: 0.25rem 0.5rem;
 }
-td:first-child, th:first-child {
+td:first-child,
+th:first-child {
   border-left: none;
 }
 th {
   border-bottom: 2px solid var(--c-border);
-  border-bottom-color: color-mix(
-    in oklch,
-    var(--c-border) 90%,
-    var(--c-text)
-  );
+  border-bottom-color: color-mix(in oklch, var(--c-border) 90%, var(--c-text));
 }
 
 /* horizontal rulers become a small accent dash */
@@ -160,4 +157,18 @@ hr {
   padding: 0;
   width: 2rem;
   margin: 0 auto 1.75rem;
+}
+
+/* inputs */
+input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid oklch(var(--c-accent-oklch) / 50%);
+  border-radius: 4px;
+}
+input:focus-visible {
+  border-color: var(--c-accent);
+}
+input[disabled] {
+  border-color: var(--c-border);
+  background: var(--c-border);
 }

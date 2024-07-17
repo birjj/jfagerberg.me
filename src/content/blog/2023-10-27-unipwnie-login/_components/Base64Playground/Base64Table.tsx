@@ -9,11 +9,10 @@ const Base64Table = ({
   const encoded = fromBits(bits);
 
   return (
-    <div className="max-w-full overflow-x-auto">
+    <div style={{ maxWidth: "100%", overflowX: "auto", fontSize: "0.9rem" }}>
       <table
-        className={`${
-          props.className || ""
-        } text-center border not-prose text-sm border-slate-400/50 dark:border-slate-600/50`}
+        style={{ textAlign: "center", border: "2px solid var(--c-border)" }}
+        {...props}
       >
         <tbody>
           <InputRow value={value} />
@@ -37,7 +36,7 @@ const InputRow = ({ value }: { value: string }) => {
           Text (ASCII)
         </Cell>
         {mapPadded(value.split(""), 3, (c, i, _, isPadding) => (
-          <Cell key={i} colSpan={8} className="border-0">
+          <Cell key={i} colSpan={8} style={{ border: "none" }}>
             {c}
           </Cell>
         ))}
@@ -96,7 +95,7 @@ const OutputRow = ({ value }: { value: string }) => {
           Character
         </Cell>
         {mapPadded(value.split(""), 4, (c, i, _, isPadding) => (
-          <Cell className="border-0" key={i} colSpan={6}>
+          <Cell style={{ border: "none" }} key={i} colSpan={6}>
             {c || "="}
           </Cell>
         ))}
@@ -111,15 +110,31 @@ const Cell = (
     isPadding?: boolean;
   },
 ) => {
-  const { className = "", isHeader, isPadding, ...rest } = props;
+  const { isHeader, isPadding, ...rest } = props;
+  const background = isPadding
+    ? "oklch(var(--c-border-oklch) / 50%)"
+    : isHeader
+      ? "oklch(var(--c-border-oklch) / 25%)"
+      : "var(--c-background)";
+  const textAlign = isPadding ? "center" : "";
+  const fontFamily = isHeader ? "" : "var(--font-mono, monospace)";
+  const style = {
+    background,
+    textAlign,
+    fontFamily,
+    border: "2px solid var(--c-border)",
+    paddingBlock: "0.2em",
+    paddingInline: "0.4em",
+  };
+  /*
   const fullClass = `${className} ${
     isPadding ? "bg-slate-400/10 text-center" : ""
   } ${isHeader ? "bg-slate-400/25 font-bold" : "font-mono"} ${
     !isPadding && !isHeader ? "bg-white dark:bg-black" : ""
-  } border border-slate-400/50 dark:border-slate-600/50 py-[0.2em] px-[0.4em]`;
+  } border border-slate-400/50 dark:border-slate-600/50 py-[0.2em] px-[0.4em]`;*/
   return isHeader ? (
-    <th {...rest} className={fullClass} />
+    <th {...rest} style={style} />
   ) : (
-    <td {...rest} className={fullClass} />
+    <td {...rest} style={style} />
   );
 };

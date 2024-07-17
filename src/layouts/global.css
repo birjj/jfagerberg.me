@@ -1,6 +1,6 @@
 /** Root variables */
 :root {
-  --font-sans: 'Overpass Variable', ui-sans-serif, system-ui, -apple-system,
+  --font-sans: "Overpass Variable", ui-sans-serif, system-ui, -apple-system,
     BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol,
     "Noto Color Emoji";
@@ -8,6 +8,8 @@
     BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol,
     "Noto Color Emoji";
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
   --font-lineheight: 1.725em;
 
   --easing-default: cubic-bezier(0.4, 0, 0.2, 1);
@@ -32,10 +34,11 @@ html {
   --c-accent: #0089ce;
   --c-accent-oklch: 60% 0.14 241;
   --c-border: #e5e7eb;
+  --c-border-oklch: 92.75% 0 264.5;
   --c-selection-bg: oklch(var(--c-accent-oklch) / 35%);
 }
 html.dark {
-  --c-text: #E8E8E8;
+  --c-text: #e8e8e8;
   --c-text-oklch: 93.1% 0 0;
   --c-text-emphasis: #fff;
   --c-text-secondary: #aaa;
@@ -48,6 +51,7 @@ html.dark {
 *::before,
 *::after {
   box-sizing: inherit;
+  border-color: var(--c-border);
 }
 
 /** Styling */
