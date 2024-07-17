@@ -147,7 +147,7 @@ const requirements: Requirement[] = [
     test: (v) => v.length >= 10 && v.length <= 20,
   },
   {
-    text: () => "Must contain an unbroken sequence of letters of length 5",
+    text: (v) => `Must contain an unbroken sequence of 5 letters (${letterStreak(v)})`,
     test: (v) => letterStreak(v) >= 5,
   },
   {
@@ -159,7 +159,7 @@ const requirements: Requirement[] = [
     test: isPalindrome,
   },
   {
-    text: () => "Base64 encoding must contain only lowercase letters",
+    text: (v) => `Base64 encoding must contain only lowercase letters ${v ? "("+btoa(v)+")" : ""}`,
     test: b64AllLower,
   },
 ];
