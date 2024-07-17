@@ -3,30 +3,67 @@ import { getCollection } from "astro:content";
 import Layout from "../layouts/PageLayout.astro";
 import Title from "../components/blog/Title.astro";
 
-const blogEntries = (await getCollection("blog")).filter(post => !post.data.draft);
+const blogEntries = (await getCollection("blog"))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => +b.data.date - +a.data.date);
+const articles = blogEntries.filter((entry) =>
+  entry.data.tags.includes("article")
+);
+const tutorials = blogEntries.filter((entry) =>
+  entry.data.tags.includes("tutorial")
+);
+const rest = blogEntries.filter(
+  (v) => !articles.includes(v) && !tutorials.includes(v)
+);
+if (rest.length) {
+  throw new Error(
+    `Expected all blog entries to either be articles or tutorials, but found additional:\n${rest
+      .map((v) => v.id)
+      .join("\n")}`
+  );
+}
 ---
 
 <Layout title="Blog - Johan Fagerberg" active="blog">
   <Title>My blog</Title>
+  <h2>Articles</h2>
   <ul class="post-list">
     {
-      blogEntries
-        .sort((a, b) => +b.data.date - +a.data.date)
-        .map((entry) => (
-          <li>
-            <a href={entry.slug} class="post">
-              <span class="post-background" />
-              <span class="post-title">{entry.data.title}</span>
-              <time class="post-date">
-                {entry.data.date.toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "short",
-                  day: "2-digit",
-                })}
-              </time>
-            </a>
-          </li>
-        ))
+      articles.map((entry) => (
+        <li>
+          <a href={entry.slug} class="post">
+            <span class="post-background" />
+            <span class="post-title">{entry.data.title}</span>
+            <time class="post-date">
+              {entry.data.date.toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "2-digit",
+              })}
+            </time>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+  <h2>Tutorials</h2>
+  <ul class="post-list">
+    {
+      tutorials.map((entry) => (
+        <li>
+          <a href={entry.slug} class="post">
+            <span class="post-background" />
+            <span class="post-title">{entry.data.title}</span>
+            <time class="post-date">
+              {entry.data.date.toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "2-digit",
+              })}
+            </time>
+          </a>
+        </li>
+      ))
     }
   </ul>
 </Layout>
@@ -34,6 +71,7 @@ const blogEntries = (await getCollection("blog")).filter(post => !post.data.draf
   .post-list {
     list-style: none;
     padding: 0;
+    margin-block-end: 8rem;
 
     display: flex;
     flex-direction: column;

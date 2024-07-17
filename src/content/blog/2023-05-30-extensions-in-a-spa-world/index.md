@@ -1,7 +1,7 @@
 ---
 title: A framework for page-modifying web extensions in an SPA-world
 date: 2023-05-30
-tags: ["web-extensions"]
+tags: ["article", "web-extensions"]
 draft: true
 ---
 

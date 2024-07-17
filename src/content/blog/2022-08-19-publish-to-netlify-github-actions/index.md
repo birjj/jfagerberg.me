@@ -1,7 +1,7 @@
 ---
 title: Publishing to Netlify from a private, organization-owned repository
 date: 2022-08-19
-tags: ["automation"]
+tags: ["tutorial", "automation"]
 ---
 
 Netlify [recently announced](https://www.netlify.com/pricing/private-org-repo-faq/) that they're limiting the building of private, organization-owned GitHub repositories to their Pro plan. Repositories for the free plan must now be either public or under a personal GitHub account.

@@ -1,7 +1,7 @@
 ---
 title: Self-hosting Chrome extensions in 2022 and beyond
 date: 2022-06-21
-tags: ["web-extensions", "automation"]
+tags: ["tutorial", "web-extensions", "automation"]
 ---
 
 When I made my first extension back in ye olden days -- in the times of 30°C summers and $1.5 Costco hot dog meals -- Google allowed developers to self-host Chrome extensions. This allowed users to install extensions directly from their website, without having to go through the Chrome Web Store.
