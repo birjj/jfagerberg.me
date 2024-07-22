@@ -27,6 +27,7 @@ vec4 taylorInvSqrt(vec4 r)
   return 1.79284291400159 - 0.85373472095314 * r;
 }
 
+/** Returns a noise value in the range [-1.0,1.0] */
 float snoise(vec3 v)
   {
   const vec2  C = vec2(1.0/6.0, 1.0/3.0) ;
@@ -102,44 +103,73 @@ float snoise(vec3 v)
                                 dot(p2,x2), dot(p3,x3) ) );
   }
 
-/** Gets the noise value at a particular point (potentially manipulated by e.g. mouse position or closeness to edge) */
-float getNoise(vec3 point, float distFromMouse) {
-  vec2 normalized_pos = point.xy / u_resolution;
-  normalized_pos.x *= u_resolution.x / u_resolution.y; // remove stretching
-  
-  float maxRes = min(u_resolution.x, u_resolution.y);
-  float scale = 1.0 - (smoothstep(0.0, maxRes * 1.25, distFromMouse) + pow(smoothstep(0.0, maxRes * 0.67, distFromMouse), 0.25)) / 2.0;
+/* ============ */
 
-  float n = snoise(vec3(normalized_pos, point.z));
-  return (n + 1.0) * scale - 1.0;
+/** Easing, x in [0.0,1.0], out [0.0,1.0] -- easeInOutSine https://easings.net/#easeInOutSine */
+#ifndef PI
+#define PI 3.141592653589793
+#endif
+#ifndef HALF_PI
+#define HALF_PI 1.5707963267948966
+#endif
+float easeInOutSine(float x) {
+  x = clamp(x, 0.0, 1.0);
+  return sin((x - 1.0) * HALF_PI) + 1.0;
 }
 
-/** Picks one of the uniform colors based on a value in the range [-1.0;1.0] */
-vec3 pickColor(vec2 point, float time) {
+/** Edges contribute a value in the range [0.0,1.0]. This calculates it in a nice inner-shadow like way */
+float getEdgeValue(vec2 point) {
+  const float edgeOffsetLimit = 0.1; // add offsets if within 10% of border
+  const float edgePower = 0.5;
+  float distToEdgeX = clamp(min(point.x, u_resolution.x - point.x) / (u_resolution.x * edgeOffsetLimit), 0.0, 2.0);
+  float distToEdgeY = clamp(min(point.y, u_resolution.y - point.y) / (u_resolution.y * edgeOffsetLimit), 0.0, 2.0);
+  return clamp(0.5 - pow(distToEdgeX, edgePower) * pow(distToEdgeY, edgePower), 0.0, 1.0);
+}
+
+/** The mouse contributes a value in the range [0.0,1.0]. This calculates it */
+float getMouseValue(vec2 point) {
+  float distFromMouse = distance(point.xy, vec2(u_mousepos.x, u_resolution.y - u_mousepos.y));
+  float maxRes = min(u_resolution.x, u_resolution.y);
+  float scale = 1.0 - (smoothstep(0.0, maxRes * 1.25, distFromMouse) + pow(smoothstep(0.0, maxRes * 0.67, distFromMouse), 0.25)) / 2.0;
+  return scale;
+}
+
+/** Combines two distance values in the range [0.0,1.0] in a metaball-like effect */
+float combineValues(float distA, float distB) {
+  return distA * distB;
+}
+
+/** Returns the color for the given noise value in range [0.0,1.0] */
+vec3 classifyColor(float value) {
   vec3 c1 = u_color1 / 255.0;
   vec3 c2 = u_color2 / 255.0;
   vec3 c3 = u_color3 / 255.0;
   vec3 c4 = u_color4 / 255.0;
   vec3 c5 = u_color5 / 255.0;
 
-  float maxRes = min(u_resolution.x, u_resolution.y);
-  float distFromMouse = distance(point.xy, vec2(u_mousepos.x, u_resolution.y - u_mousepos.y));
-  if (distFromMouse > maxRes * 1.0) {
-    return c1;
-  }
-
   vec3 c = c1;
-  float noise = getNoise(vec3(point, time), distFromMouse);
-  c = mix(c, c2, step(-0.6, noise));
-  c = mix(c, c3, step(-0.2, noise));
-  c = mix(c, c4, step(0.2, noise));
-  c = mix(c, c5, step(0.6, noise));
+  c = mix(c, c2, step(0.2, value));
+  c = mix(c, c3, step(0.4, value));
+  c = mix(c, c4, step(0.6, value));
+  c = mix(c, c5, step(0.8, value));
   return c;
 }
 
-void main() {  
+/** Gets a noise value in range [0.0,1.0] for the given screen coordinate  */
+float getNoise(vec2 point) {
   float time = u_time / 25000.0;
-  
-  gl_FragColor = vec4(pickColor(gl_FragCoord.xy, time), 1.0);
+  vec2 normalized_pos = point.xy / u_resolution;
+  normalized_pos.x *= u_resolution.x / u_resolution.y; // remove stretching
+
+  return (snoise(vec3(normalized_pos, time)) + 1.0) / 2.0;
+}
+
+void main() {  
+  float noise = getNoise(gl_FragCoord.xy);
+  float mouseScaling = getMouseValue(gl_FragCoord.xy);
+  float edgeScaling = getEdgeValue(gl_FragCoord.xy) * mouseScaling;
+  float scaling = mouseScaling + pow(edgeScaling, 2.0);
+  vec3 color = classifyColor(noise * scaling);
+  gl_FragColor = vec4(color, 1.0);
   return;
 }
