@@ -111,10 +111,9 @@ const Cell = (
   },
 ) => {
   const { isHeader, isPadding, ...rest } = props;
-  const background = isPadding
-    ? "oklch(var(--c-border-oklch) / 50%)"
-    : isHeader
-      ? "oklch(var(--c-border-oklch) / 25%)"
+  const background =
+    isPadding || isHeader
+      ? "var(--c-background-secondary)"
       : "var(--c-background)";
   const textAlign = isPadding ? "center" : "";
   const fontFamily = isHeader ? "" : "var(--font-mono, monospace)";

@@ -31,6 +31,7 @@ html {
   --c-text-secondary: #666;
   --c-background: #fff;
   --c-background-oklch: 100% 0 0;
+  --c-background-secondary: #f5f7fb;
   --c-accent: #0089ce;
   --c-accent-oklch: 60% 0.14 241;
   --c-error: #d92828;
@@ -45,6 +46,7 @@ html.dark {
   --c-text-secondary: #aaa;
   --c-background: #0c1013;
   --c-background-oklch: 17% 0.01 240.5;
+  --c-background-secondary: #18212b;
   --c-border: #1f2937;
 }
 
