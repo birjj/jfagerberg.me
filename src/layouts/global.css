@@ -33,6 +33,7 @@ html {
   --c-background-oklch: 100% 0 0;
   --c-accent: #0089ce;
   --c-accent-oklch: 60% 0.14 241;
+  --c-error: #d92828;
   --c-border: #e5e7eb;
   --c-border-oklch: 92.75% 0 264.5;
   --c-selection-bg: oklch(var(--c-accent-oklch) / 35%);

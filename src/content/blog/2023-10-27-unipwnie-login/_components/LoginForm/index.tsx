@@ -21,6 +21,7 @@ const LoginForm = () => {
           width: "100%",
           marginBlockEnd: "1.75rem",
           paddingBlock: "1.75rem",
+          paddingInline: "1rem",
         }}
       >
         <label

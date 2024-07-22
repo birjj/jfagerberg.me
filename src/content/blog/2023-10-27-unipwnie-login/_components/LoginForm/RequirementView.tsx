@@ -14,7 +14,7 @@ const RequirementView = ({
     <p
       style={{
         margin: "0",
-        color: result ? "var(--c-text-secondary)" : "red",
+        color: result ? "var(--c-text-secondary)" : "var(--c-error)",
         fontSize: "1rem",
         visibility: show ? "" : "hidden",
         opacity: show ? 1 : 0,

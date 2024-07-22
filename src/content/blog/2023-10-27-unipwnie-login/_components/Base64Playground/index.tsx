@@ -19,6 +19,7 @@ const Base64Playground = () => {
       style={{
         marginBlockEnd: "1.75rem",
         paddingBlock: "1.75rem",
+        paddingInline: "1rem",
       }}
     >
       <label
