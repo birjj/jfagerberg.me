@@ -1,9 +1,10 @@
 import { useState } from "preact/hooks";
 import Base64Input from "./Base64Input";
 import Base64SVG from "./Base64SVG";
+import Base64SVG2 from "./Base64SVG2";
 
 const Base64Playground = () => {
-  const [value, setValue] = useState("Ma");
+  const [value, setValue] = useState("Tryme");
 
   const blocks = [];
   for (let i = 0; i < value.length; i += 3) {
@@ -18,8 +19,8 @@ const Base64Playground = () => {
       className="full-size"
       style={{
         marginBlockEnd: "1.75rem",
-        paddingBlock: "1.75rem",
         paddingInline: "1rem",
+        paddingBlockStart: "1.75rem",
       }}
     >
       <label

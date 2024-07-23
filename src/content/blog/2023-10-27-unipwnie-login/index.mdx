@@ -40,19 +40,19 @@ Although there are many ways to cut down on the required work, it seemed like th
 
 [Base64](https://en.wikipedia.org/wiki/Base64) is an encoding algorithm that takes arbitrary binary data (in our case this is the binary representation of our password) and turns it into a string consisting only of a subset of ASCII characters.
 
-It does this by splitting up the binary data into groups of 6 bits each (and padding with `0` if it doesn't split nicely). Each of these sextets can be represented by one of $2^6 = 64$ pre-chosen ASCII characters.
+It does this by taking the input binary data and padding it with `0` until its length is dividable by 6. It then looks at each sextet of 6 bits in the binary data, and mapping them to one of $2^6 = 64$ pre-chosen ASCII characters.
+
+Since we usually work with bytes of length 8, this creates a 3-to-4 compression ratio: 3 input bytes, totalling 24 bits, become 4 output ASCII characters. Since the reverse process should decode into a whole number of bytes, most implementations pad the encoding with `=` until its length is divisible by 4.
 
 import Base64Lookup from "./base64_lookup.svg?raw";
+
+<Base64Playground client:visible />
 
 <Figure>
   <Fragment set:html={Base64Lookup} />
 </Figure>
 
 In our case, we want a password that only contains sextets ranging from `011010` (26) to `110011` (51), as those are the ones that are represented by lowercase letters a-z.
-
-Most common implementations of Base64 output padded results, appending `=` to the encoded output until its length is divisible by 4: this ensures that the Base64 representation represents a whole number of our usual 8-bit bytes.
-
-<Base64Playground client:visible />
 
 ### Back to our thoughts
 
