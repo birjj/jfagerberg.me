@@ -1,6 +1,6 @@
 import { useState } from "preact/hooks";
-import Base64Table from "./Base64Table";
 import Base64Input from "./Base64Input";
+import Base64SVG from "./Base64SVG";
 
 const Base64Playground = () => {
   const [value, setValue] = useState("Ma");
@@ -28,7 +28,7 @@ const Base64Playground = () => {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
-          marginBlockEnd: "1rem",
+          marginBlockEnd: "1.75rem",
         }}
       >
         <Base64Input value={value} onUpdate={setValue} /> encodes as{" "}
@@ -45,19 +45,7 @@ const Base64Playground = () => {
         ></input>
       </label>
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          width: "100%",
-          gap: "1rem",
-        }}
-      >
-        {blocks.map((block, i) => {
-          return <Base64Table value={block} key={i} />;
-        })}
-      </div>
+      <Base64SVG value={value} />
     </div>
   );
 };

@@ -7,6 +7,7 @@ tags: ["article", "ctf"]
 import Base64Playground from "./_components/Base64Playground";
 import LoginForm from "./_components/LoginForm";
 import Aside from "../../../components/blog/Aside.astro";
+import Figure from "../../../components/blog/Figure.astro";
 
 This is my write-up for the 2023 CTF qualifier held by the Danish Defence Intelligence Service: [The UniPwnie Experience](https://fe-ctf.dk/). This was an open CTF event, with the top 10 teams being invited to an in-person event.
 
@@ -40,6 +41,13 @@ Although there are many ways to cut down on the required work, it seemed like th
 [Base64](https://en.wikipedia.org/wiki/Base64) is an encoding algorithm that takes arbitrary binary data (in our case this is the binary representation of our password) and turns it into a string consisting only of a subset of ASCII characters.
 
 It does this by splitting up the binary data into groups of 6 bits each (and padding with `0` if it doesn't split nicely). Each of these sextets can be represented by one of $2^6 = 64$ pre-chosen ASCII characters.
+
+import Base64Lookup from "./base64_lookup.svg?raw";
+
+<Figure>
+  <Fragment set:html={Base64Lookup} />
+</Figure>
+
 In our case, we want a password that only contains sextets ranging from `011010` (26) to `110011` (51), as those are the ones that are represented by lowercase letters a-z.
 
 Most common implementations of Base64 output padded results, appending `=` to the encoded output until its length is divisible by 4: this ensures that the Base64 representation represents a whole number of our usual 8-bit bytes.
