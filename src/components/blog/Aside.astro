@@ -30,6 +30,9 @@ const { "data-left": left = false, class: className, ...props } = Astro.props;
     overflow-wrap: break-word;
     word-break: break-word;
   }
+  aside > :global(*) {
+    margin-bottom: 1rem;
+  }
   /* on bigger screens we position them next to the text */
   @media (min-width: 90rem) {
     /* breakpoint should be at `calc(--article-max-width + 10rem + small buffer)` - in this case we've used a buffer of 1rem */
@@ -48,6 +51,9 @@ const { "data-left": left = false, class: className, ...props } = Astro.props;
     aside.left {
       position: absolute;
       right: 100%;
+    }
+    aside :global(blockquote) {
+      margin-inline: 0;
     }
   }
 </style>

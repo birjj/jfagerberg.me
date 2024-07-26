@@ -109,6 +109,16 @@ The more concerning article in that context is [Article 6](https://eur-lex.europ
 > 
 > <Aside>"Value added service" is defined as "any service which requires the processing of traffic data or location data other than traffic data beyond what is necessary for the transmission of a communication or the billing thereof</Aside>**Article 6(5).**  Processing of traffic data [...] must be restricted to persons acting under the authority of providers [...] handling billing or traffic management, customer enquiries, fraud detection, marketing electronic communications services or providing a value added service, and must be restricted to what is necessary for the purposes of such activities.
 
+<Aside>
+**Update:** In 2023 the EDPB released [an opinion](https://www.edpb.europa.eu/system/files/2023-11/edpb_guidelines_202302_technical_scope_art_53_eprivacydirective_en.pdf) on the applicability of Article 5(3) in various technical situations, including for IP-only tracking. They conclude that:
+
+> **54.** [In the context of IP-only tracking] Article 5(3) ePD could apply even though the instruction to make the IP
+available has been made by a different entity than the receiving one.  
+> **55.** [...] the static outbound IPv4 originating from a user's router would fall within that case, as well as IPV6 addresses [...]. Unless the entity can ensure that the IP address does not originate from the terminal equipment of a user or subscriber, it has to take all the steps pursuant to the Article 5(3) ePD
+
+This supports my prior analysis, ruling out processing user IPs without asking for consent.
+</Aside>
+
 This is a bit of a bigger blocker for fingerprint-based analytics. Without processing traffic data, which IP addresses presumably fall under, it gets a whole lot harder to fingerprint individual users.
 
 Site owners might argue that they fall under one of the permitted use cases, but for my use case that didn't seem to be the case: analytics isn't billing or traffic management, nor is it handling customer enquiries. _Some_ analytics probably fall under the fraud detection umbrella, but the simplistic analytics I'm interested in certainly don't. The last two permitted use cases, marketing our web services and "providing a value added service", require user consent anyway -- so even though we can argue to fall into one of those two, they aren't of much help in avoiding "cookie banners".
@@ -144,6 +154,14 @@ In the same opinion, they also briefly mention the act of fingerprinting using H
 These might actually be possible to use without any consent requirements. It could be argued that reading these headers isn't gaining access to data stored on the user's terminal equipment, since they're automatically sent by the user's device to the server. It could further be argued that they aren't traffic data. For example, the [RFC 9110 specification](https://www.rfc-editor.org/rfc/rfc9110#field.user-agent) describes the `User-Agent` header as follows:
 
 > The "User-Agent" header field contains information about the user agent originating the request, which is often used by servers to help identify the scope of reported interoperability problems, to work around or tailor responses to avoid particular user agent limitations, and for analytics regarding browser or operating system use.
+
+<Aside>
+**Update:** HTTP headers including `User-Agent` are briefly noted in [the recent 2023 EDPB opinion](https://www.edpb.europa.eu/system/files/2023-11/edpb_guidelines_202302_technical_scope_art_53_eprivacydirective_en.pdf):
+
+> The application protocol can include several mechanisms to provide context data (such as HTTP header including 'accept' field or user agent) [...]. Once again, the abuse of those mechanisms (for example in the context of fingerprinting or the tracking of resource identifiers) can lead to the application of Article 5(3) ePD.
+
+This seems to imply that HTTP headers cannot be used without consent either.
+</Aside>
 
 This seems to specifically describe it as being sent for non-traffic purposes.
 
