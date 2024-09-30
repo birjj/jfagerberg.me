@@ -1,0 +1,73 @@
+---
+title: GitHub Actions - Reusable workflows vs. custom actions
+date: 2024-09-30
+tags: ["article", "github-actions"]
+draft: true
+---
+
+import Figure from "../../../components/blog/Figure.astro";
+
+If you've ever been in a DevOps team for an organization that uses GitHub, you've likely ran into both GitHub Action's [reusable workflows](https://docs.github.com/en/actions/sharing-automations/reusing-workflows) and [custom (composite) actions](https://docs.github.com/en/actions/sharing-automations/creating-actions/about-custom-actions).
+
+Since the two things solve the same problem of allowing workflow reuse, it can be difficult to gauge which one you should use for your particular use case. Although GitHub has a documentation site comparing then (confusingly called [Avoiding duplication](https://docs.github.com/en/actions/sharing-automations/avoiding-duplication)), it misses a few things and lacks details for others.
+
+In this article I'll try to go through a few use cases that I feel are worth pointing out, to hopefully give you a better understanding, and save you the cumbersome work it takes to gain an overview of GitHub Actions.
+
+_**TL;DR:** you should almost always use custom actions + example workflows, instead of reusable workflows, unless you have a specific reason not to._
+
+## A brief summary
+
+In case you aren't _that_ familiar with the concepts, here's a quick summary of [GitHub's documentation](https://docs.github.com/en/actions/sharing-automations/avoiding-duplication) on avoiding duplication in GitHub Actions workflows:
+
+GitHub Actions _workflows_ are YAML files located in `.github/workflows` in a repository. They contain a list of _jobs_, which are themselves a list of _steps_. Steps are the code that actually gets executed, e.g. "check out the current repository", while jobs are collections of steps that all run on the same _runner_. _Actions_ is just another name for code that can be ran as a step.
+
+import ActionsOverview from "./actions_overview.svg?raw";
+
+<Figure>
+  <Fragment set:html={ActionsOverview} />
+</Figure>
+
+Crucially the concept of _jobs_ and _steps_ represents different levels of compartmentalization: you cannot easily share state between jobs, as they (may) run in different machines entirely. They are self-contained units of work, whose state is cleared when they finish running. Steps, on the other hand, are intended to run in the context of other steps: one step might set environment variables, install programs or write to disk, so that subsequent steps can use the variables/programs/files.
+
+Reusable workflows are files containing one or more _jobs_ . Custom actions are either code that can be ran as a step (called actions), or collections of steps (called composite actions). In either case, they can be located in completely separate repositories, allowing you to create e.g. `my-org/actions-shared` as a repo full of reusable GitHub Actions stuff.
+
+## Difference 1: Data sharing
+
+TODO
+
+## Difference 2: Flexibility of organization
+
+TODO
+
+## Difference 3: OIDC and secret containment
+
+One crucial and poorly documented difference between custom actions and reusable workflows is how they impact OIDC tokens.
+
+[OIDC tokens](https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/about-security-hardening-with-openid-connect) are tokens that workflows can generate to authenticate themselves to third parties. It consists of a small JSON Web Token, signed by GitHub, which contains information about what repo the workflow is running in, what caused it to run, etc. It will also contain the claim [`job_workflow_ref`](https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/using-openid-connect-with-reusable-workflows#how-the-token-works-with-reusable-workflows), whose value is a reference to the running _job_ -- including the repository, if it's a reusable workflow.
+
+```javascript
+// sample claims from an OIDC token:
+{
+  "sub": "repo:my-org/team-1:environment:prod",
+  "repository": "my-org/team-1",
+  "repository_owner": "my-org",
+  "job_workflow_ref": "my-org/actions-shared/.github/workflows/push-to-gitops-repo.yml@refs/heads/main",
+  // ...
+}
+```
+
+This means that reusable workflows can be used in cases where you need to use secrets as part of your workflow, but don't want just any team in the organization to be able to extract them: if you limit secret access to only OIDC tokens with a `job_workflow_ref` from a repository you control, you'll be in control of where that secret goes, even if you let other teams use it.
+
+To exemplify this, imagine a situation where a DevOps team wants to allow other teams to push to a GitOps repository when they make releases. Normally this would require a PAT token with write access to the GitOps repository, which would be placed as a secret in each individual team repo. Rogue teams can easily go in and extract the PAT from their repositories.
+
+If the DevOps team instead creates a reusable workflow which does _all_ the work (e.g. "build the given Helm chart and push it to the GitOps repository"), then they can keep the secret access inside of their reusable workflow: since state is cleared once the reusable workflow finishes, teams can no longer extract the secret for themselves.
+
+import OidcAuthorization from "./oidc_authorization.svg?raw";
+
+<Figure>
+  <Fragment set:html={OidcAuthorization} />
+</Figure>
+
+In the figure above, the `stored_github_pat` secret can _only_ be read from a reusable workflow running in `my-org/actions-shared`. Once it has been read out, the secret is _only_ available to the steps defined within that reusable workflow.
+
+If `push-to-gitops-repo.yml` had instead been a custom action, then `job_workflow_ref` would still point to the caller repository, and any authorization done in the action could simply be replicated by a bad actor.
