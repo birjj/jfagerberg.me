@@ -136,6 +136,7 @@ table {
   padding: initial;
   border-collapse: collapse;
   margin-bottom: 1.25rem;
+  margin-inline: 0;
 }
 td,
 th {
