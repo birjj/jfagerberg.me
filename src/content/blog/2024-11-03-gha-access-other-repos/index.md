@@ -7,7 +7,7 @@ series: GitHub Actions thoughts
 
 When working with GitHub Actions in an organization, you'll often need to access code from other repositories. Whether for GitOps deployments, shared Go modules, or something else entirely, it's a need that often crops up.
 
-Unfortunately, GitHub doesn't offer any good solutions for this. [A discussion](https://github.com/orgs/community/discussions/46566) on allowing the short-lived `GITHUB_TOKEN` token to be granted access to other repos has existed for almost two years, and has just now gotten a response from someone on GitHub saying that they'll... add it to the backlog.
+Unfortunately, GitHub doesn't offer any good solutions for this. [A discussion](https://github.com/orgs/community/discussions/46566) on allowing the short-lived `GITHUB_TOKEN` token to be granted access to other repos has existed for almost two years and has just now gotten a response from someone on GitHub saying that they'll... add it to the backlog.
 
 While we wait for a better GitHub-provided solution, here’s a look at the options available, along with the pros and cons of each. In this post, "source repository" refers to the repo where your action is running, and "target repository" is the one your workflow needs to access.
 
@@ -15,7 +15,7 @@ While we wait for a better GitHub-provided solution, here’s a look at the opti
 
 The simplest approach is for the developer creating your CI workflow to generate a personal access token (PAT) with the required permissions, and then store it as a secret in your source repository.
 
-Since GitHub supports fine-grained PATs scoped to specific repositories, a leak of this secret won't cause _too_ wide of a breach. This approach is also well-supported officially by GitHub, and doesn't require any third-party resources to be used.
+Since GitHub supports fine-grained PATs scoped to specific repositories, a leak of this secret won't cause _too_ wide of a breach. This approach is also well-supported officially by GitHub and doesn't require any third-party resources to be used.
 
 The big downside of this is that the PAT is bound to whatever developer sets it up. Should this developer ever leave the organization, the setup will break until the PAT is replaced -- and you better hope it's well-documented where the PATs are used and what permissions they need.
 
@@ -33,15 +33,14 @@ If your workflow only needs SSH-based read/write access to the target git reposi
 
 The approach to using these in GitHub Actions workflows is to generate a new SSH key locally, register its public key in the target repository, and then store its private key as a GitHub secret in your source repository.
 
-The downside is that the deploy keys are designed for another use case entirely, and therefore lack some of the things we might want: they can't be used if you need multi-repo access, they can't be audited as they aren't tied to a user, and they can't be used to authenticate things like opening PRs. They also require your use case to support SSH keys instead of PAT auth. If they fit your use case though, they can be a great choice.
+The downside is that the deploy keys are designed for another use case entirely, and therefore lack some of the things we might want: they only authenticate up against the Git protocol so they can't e.g. open PRs, they can't be audited as they aren't tied to a user, and they can't be narrowly scoped in permissions within the repository. If they fit your use case though, they can be a great choice.
 
 | Pros                                                                    | Cons                                                                |
 | ----------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | [+] Simple and easy to understand                                       | [-] Only works if your use case can use SSH keys                    |
 | [+] Entirely GitHub-internal                                            | [-] Requires manual rotation, as they don't have unlimited lifetime |
 | [+] Can be scoped to a particular repository                            | [-] Easily leaked by bad actors with access to the source repo      |
-| [+] Can be managed by your DevOps team instead of individual developers | [-] Only works if you need access to _one_ repository               |
-|                                                                         | [-] Can't be used for non-code access                               |
+| [+] Can be managed by your DevOps team instead of individual developers | [-] Only usable for Git access (not e.g. opening pull requests)     |
 
 ## Option 3 - Machine user-bound PATs
 
