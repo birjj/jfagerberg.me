@@ -25,9 +25,16 @@ const { "data-iconless": iconless = false, ...props } = Astro.props;
     padding-block: 0.25rem;
     padding-inline: 1rem 0;
     margin-inline: var(--article-inset);
-    margin-bottom: 1.75rem;
+    margin-bottom: var(--paragraph-spacing, 1.75rem);
     border-left: 2px solid var(--c-accent, #0089ce);
     font-style: italic;
+    font-size: 1rem;
+    font-size: calc(min(1em, 1rem));
+  }
+
+  :global(li) > blockquote {
+    margin-inline: 0;
+    margin-bottom: 1rem;
   }
 
   blockquote > :global(:last-child) {

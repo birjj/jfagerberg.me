@@ -38,7 +38,7 @@ const { "data-left": left = false, class: className, ...props } = Astro.props;
     /* breakpoint should be at `calc(--article-max-width + 10rem + small buffer)` - in this case we've used a buffer of 1rem */
     aside {
       margin-top: 0.25rem;
-      margin-bottom: 1.75rem;
+      margin-bottom: var(--paragraph-spacing, 1.75rem);
       padding: 0;
       width: 15rem;
       z-index: 1;
