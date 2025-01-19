@@ -32,7 +32,8 @@ const { "data-iconless": iconless = false, ...props } = Astro.props;
     font-size: calc(min(1em, 1rem));
   }
 
-  :global(li) > blockquote {
+  :global(li) > blockquote,
+  :global(dd) > blockquote {
     margin-inline: 0;
     margin-bottom: 1rem;
   }
