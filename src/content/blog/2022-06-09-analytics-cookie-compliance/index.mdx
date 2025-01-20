@@ -10,7 +10,7 @@ import Figure from "../../../components/blog/Figure.astro";
 import Aside from "../../../components/blog/Aside.astro";
 
 <Aside>
-  Note: this article has been updated on 2025-01-16 after the release of the EDPB 2024 Guidelines. The original slightly more rambling version, which reaches the same conclusion by analyzing the law instead of the guidelines, is available [here](./old).
+  Note: this article has been updated on 2025-01-16 after the release of the EDPB 2023 Guidelines. The original slightly more rambling version, which reaches the same conclusion by analyzing the law instead of the guidelines, is available [here](./old).
 </Aside>
 
 In recent years there's been a bit of a push for "privacy-aware analytics", a group of web analytics solutions that _claim_ to do analytics without any of the morally dubious tracking the industry has otherwise been known for. In addition to putting a lot of effort into not tracking individual users, their primary claim to fame is that they say they don't need cookie banners.
@@ -102,7 +102,7 @@ Considering how legalese this is it isn't _that_ difficult to parse: it's just s
 <dl>
   <dt>**What does "gaining of access" mean?**</dt>
   <dd>
-    This actually isn't well-defined in the ePD itself; instead, the EU Data Working Group and the EDPB have tackled the problem in various opinions. Their [2024 guidelines](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-22023-technical-scope-art-53-eprivacy-directive_en) summarizes it in paragraph 32:
+    This actually isn't well-defined in the ePD itself; instead, the EU Data Working Group and the EDPB have tackled the problem in various opinions. Their [2023 guidelines](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-22023-technical-scope-art-53-eprivacy-directive_en) summarizes it in paragraph 32:
 
     > Whenever an entity takes steps towards gaining access to information stored in the terminal equipment, Article 5(3) ePD would apply. Usually this entails the accessing entity to proactively send specific instructions to the terminal equipment in order to receive back the targeted information. For example, this is the case for cookies, where the accessing entity instructs the terminal equipment to proactively send information on each subsequent Hypertext Transfer Protocol (HTTP) call.
 
@@ -110,11 +110,11 @@ Considering how legalese this is it isn't _that_ difficult to parse: it's just s
   </dd>
   <dt>**What exactly is "terminal equipment"?**</dt>
   <dd>
-    The ePD piggybacks on prior and rather extensive legislation for defining this. For our purposes it's enough to know that both the user's computer and each individual component of it is terminal equipment. There are some less well-defined details for when in the networking path things stop being terminal equipment _(is the customer's residential router? the ISP's NAT? the routing infrastructure of the internet at large?)_, but for those details you'll have to look at section 2.3 of the [EDPB 2024 guidelines](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-22023-technical-scope-art-53-eprivacy-directive_en).
+    The ePD piggybacks on prior and rather extensive legislation for defining this. For our purposes it's enough to know that both the user's computer and each individual component of it is terminal equipment. There are some less well-defined details for when in the networking path things stop being terminal equipment _(is the customer's residential router? the ISP's NAT? the routing infrastructure of the internet at large?)_, but for those details you'll have to look at section 2.3 of the [EDPB 2023 guidelines](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-22023-technical-scope-art-53-eprivacy-directive_en).
   </dd>
   <dt>**What information is considered "already stored"?**</dt>
   <dd>
-    As noted in section 2.6 of [the 2024 guidelines](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-22023-technical-scope-art-53-eprivacy-directive_en):
+    As noted in section 2.6 of [the 2023 guidelines](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-22023-technical-scope-art-53-eprivacy-directive_en):
 
     > 'Stored information' refers to information already existing on the terminal equipment, regardless of the source or nature of this information. This includes [...] storage on the terminal equipment by the user or subscriber themselves, or by a hardware manufacturer (such as the MAC addresses of network interface controllers), sensors integrated into the terminal equipment or processes and programs executed on the terminal equipment, which may or may not produce information that is dependent on or derived from stored information.
 
@@ -163,7 +163,7 @@ Unfortunately it is my belief that even this runs afoul of the ePD Art. 5(3) in 
 - It's accessing the `User-Agent` HTTP header, which is transmitted by the browser as part of an agreed upon protocol (specifically [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#name-user-agent)). This is done when the analytics solution explicitly asks the browser to send a new request. This is a clear case of "accessing" the `User-Agent` under the ePD.
 - It's not strictly necessary in order to fulfill the user's request to see the web page, so it's not exempt.
 
-The EDPB (unfortunately) seems to agree with that analysis. In their [2024 guidelines](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-22023-technical-scope-art-53-eprivacy-directive_en) paragraph 51 they say:
+The EDPB (unfortunately) seems to agree with that analysis. In their [2023 guidelines](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-22023-technical-scope-art-53-eprivacy-directive_en) paragraph 51 they say:
 
 > The addition of tracking information to URLs or images (pixels) sent to the user constitutes an instruction to the terminal equipment to send back the targeted information (the specified identifier). In the case of dynamically constructed tracking pixels, it is the distribution of the applicative logic (usually a JavaScript code) that constitutes the instruction. As a consequence, it can be considered that the collection of identifiers provided through such tracking mechanisms constitutes a 'gaining of access' in the meaning of Article 5(3) ePD, thus it applies to that step as well.
 
@@ -192,3 +192,13 @@ Even the EU Data Protection Working Party decries this. In [their 2012 opinion](
 This "re-visiting" of the ePrivacy Directive is supposed to come eventually in the form of [the ePrivacy Regulation](https://en.wikipedia.org/wiki/EPrivacy_Regulation). At the time of writing it has been delayed for 6 years.
 
 Until then we're stuck with cookie banners.
+
+---
+
+## Further reading
+
+- [Opinion 04/2012 on Cookie Consent Exemption](https://ec.europa.eu/justice/article-29/documentation/opinion-recommendation/files/2012/wp194_en.pdf)
+- [Opinion 05/2014 on Anonymisation Techniques](https://ec.europa.eu/justice/article-29/documentation/opinion-recommendation/files/2014/wp216_en.pdf)
+- [Guidelines 05/2020 on consent under Regulation 2016/679](https://www.edpb.europa.eu/sites/default/files/files/file1/edpb_guidelines_202005_consent_en.pdf)
+- [Guidelines 2/2023 on Technical Scope of Art. 5(3) of ePrivacy Directive](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-22023-technical-scope-art-53-eprivacy-directive_en)
+- [My thread on Plausible's GitHub asking them about this](https://github.com/plausible/analytics/discussions/1963)
