@@ -2,12 +2,13 @@
 /** Replacement for <aside> in blog posts. Displays as a floated block in the article */
 export type Props = astroHTML.JSX.IntrinsicElements["aside"] & {
   "data-left"?: boolean;
+  "data-up"?: boolean;
 };
-const { "data-left": left = false, class: className, ...props } = Astro.props;
+const { "data-left": left = false, "data-up": up = false, class: className, ...props } = Astro.props;
 ---
 
 <div class="aside-wrapper">
-  <aside {...props} class:list={[className, left ? "left" : "right"]}>
+  <aside {...props} class:list={[className, left ? "left" : "right", up ? "up" : "down"]}>
     <slot />
   </aside>
 </div>
@@ -26,7 +27,7 @@ const { "data-left": left = false, class: className, ...props } = Astro.props;
     color: var(--c-text-secondary, #666);
     position: relative;
     font-style: italic;
-    margin-bottom: 1em;
+    margin-bottom: 1rem;
     overflow-wrap: break-word;
     word-break: break-word;
   }
@@ -37,11 +38,14 @@ const { "data-left": left = false, class: className, ...props } = Astro.props;
   @media (min-width: 90rem) {
     /* breakpoint should be at `calc(--article-max-width + 10rem + small buffer)` - in this case we've used a buffer of 1rem */
     aside {
-      margin-top: 0.25rem;
-      margin-bottom: 1.75rem;
       padding: 0;
       width: 15rem;
       z-index: 1;
+      margin-top: 0.25rem;
+      margin-bottom: var(--paragraph-spacing, 1.75rem);
+    }
+    aside.up {
+      bottom: 0;
     }
     aside.right {
       position: absolute;

@@ -1,43 +1,29 @@
 ---
 title: Do cookie-free analytics need cookie compliance popups?
 date: 2022-06-09
-updated: 2024-07-16
+updated: 2025-01-20
 tags: ["article", "analytics", "privacy"]
 ---
 
 import { Image } from 'astro:assets';
 import Figure from "../../../components/blog/Figure.astro";
 import Aside from "../../../components/blog/Aside.astro";
-import CookieImage from "./upgraded-jonathan-taylor-22GUPUuOqkE-unsplash.jpg";
 
-<Figure>
-  <Image
-    alt="Photo showing multiple variants of cookie banners pasted over a photo of cookies (the baked goods kind)"
-    inferSize
-    widths={[240, 540, 880, 1920, CookieImage.width]}
-    sizes="((min-width: 60rem)) 51.75rem,
-              ((min-width: 45rem) and (max-width: 60rem)) 43.75rem,
-              (max-width: 45rem) 100vw"
-    src={CookieImage}
-  />
-  <figcaption class="right">Photo by [Jonathan Taylor](https://unsplash.com/@jontaylor?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/brown-star-and-star-print-textile-22GUPUuOqkE?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash). Slightly enhanced for comedic effect.</figcaption>
-</Figure>
+<Aside>
+  Note: this article has been rewritten on 2025-01-20 after the release of the EDPB 2023 Guidelines. The original slightly more rambling version, which reaches the same conclusion by analyzing the law instead of the guidelines, is available [here](./old).
+</Aside>
 
-When I recently reworked my personal website, I figured it'd be neat to see how many ~~days~~ ~~weeks~~ months it took between having visitors, just for my own curiosity. At the same time I wanted to avoid ugly banners, since they're an incredible eyesore (for the few users that don't block annoyances with uBlock Origin), and collecting data on visitors comes with all kinds of ethical concerns.
+In recent years there's been a bit of a push for "privacy-aware analytics", a group of web analytics solutions that _claim_ to do analytics without any of the morally dubious tracking the industry has otherwise been known for. In addition to putting a lot of effort into not tracking individual users, their primary claim to fame is that they say they don't need cookie banners.
 
-That left me with the option of "privacy-aware analytics", a group of analytics solutions that _claim_ to do analytics without any of that Big Brother stuff. Oh, and as a plus, they let you do without those icky banner.
+But... how true is that? While I can be convinced about the privacy aspect of it, I was a bit skeptical at the legal part. EU laws are complex and far-reaching, and it wasn't entirely clear to me that you could skirt them like this.
 
-But... do they _actually_ let you track analytics without asking your users first? I was a bit skeptical. The following will be a dive into EU laws on "cookie popups" from the perspective of some dude who has no legal background, but too much time on his hands.
+As just some dude with with no legal background but with way too much time on my hands, I figured I'd be as good as any to dive into EU laws on "cookie banners", and see if you can actually do analytics without cookie banners.
 
-## Technical background
+## The technical background
 
-In recent years there has been an increased focus on online privacy and how our data is handled when we browse the web. This comes in the wake of the massively privacy-invading tracking done by companies like Google and Facebook becoming public knowledge, of EU legislation forcing companies to get informed consent before processing our data, and of better privacy tools becoming easily available in our browsers.
+All web analytics need to somehow track individual users. Since HTTP is a stateless protocol, it's up to the analytics solution to somehow correlate HTTP requests from the same user so it can count unique visitors (_have we seen this user before?_) and calculate bounce rates (_is the user that just requested `/about` the same user as the one that requested `/home` 3 minutes ago?_).
 
-This has driven a heightened demand for "privacy-aware analytics", a term reserved for analytic solutions that aim to anonymize the collected data enough that it is no longer considered private data. An early example is [Fathom](https://usefathom.com/), but other (more or less) self-hosted solutions like [Plausible](https://plausible.io/), [Ackee](https://ackee.electerious.com/), and [Counter](https://counter.dev/) have also started popping up.
-
-Privacy-aware analytics are faced with an obstacle: most analytics requires some way to recognize repeat visitors. Since HTTP is stateless, knowing whether a user has visited before (to count how many unique visitors we've had), visited another page (to calculate bounce rate), and when they left (to calculate average visit duration) requires some kind of user tracking.
-
-Traditionally this has been done by storing a small token on the user's device, which their browser then attaches to future requests. The analytics backend can then compare that to a list of previously seen tokens, and thereby know whether the user is new or has visited before.
+Traditionally this has been done by storing a small token on the user's device which their browser then attaches to future requests: a cookie. The analytics backend can then compare that to a list of previously seen tokens, and thereby know whether the user is new or has visited before.
 
 import ClassicAnalyticsDiagram from "./classic-analytics.svg?raw";
 
@@ -46,159 +32,173 @@ import ClassicAnalyticsDiagram from "./classic-analytics.svg?raw";
   <figcaption class="right">Classic analytics solutions usually use a cookie to check if a request comes from a previously seen user. This is needed for statistics like bounce rates and number of unique visitors.</figcaption>
 </Figure>
 
-Cookie-free analytics work slightly differently: instead of storing a small token on the user's device, the backend instead calculates a unique token when the request comes in based on the user's available data.
+This is how the web has worked for decades at this point. Unfortunately it has also been abused for roughly as long, causing widespread tracking that the EU has tried to crack down on.  
+Most notably they've done this by passing the ePrivacy Directive, a directive from 2002 that (amongst other things) prohibits storing cookies on end-user devices without consent (unless strictly required for functionality), and later the GDPR that requires consent for processing personal information (see [the next section](#a-bit-of-legal-background) for more details).
+
+Some crafty souls have come up with a way to skirt this requirement: "cookie-free analytics", aka. fingerprinting. Instead of storing a small token on the user's device, the backend instead calculates a unique token when the request comes in based on the user's available data (e.g. their browser version and IP address):
 
 import NewAnalyticsDiagram from "./new-analytics.svg?raw";
 
 <Figure>
   <Fragment set:html={NewAnalyticsDiagram} />
-  <figcaption class="right">Privacy-aware analytics instead calculate some kind of persistent fingerprint for the user, usually based on their IP, User-Agent, and a rotating salt. The fingerprint is usually designed to minimize information disclosure, while still allowing the analytics to check if a user has been seen previously.</figcaption>
+  <figcaption class="right">Cookie-free analytics instead calculate some kind of persistent fingerprint for the user, usually based on their IP and User-Agent. The fingerprint can be designed to minimize information disclosure, while still allowing the analytics to check if a user has been seen previously.</figcaption>
 </Figure>
 
-This process, known as [fingerprinting](https://amiunique.org/), allows the analytics solution to skirt any legislation that limits when data can be stored on a user's device.
+In many ways this fingerprinting approach can be used for far worse things that cookies can (it's a lot harder to change browser than it is to delete a cookie), but it _does_ seem like a promising way to avoid the EU's consent requirements. There's still the problem of the GDPR, but we can largely get around that by strongly anonymizing the gathered data using binning, differential privacy, or similar.
 
-While fingerprinting has a bit of a bad reputation, this implementation can be genuinely designed to respect user privacy. This is done by ensuring that the generated fingerprint can't be correlated back to the individual user, and by instantly binning the collected analytics into things like _"number of unique visitors"_ or _"total bounce rate"_, instead of storing data on how a specific hash interacted with the site (for more information see [Fathom's great explainer](https://usefathom.com/blog/anonymization) on their algorithm).
+This is the approach taken by companies delivering "privacy-aware analytics". One of the first was [Fathom](https://usefathom.com/), but other (more or less) self-hosted solutions like [Plausible](https://plausible.io/), [Ackee](https://ackee.electerious.com/), and [Counter](https://counter.dev/) have also started popping up. They all share the goal of not tracking individual users, while still gathering useful insights into how visitors interact with a website - and without using cookies.
 
-Since this variant doesn't store anything on the end-user device, a common misconception is that using them means we don't have to ask users for consent. To work out whether that's true, we'll have to look at why we ask for consent in the first place.
+At least Fathom and Plausible explicitly claim that you don't need cookie banners if you use their product:
 
-## A bit of legal background
+import FathomScreenshot from "./fathom_screenshot.png";
+import PlausibleScreenshot from "./plausible_screenshot.png";
+
+<Figure>
+  <Image src={PlausibleScreenshot} alt="Screenshot of Plausible's claim to not need cookie banners" style={{
+    maxHeight: "10rem",
+    marginRight: "var(--article-inset)",
+    width: "auto",
+    height: "auto",
+  }} />
+  <Image src={FathomScreenshot} alt="Screenshot of Fathom's claim to not need cookie banners" style={{
+    maxWidth: "66%",
+    maxHeight: "12rem",
+    marginLeft: "var(--article-inset)",
+    marginTop: "-6rem",
+    width: "auto",
+    height: "auto"
+  }} />
+  
+</Figure>
+
+## The legal background
 
 _Note: I am not a lawyer. The following is my simplistic understanding of the relevant legislation. Do not use it as legal advice._
 
-When we're talking about analytics there are primarily two different EU laws we'll need to cover: the big baddie, GDPR, and the older cookie law, the ePrivacy Directive. These two both relate to data privacy and are often confused, so here's a quick breakdown:
+When we're talking about cookie banners there are primarily two different EU laws we'll need to cover: the older cookie law, the ePrivacy Directive, and the big baddie, GDPR. These two both relate to data privacy and are often confused, so here's a quick breakdown:
 
 <dl>
+<dt>[ePrivacy Directive [Directive 2002/58/EC]](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32002L0058)</dt>
+<dd>Directive from 2002, later amended in 2009.<br/>One of the early attempts at legislating online privacy. Puts rather strict limits on what data can be <em>accessed or processed</em> without requiring informed consent from the user. This is regardless of whether the data is personal or not.<br/>Note that this is a directive, not a regulation, meaning it is up to the individual EU countries to implement the directive into law. We'll arbitrarily ignore this distinction, and I will only be considering the wording of the directive itself in this article.</dd>
+
 <dt>[GDPR [Regulation (EU) 2016/679]](https://eur-lex.europa.eu/eli/reg/2016/679/oj)</dt>
 <dd>Regulation adopted in 2016, came into force in 2018.<br/>Huge law primarily addressing the right of an individual to control their <em>personal data</em>. Trivial examples include names, birthdays, and emails; more complicated examples include browsing history, timestamps, and preferences. If there is any theoretical way that data can be traced back to a person, that data is probably covered by GDPR.<br/>GDPR is a huge beast and one that I am far from competent enough to cover. I will be assuming that the analytics solution you're looking to implement already strongly anonymizes all data, and therefore won't cover GDPR further.</dd>
-<dt>[ePrivacy Directive [Directive 2002/58/EC]](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32002L0058)</dt>
-<dd>Directive from 2002, later amended in 2009.<br/>One of the early attempts at legislating online privacy. Of interest to us is its regulations on what data can be processed for what uses without requiring informed consent from the user.<br/>Enforces privacy of any data read from a user's device, <em>personal or not</em>. This will be especially important for us, as it limits us greatly in what data we can use, even if we anonymize it heavily.<br/>Note that this is a directive, not a regulation, meaning it is up to the individual EU countries to implement the directive into law. This distinction isn't that important for our uses, and I will only be considering the wording of the directive itself in this article.</dd>
 </dl>
 
 We'll be focusing our efforts on the ePrivacy Directive, since (I believe) the consent required by GDPR can be largely skirted around by anonymizing data properly.
 
-## Legal analysis
-_Note: I still ain't no lawyer. Do not use the below as legal advice._
+### The ePD Article 5(3)
+
+Article 5(3) of the [ePrivacy Directive](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:02002L0058-20091219#tocId7), which is the article that requires consent for cookies, says:
 
 <Aside>
   The concept of "consent" in the ePD has been superseded by that in the GDPR. The exact definition is worked through in [EDPB Opinion 5/2019](https://www.edpb.europa.eu/sites/default/files/files/file1/edpb_guidelines_202005_consent_en.pdf), but it can summarized as needing _active_ and _informed_ consent from the user. This is what "cookie banners" aim to do.
 </Aside>
 
-In the ePrivacy Directive, there are (at least) two different articles that require consent in a way that is relevant to our use case: Article 5, which requires consent to process _any_ data stored on end-user devices, and Article 6, which requires consent to process traffic data for non-traffic purposes.
-
-As put in [Article 5(3) of the ePrivacy Directive](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:02002L0058-20091219#tocId7):
-
 > **Article 5(3).** Member States shall ensure that the storing of information, or the gaining of access to information already stored, in the terminal equipment of a subscriber or user is only allowed on condition that the subscriber or user concerned has given his or her consent [...] This shall not prevent any technical storage or access [...] as strictly necessary in order for [a web service provider] explicitly requested by the subscriber or user to provide the service.
 
-This is the primary hurdle for classic cookie-based analytics, since these require storing a token on the end-user device. Since almost every common analytics solution uses cookies, this is also what's most often pointed to as the reason for cookie banners being so prevalent.
+Considering how legalese this is it isn't _that_ difficult to parse: it's just saying that you can't store any data on terminal equipment, nor can you access any data that's already stored there, if you don't have consent (or it's strictly necessary to do what the user asked for). There are some details we'll have to walk through though:
 
-Site owners might argue that analytics are "strictly necessary" to deliver their website, so they should be allowed to store cookies under the above exemption. This exact loophole is addressed by [an opinion on exemptions](https://ec.europa.eu/justice/article-29/documentation/opinion-recommendation/files/2012/wp194_en.pdf) released by the EU Data Protection Working Party in 2012 (the opinion is worth a read in its entirety, if you're interested in the topic):
+<dl>
+  <dt>**What does "gaining of access" mean?**</dt>
+  <dd>
+    This actually isn't well-defined in the ePD itself; instead, the EU Data Working Group and the EDPB have tackled the problem in various opinions. Their [2023 guidelines](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-22023-technical-scope-art-53-eprivacy-directive_en) summarizes it in paragraph 32:
 
-> While [cookie-based analytics] are often considered as a 'strictly necessary' tool for website operators, they are not strictly necessary to provide a functionality explicitly requested by the user [...]. As a consequence, these cookies do not fall under the [exemptions]
+    > Whenever an entity takes steps towards gaining access to information stored in the terminal equipment, Article 5(3) ePD would apply. Usually this entails the accessing entity to proactively send specific instructions to the terminal equipment in order to receive back the targeted information. For example, this is the case for cookies, where the accessing entity instructs the terminal equipment to proactively send information on each subsequent Hypertext Transfer Protocol (HTTP) call.
+
+    So essentially any kind of "take this information and send it to me" process would fall under "gaining of access" to said information. Further, as noted in paragraph 33 and 34 of the same guidelines, the entity sending the data doesn't have to be same as the entity "gaining access" to it: if you're using an agreed upon protocol such as HTTP then it might be the browser that's sending the data, but if you read it then you're still the one "gaining access" to it.
+  </dd>
+  <dt>**What exactly is "terminal equipment"?**</dt>
+  <dd>
+    The ePD piggybacks on prior and rather extensive legislation for defining this. For our purposes it's enough to know that both the user's computer and each individual component of it is terminal equipment. There are some less well-defined details for when in the networking path things stop being terminal equipment _(is the customer's residential router? the ISP's NAT? the routing infrastructure of the internet at large?)_, but for those details you'll have to look at section 2.3 of the [EDPB 2023 guidelines](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-22023-technical-scope-art-53-eprivacy-directive_en).
+  </dd>
+  <dt>**What information is considered "already stored"?**</dt>
+  <dd>
+    As noted in section 2.6 of [the 2023 guidelines](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-22023-technical-scope-art-53-eprivacy-directive_en):
+
+    > 'Stored information' refers to information already existing on the terminal equipment, regardless of the source or nature of this information. This includes [...] storage on the terminal equipment by the user or subscriber themselves, or by a hardware manufacturer (such as the MAC addresses of network interface controllers), sensors integrated into the terminal equipment or processes and programs executed on the terminal equipment, which may or may not produce information that is dependent on or derived from stored information.
+
+    This covers data explicitly stored in a file (e.g. cookies), data stored in memory by other parties (e.g. the browser's `User-Agent` string) and even hardware information (e.g. MAC addresses or screen sizes):
+
+    In essence, any and all information from the terminal equipment is "stored" at some point (they even mention the CPU cache as a storage layer!), and so would require consent to access for purposes other than what is strictly necessary.
+  </dd>
+  <dt>**What does "strictly necessary" mean?**</dt>
+  <dd>
+    According to [a 2012 opinion on exemptions](https://ec.europa.eu/justice/article-29/documentation/opinion-recommendation/files/2012/wp194_en.pdf) from the EU Data Protection Working Party, this means
+
+    > [The access/storage] is strictly needed to enable the information society service: if [the access/storage] is disabled, the service will not work.
+
+    Some site owners argue that analytics are "strictly necessary" to deliver their website, so Art. 5(3) shouldn't apply. This exact argument is addressed by the 2012 opinion:
+
+    > While [cookie-based analytics] are often considered as a 'strictly necessary' tool for website operators, they are not strictly necessary to provide a functionality explicitly requested by the user [...]. As a consequence, these cookies do not fall under the [exemption].
+
+    So in short: if you have a technical need to access the data to serve the user's request, then you're good without explicit consent. If it's just because you want to, then that's no good.
+  </dd>
+</dl>
+
+All in all the most important part to remember is that Art. 5(3) blocks us from storing _or_ accessing pretty much any data from the terminal equipment, unless it's strictly required to fulfill the user's request, or we have gathered informed consent.
 
 ---
 
-For fingerprint-based analytics, this is a lot less of a hurdle though. By using fingerprints based on data that's already delivered by the user device, such as IP addresses and `User-Agent` identifiers, one can sneakily avoid Article 5(3).
+## Cookie-free doesn't mean free of cookie banners
 
-The more concerning article in that context is [Article 6](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:02002L0058-20091219#tocId8):
+Phew. That was a lot of background information.
 
-<Aside>"Traffic data" is defined by the ePD as "any data processed for the purpose of the conveyance of a communication on an electronic communications network or for the billing thereof"</Aside>
+To see what all this means for cookie-free analytics, let's have a look at [the algorithm used by Fathom](https://usefathom.com/blog/anonymization). It is essentially identical to [that of Plausible](https://plausible.io/data-policy), and presumably all the rest of the privacy-aware analytics out there:
 
-> **Article 6(3).** For the purpose of marketing electronic communications services or for the provision of value added services, the provider [...] may process [traffic data] to the extent and for the duration necessary for such services or marketing, if the subscriber or user to whom the data relate has given his or her prior consent.
+> To [fingerprint the user], we combine the following data to create a unique hash for the user:
 > 
-> **Article 6(4).** The service provider must inform the subscriber or user of the types of traffic data which are processed and of the duration of such processing for the purposes mentioned in paragraph 2 and, prior to obtaining consent, for the purposes mentioned in paragraph 3.
+> - A salt based on IP address & Site ID
+> - IP Address
+> - User-Agent
+> - Hostname (The domain of the website, e.g. https://usefathom.com)
+> - Site ID
 > 
-> <Aside>"Value added service" is defined as "any service which requires the processing of traffic data or location data other than traffic data beyond what is necessary for the transmission of a communication or the billing thereof</Aside>**Article 6(5).**  Processing of traffic data [...] must be restricted to persons acting under the authority of providers [...] handling billing or traffic management, customer enquiries, fraud detection, marketing electronic communications services or providing a value added service, and must be restricted to what is necessary for the purposes of such activities.
+> We then take this data and perform a SHA256 hash on it. So the output looks something like this: `cd3f1ed906bb12b62dd5eff809aa1778211a02d1c11992476f0c9977c0db0646`
+
+If we boil it down to just the parts that are relevant for us, Fathom (and Plausible et al.) are generating a hash based on the IP address of the incoming request and the `User-Agent` HTTP header. They do this by [including a bit of JavaScript](https://usefathom.com/features/how-fathom-analytics-works) on the page that sends a request to their backend.
+
+Unfortunately it is my belief that even this runs afoul of the ePD Art. 5(3) in terms of requiring consent:
+
+- It's accessing the `User-Agent` HTTP header, which is transmitted by the browser as part of an agreed upon protocol (specifically [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#name-user-agent)). This is done when the analytics solution explicitly asks the browser to send a new request. This is a clear case of "accessing" the `User-Agent` under the ePD.
+- It's not strictly necessary in order to fulfill the user's request to see the web page, so it's not exempt.
+
+The EDPB (unfortunately) seems to agree with that analysis. In their [2023 guidelines](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-22023-technical-scope-art-53-eprivacy-directive_en) paragraph 51 they say:
+
+> The addition of tracking information to URLs or images (pixels) sent to the user constitutes an instruction to the terminal equipment to send back the targeted information (the specified identifier). In the case of dynamically constructed tracking pixels, it is the distribution of the applicative logic (usually a JavaScript code) that constitutes the instruction. As a consequence, it can be considered that the collection of identifiers provided through such tracking mechanisms constitutes a 'gaining of access' in the meaning of Article 5(3) ePD, thus it applies to that step as well.
+
+So sending out JavaScript code that instructs the terminal equipment to send back information is... accessing the information. It doesn't matter what kind of hashing or anonymization the analytics engine is doing, neither before nor after the information leaves the terminal equipment: the simple act of accessing it is enough to require consent under the ePD.
+
+Even worse, and luckily a bit less explicit, accessing the IP address might even be in violation:
+
+> In [the context of IP-only tracking] Article 5(3) ePD could apply even though the instruction to make the IP available has been made by a different entity than the receiving one. However, gaining access to IP addresses would only trigger the application of Article 5(3) ePD in cases where this information originates from the terminal equipment of a subscriber or user [...]. Unless the entity can ensure that the IP address does not originate from the terminal equipment of a user or subscriber, it has to take all the steps pursuant to the Article 5(3) ePD
+
+## So what now?
+
+I originally started exploring this topic because I wanted to create a privacy-aware analytics solution of my own (this was back in 2020, when the available options looked a little different).  This was partly for fun, partly to see if I could design something that didn't require cookie banners.
+
+Unfortunately I came to the rather demotivating conclusion that there simply _isn't_ any way to implement web analytics without running afoul of the ePrivacy Directive.
+
+This was a surprising conclusion at the time. Morally we can go very far: we can put a lot of smart stuff together and create a system that _can't_ be used to track individual users. But legally, that doesn't particularly matter. The ePrivacy Directive is written as it is.
+
+Even the EU Data Protection Working Party decries this. In [their 2012 opinion](https://ec.europa.eu/justice/article-29/documentation/opinion-recommendation/files/2012/wp194_en.pdf) they write:
 
 <Aside>
-**Update:** In 2023 the EDPB released [an opinion](https://www.edpb.europa.eu/system/files/2023-11/edpb_guidelines_202302_technical_scope_art_53_eprivacydirective_en.pdf) on the applicability of Article 5(3) in various technical situations, including for IP-only tracking. They conclude that:
-
-> **54.** [In the context of IP-only tracking] Article 5(3) ePD could apply even though the instruction to make the IP
-available has been made by a different entity than the receiving one.  
-> **55.** [...] the static outbound IPv4 originating from a user's router would fall within that case, as well as IPV6 addresses [...]. Unless the entity can ensure that the IP address does not originate from the terminal equipment of a user or subscriber, it has to take all the steps pursuant to the Article 5(3) ePD
-
-This supports my prior analysis, ruling out processing user IPs without asking for consent.
+  At the time even the Working Party was very focused on "cookies" instead of on "data access or storage".
 </Aside>
 
-This is a bit of a bigger blocker for fingerprint-based analytics. Without processing traffic data, which IP addresses presumably fall under, it gets a whole lot harder to fingerprint individual users.
+> the Working Party considers that first party analytics cookies are not likely to create a privacy risk when they are strictly limited to first party aggregated statistical purposes and when they are used by websites that already provide clear information about these cookies in their privacy policy as well as adequate privacy safeguards. [...] In this regard, should article 5.3 of the Directive 2002/58/EC be re-visited in the future, the European legislator might appropriately add a third exemption criterion to consent for cookies that are strictly limited to first party anonymized and aggregated statistical purposes.
 
-Site owners might argue that they fall under one of the permitted use cases, but for my use case that didn't seem to be the case: analytics isn't billing or traffic management, nor is it handling customer enquiries. _Some_ analytics probably fall under the fraud detection umbrella, but the simplistic analytics I'm interested in certainly don't. The last two permitted use cases, marketing our web services and "providing a value added service", require user consent anyway -- so even though we can argue to fall into one of those two, they aren't of much help in avoiding "cookie banners".
+This "re-visiting" of the ePrivacy Directive is supposed to come eventually in the form of [the ePrivacy Regulation](https://en.wikipedia.org/wiki/EPrivacy_Regulation). At the time of writing it has been delayed for 6 years.
 
----
-
-It's also worth noting that the directive doesn't have any exceptions for anonymized data. As put by the EU Data Protection Working Party in [a 2014 opinion on anonymization](https://ec.europa.eu/justice/article-29/documentation/opinion-recommendation/files/2014/wp216_en.pdf):
-
-> First, anonymisation is a technique applied to personal data in order to achieve irreversible de-identification. Therefore, the starting assumption is that the personal data must have been collected and processed in compliance with the applicable legislation on the retention of data in an identifiable format.
-
-Not only can we not read user data from users without asking them nicely first, those buggers in the EU Data Protection Working Party don't even let us claim that our ethical high ground of anonymization makes us exempt.
-
-## What data is covered by the ePrivacy Directive?
-
-Let's have a look at the various data points we can use to identify repeat visits, and what the ePrivacy Directive says about them:
-
-### IP address or other traffic data
-
-Covered by the Directive in Article 6, as mentioned in the previous section.
-
-Since things like GeoIP lookups use the IP address and therefore require processing it first, using a user's country or city would also require consent.
-
-### Screen size, browser version and other client data
-
-Most likely covered by the Directive as data that has previously been stored by the browser vendor or device manufacturer, which we then process. As put by the EU Data Protection Working Party in [a 2014 opinion on fingerprinting](https://ec.europa.eu/justice/article-29/documentation/opinion-recommendation/files/2014/wp224_en.pdf):
-
-> Information that is stored by one party (including information stored by the user or device manufacturer) which is later accessed by another party is therefore within the scope of Article 5(3). [...] The consent requirement also applies when a read-only value is accessed (e.g. requesting the MAC address of a network interface via the OS API).
-
-In the same opinion, they also briefly mention the act of fingerprinting using HTTP headers, using the `User-Agent` header as an example, but do not specifically mention it as requiring informed consent.
-
-### User-Agent, Referer, and other HTTP headers
-
-These might actually be possible to use without any consent requirements. It could be argued that reading these headers isn't gaining access to data stored on the user's terminal equipment, since they're automatically sent by the user's device to the server. It could further be argued that they aren't traffic data. For example, the [RFC 9110 specification](https://www.rfc-editor.org/rfc/rfc9110#field.user-agent) describes the `User-Agent` header as follows:
-
-> The "User-Agent" header field contains information about the user agent originating the request, which is often used by servers to help identify the scope of reported interoperability problems, to work around or tailor responses to avoid particular user agent limitations, and for analytics regarding browser or operating system use.
-
-<Aside>
-**Update:** HTTP headers including `User-Agent` are briefly noted in [the recent 2023 EDPB opinion](https://www.edpb.europa.eu/system/files/2023-11/edpb_guidelines_202302_technical_scope_art_53_eprivacydirective_en.pdf):
-
-> The application protocol can include several mechanisms to provide context data (such as HTTP header including 'accept' field or user agent) [...]. Once again, the abuse of those mechanisms (for example in the context of fingerprinting or the tracking of resource identifiers) can lead to the application of Article 5(3) ePD.
-
-This seems to imply that HTTP headers cannot be used without consent either.
-</Aside>
-
-This seems to specifically describe it as being sent for non-traffic purposes.
-
-If those two arguments -- HTTP headers being neither on-device nor traffic data -- hold up in court, then HTTP headers might actually be available to us!
-
-The only official opinion I could find from the EU Data Protection Working Party is [the 2014 opinion on fingerprinting](https://ec.europa.eu/justice/article-29/documentation/opinion-recommendation/files/2014/wp224_en.pdf), which doesn't conclude one way or the other about whether HTTP headers are covered by the ePD consent requirements.
+Until then we're stuck with cookie banners.
 
 ---
 
-All in all, it looks like the ePD leaves us with very few data points left to use for fingerprinting without asking the user for informed consent. While this is certainly a win for privacy when it comes to companies that are interested in finding loopholes, it does extinguish any hope we have of escaping the popup nightmare the web has become today.
+## Further reading
 
-## Technical analysis
-
-If we look at [the algorithm used by Fathom](https://usefathom.com/blog/anonymization), we see that it collects the following information for fingerprinting: IP address, `User-Agent`, site hostname, and site ID (plus the referrer, which they apparently failed to mention, but which appears in their demo dashboard).
-
-As we saw above, the IP address is considered traffic data which is explicitly covered by the ePrivacy Directive, and therefore require user consent to access. This means that even if we use Fathom analytics, despite its cookie-free and privacy-friendly design, we'll _still_ need a cookie banner to get user consent.
-
----
-
-<Aside>**Update:** [I asked](https://github.com/plausible/analytics/discussions/1963) the team behind Plausible for their opinion on this analysis. While very forthcoming, their response was essentially "our legal team has checked our claims". Elaboration would have been nice, but I certainly don't blame them for trusting a legal team over some weirdo on the internet.</Aside>
-
-A similar story is true for [Plausible's algorithm](https://plausible.io/data-policy). It collects the following information: IP address, `User-Agent`, page URL, and referrer. Again the IP address requires consent according to the ePrivacy Directive, so we are in exactly the same boat as with Fathom: privacy-aware and cookie-free or not, a cookie popup is legally required. Even the people behind Plausible seem to be confused here, using (at the time of this writing) "No need for cookie banners or GDPR consent" as one of the titles on their landing page.
-
-Every other privacy-aware analytics solution I've found, including [Ackee](https://github.com/electerious/Ackee/blob/master/docs/Anonymization.md) and [Counter](https://github.com/ihucos/counter.dev#how-can-it-be-free), also uses data covered by the ePrivacy Directive.
-
-## Exemptions
-
-Just because we cannot _track_ users using any sort of data without consent doesn't mean we need consent to use cookies. As put by Article 5(3) of the ePD: 
-
-> [the restrictions] shall not prevent any technical storage or access for the sole purpose of carrying out the transmission of a communication over an electronic communications network, or as strictly necessary in order for the provider of an information society service explicitly requested by the subscriber or user to provide the service.
-
-You won't have to worry about any huge EU fines just because you're using cookies to track login state, to store shopping cart items between HTTP requests, or to implement sticky sessions in your load balancer. Just be sure to actually use them for that purpose -- trying to be tricky by using a login session cookie for analytics would throw you right back into non-compliance.
-
-If you are interested in a more in-depth analysis of when these exemptions apply, the EU Data Protection Working Party released [an opinion on exemptions](https://ec.europa.eu/justice/article-29/documentation/opinion-recommendation/files/2012/wp194_en.pdf) in 2012 (with examples) where they delve deeper into it. I can highly recommend reading it.
-
-## Conclusion
-
-Although it might come as a surprise (it certainly did for me), privacy-aware and cookie-free analytics aren't going to save us from cookie banners with the way the legislation is currently written. If you are interested in avoiding cookie popups on your website, you'll have to make do with the very basic analytics that don't require knowing whether you've seen a user before -- making them essentially useless.
-
-Or do without. That's what I ended up doing.
+- [Opinion 04/2012 on Cookie Consent Exemption](https://ec.europa.eu/justice/article-29/documentation/opinion-recommendation/files/2012/wp194_en.pdf)
+- [Opinion 05/2014 on Anonymisation Techniques](https://ec.europa.eu/justice/article-29/documentation/opinion-recommendation/files/2014/wp216_en.pdf)
+- [Guidelines 05/2020 on consent under Regulation 2016/679](https://www.edpb.europa.eu/sites/default/files/files/file1/edpb_guidelines_202005_consent_en.pdf)
+- [Guidelines 2/2023 on Technical Scope of Art. 5(3) of ePrivacy Directive](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-22023-technical-scope-art-53-eprivacy-directive_en)
+- [My thread on Plausible's GitHub asking them about this](https://github.com/plausible/analytics/discussions/1963)

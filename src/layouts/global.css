@@ -12,6 +12,8 @@
     "Liberation Mono", "Courier New", monospace;
   --font-lineheight: 1.725em;
 
+  --paragraph-spacing: 1.75rem;
+
   --easing-default: cubic-bezier(0.4, 0, 0.2, 1);
   --easing-default-duration: 0.15s;
 

@@ -28,6 +28,9 @@ h2:not(.no-dot)::after {
   color: var(--c-accent);
   content: ".";
 }
+h3 {
+  font-size: 1.5rem;
+}
 
 /* add a blue underline beneath non-icon links */
 a:not(.icon) {
@@ -60,7 +63,7 @@ img {
   max-width: 100%;
   height: auto;
   margin-inline: auto;
-  margin-bottom: 1.75rem;
+  margin-bottom: var(--paragraph-spacing, 1.75rem);
   display: block;
   z-index: var(--z-noshadow);
   position: relative; /* otherwise z-index won't work */
@@ -74,7 +77,7 @@ img:not(.no-shadow) {
     0 16px 16px hsl(0deg 0% 0% / 0.05);
 }
 .expressive-code {
-  margin-bottom: 1.75rem;
+  margin-bottom: var(--paragraph-spacing, 1.75rem);
   z-index: var(--z-noshadow);
   position: relative; /* otherwise z-index won't work */
 }
@@ -82,7 +85,7 @@ img:not(.no-shadow) {
 /* paragraphs */
 p {
   margin-top: 0;
-  margin-bottom: 1.75rem;
+  margin-bottom: var(--paragraph-spacing, 1.75rem);
   position: relative;
   line-height: var(--font-lineheight, 1.725em);
 }
@@ -106,7 +109,10 @@ a {
 ul,
 ol {
   padding-left: 2rem;
-  margin-block-end: 1.75rem;
+  margin-block: var(--paragraph-spacing, 1.75rem);
+}
+li {
+  --paragraph-spacing: 1rem;
 }
 li::marker {
   color: var(--c-text-secondary);
@@ -119,15 +125,9 @@ dl dt > p:only-child {
   margin-bottom: 0;
 }
 dl dd {
-  margin-bottom: 1.75rem;
+  margin-bottom: var(--paragraph-spacing, 1.75rem);
   padding-inline: 1rem;
   margin-inline: 0;
-}
-dl > :where(dd, dt) > p {
-  margin-top: 0;
-}
-dl > :where(dd, dt) > ul {
-  margin-top: 0;
 }
 
 /* tables */
@@ -159,7 +159,7 @@ hr {
   border-bottom: 2px solid var(--c-accent);
   padding: 0;
   width: 2rem;
-  margin: 0 auto 1.75rem;
+  margin: calc(2 * var(--paragraph-spacing, 1.75rem)) auto;
 }
 
 /* inputs */
