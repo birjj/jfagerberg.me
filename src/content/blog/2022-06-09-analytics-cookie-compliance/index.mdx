@@ -161,6 +161,7 @@ If we boil it down to just the parts that are relevant for us, Fathom (and Plaus
 Unfortunately it is my belief that even this runs afoul of the ePD Art. 5(3) in terms of requiring consent:
 
 - It's accessing the `User-Agent` HTTP header, which is transmitted by the browser as part of an agreed upon protocol (specifically [RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#name-user-agent)). This is done when the analytics solution explicitly asks the browser to send a new request. This is a clear case of "accessing" the `User-Agent` under the ePD.
+- The `User-Agent` HTTP header is stored by the browser vendor (or is derived from information previously stored) on the end-user's machine, before being transmitted to the analytics solution. It almost certainly falls under "information already stored".
 - It's not strictly necessary in order to fulfill the user's request to see the web page, so it's not exempt.
 
 The EDPB (unfortunately) seems to agree with that analysis. In their [2023 guidelines](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-22023-technical-scope-art-53-eprivacy-directive_en) paragraph 51 they say:
