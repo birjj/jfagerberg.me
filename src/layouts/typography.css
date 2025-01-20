@@ -109,7 +109,7 @@ a {
 ul,
 ol {
   padding-left: 2rem;
-  margin-block-end: var(--paragraph-spacing, 1.75rem);
+  margin-block: var(--paragraph-spacing, 1.75rem);
 }
 li {
   --paragraph-spacing: 1rem;
@@ -128,12 +128,6 @@ dl dd {
   margin-bottom: var(--paragraph-spacing, 1.75rem);
   padding-inline: 1rem;
   margin-inline: 0;
-}
-dl > :where(dd, dt) > p {
-  margin-top: 0;
-}
-dl > :where(dd, dt) > ul {
-  margin-top: 0;
 }
 
 /* tables */
@@ -165,7 +159,7 @@ hr {
   border-bottom: 2px solid var(--c-accent);
   padding: 0;
   width: 2rem;
-  margin: 0 auto var(--paragraph-spacing, 1.75rem);
+  margin: calc(2 * var(--paragraph-spacing, 1.75rem)) auto;
 }
 
 /* inputs */

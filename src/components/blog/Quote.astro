@@ -31,11 +31,13 @@ const { "data-iconless": iconless = false, ...props } = Astro.props;
     font-size: 1rem;
     font-size: calc(min(1em, 1rem));
   }
+  blockquote > :global(*) {
+    --paragraph-spacing: 1rem;
+  }
 
   :global(li) > blockquote,
   :global(dd) > blockquote {
     margin-inline: 0;
-    margin-bottom: 1rem;
   }
 
   blockquote > :global(:last-child) {
