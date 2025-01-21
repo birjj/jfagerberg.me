@@ -181,6 +181,10 @@ Even worse, and luckily a bit less definitive, accessing the IP address might ev
 
 > In [the context of IP-only tracking] Article 5(3) ePD could apply even though the instruction to make the IP available has been made by a different entity than the receiving one. However, gaining access to IP addresses would only trigger the application of Article 5(3) ePD in cases where this information originates from the terminal equipment of a subscriber or user [...]. Unless the entity can ensure that the IP address does not originate from the terminal equipment of a user or subscriber, it has to take all the steps pursuant to the Article 5(3) ePD
 
+All of this would apply even if the analytics solution fingerprinted the original request, instead of asking the browser to send a new one, as noted in EDPB 2023 paragraph 41:
+
+> Network communication usually relies on a layered model that necessitates the use of identifiers to allow for a proper establishment and carrying out of the communication. The communication of those identifiers to remote actors is instructed through software following agreed upon communication protocols. As outlined above, the fact that the receiving entity might not be the entity instructing the sending of information does not preclude the application of Article 5(3) ePD. This might concern routing identifiers such as the MAC or IP address of the terminal equipment, but also session identifiers (SSRC, Websocket identifier), or authentication tokens.
+
 ## So what now?
 
 I originally started exploring this topic because I wanted to create a privacy-aware analytics solution of my own (this was back in 2020, when the available options looked a little different).  This was partly for fun, partly to see if I could design something that didn't require cookie banners.
