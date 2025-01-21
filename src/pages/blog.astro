@@ -31,7 +31,7 @@ if (rest.length) {
     {
       articles.map((entry) => (
         <li>
-          <a href={entry.slug} class="post">
+          <a href={`${entry.slug}/`} class="post">
             <span class="post-background" />
             <span class="post-title">{entry.data.title}</span>
             <time class="post-date">
