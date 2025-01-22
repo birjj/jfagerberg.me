@@ -163,7 +163,13 @@ To see what all this means for cookie-free analytics, let's have a look at [the 
 > 
 > We then take this data and perform a SHA256 hash on it.
 
-If we boil it down to just the parts that are relevant for us, Fathom (and Plausible et al.) are generating a hash based on the IP address of the incoming request and the `User-Agent` HTTP header. They do this by [including a bit of JavaScript](https://usefathom.com/features/how-fathom-analytics-works) on the page that sends a request to their backend.
+If we boil it down to just the parts that are relevant for us, cookie-free analytics work by generating a hash based on the IP address of the incoming request and the `User-Agent` HTTP header. They do this by [including a bit of JavaScript](https://usefathom.com/features/how-fathom-analytics-works) on the page that sends a request to their backend.
+
+import ActualAnalyticsDiagram from "./actual-analytics.svg?raw";
+
+<Figure>
+  <Fragment set:html={ActualAnalyticsDiagram} />
+</Figure>
 
 Unfortunately it is my belief that even this runs afoul of the ePD Art. 5(3) in terms of requiring consent:
 
