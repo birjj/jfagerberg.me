@@ -4,11 +4,19 @@ export type Props = astroHTML.JSX.IntrinsicElements["aside"] & {
   "data-left"?: boolean;
   "data-up"?: boolean;
 };
-const { "data-left": left = false, "data-up": up = false, class: className, ...props } = Astro.props;
+const {
+  "data-left": left = false,
+  "data-up": up = false,
+  class: className,
+  ...props
+} = Astro.props;
 ---
 
 <div class="aside-wrapper">
-  <aside {...props} class:list={[className, left ? "left" : "right", up ? "up" : "down"]}>
+  <aside
+    {...props}
+    class:list={[className, left ? "left" : "right", up ? "up" : "down"]}
+  >
     <slot />
   </aside>
 </div>
@@ -58,6 +66,9 @@ const { "data-left": left = false, "data-up": up = false, class: className, ...p
     }
     aside :global(blockquote) {
       margin-inline: 0;
+    }
+    aside > :global(:last-child) {
+      margin-bottom: 0;
     }
   }
 </style>

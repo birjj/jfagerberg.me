@@ -82,11 +82,23 @@ _Note: I am not a lawyer. The following is my simplistic understanding of the re
 When we're talking about cookie banners there are primarily two different EU laws we'll need to cover: the older cookie law, the ePrivacy Directive, and the big baddie, GDPR. These two both relate to data privacy and are often confused, so here's a quick breakdown:
 
 <dl>
-<dt>[ePrivacy Directive [Directive 2002/58/EC]](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32002L0058)</dt>
-<dd>Directive from 2002, later amended in 2009.<br/>One of the early attempts at legislating online privacy. Puts rather strict limits on what data can be <em>accessed or processed</em> without requiring informed consent from the user. This is regardless of whether the data is personal or not.<br/>Note that this is a directive, not a regulation, meaning it is up to the individual EU countries to implement the directive into law. We'll arbitrarily ignore this distinction, and I will only be considering the wording of the directive itself in this article.</dd>
+  <dt>
+    [ePrivacy Directive [Directive 2002/58/EC]](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32002L0058)
+  </dt>
+  <dd>
+    Directive from 2002, later amended in 2009.<br/>One of the early attempts at legislating online privacy. Puts rather strict limits on what data can be <em>accessed or processed</em> without requiring informed consent from the user. This is regardless of whether the data is personal or not.<br/>Note that this is a directive, not a regulation, meaning it is up to the individual EU countries to implement the directive into law. We'll arbitrarily ignore this distinction, and I will only be considering the wording of the directive itself in this article.
 
-<dt>[GDPR [Regulation (EU) 2016/679]](https://eur-lex.europa.eu/eli/reg/2016/679/oj)</dt>
-<dd>Regulation adopted in 2016, came into force in 2018.<br/>Huge law primarily addressing the right of an individual to control their <em>personal data</em>. Trivial examples include names, birthdays, and emails; more complicated examples include browsing history, timestamps, and preferences. If there is any theoretical way that data can be traced back to a person, that data is probably covered by GDPR.<br/>GDPR is a huge beast and one that I am far from competent enough to cover. I will be assuming that the analytics solution you're looking to implement already strongly anonymizes all data, and therefore won't cover GDPR further.</dd>
+    <Aside data-up>
+      If you're interested, the guys over at Matomo have [done the hard work](https://matomo.org/faq/general/eprivacy-directive-national-implementations-and-website-analytics/) of looking at the implemented laws. Worth a read!
+    </Aside>
+  </dd>
+
+  <dt>
+    [GDPR [Regulation (EU) 2016/679]](https://eur-lex.europa.eu/eli/reg/2016/679/oj)
+  </dt>
+  <dd>
+    Regulation adopted in 2016, came into force in 2018.<br/>Huge law primarily addressing the right of an individual to control their <em>personal data</em>. Trivial examples include names, birthdays, and emails; more complicated examples include browsing history, timestamps, and preferences. If there is any theoretical way that data can be traced back to a person, that data is probably covered by GDPR.<br/>GDPR is a huge beast and one that I am far from competent enough to cover. I will be assuming that the analytics solution you're looking to implement already strongly anonymizes all data, and therefore won't cover GDPR further.
+  </dd>
 </dl>
 
 We'll be focusing our efforts on the ePrivacy Directive, since (I believe) the consent required by GDPR can be largely skirted around by anonymizing data properly.
@@ -229,7 +241,7 @@ As we've seen, the EDPB considers "take this information and send it to me" to b
 
 This fits a trend I've seen in general when researching this topic: lawyers focus heavily on the GDPR, and seem to ignore (or forget) that the ePD still applies.
 
-There is of course also the aspect of interpretation. The EDPB seems to have taken a hardliner approach, considering Article 5(3) of the ePD to apply in many edge cases. Plausible has an incentive to lean the other direction. Until a court has taken a stance on the issue, I don't think we can get much closer to a definitive answer on who is right.
+There is of course also the aspect of interpretation. The EDPB seems to have taken a hardliner approach, considering Article 5(3) of the ePD to apply in many edge cases. Plausible has an incentive to lean the other direction. The various Data Protection Agencies across the EU are likely to have their own interpretation. Until a court has taken a stance on the issue I don't think we can get much closer to a definitive answer on who is right.
 
 ---
 
@@ -241,3 +253,4 @@ There is of course also the aspect of interpretation. The EDPB seems to have tak
 - [Guidelines 05/2020 on consent under Regulation 2016/679](https://www.edpb.europa.eu/sites/default/files/files/file1/edpb_guidelines_202005_consent_en.pdf)
 - [Guidelines 2/2023 on Technical Scope of Art. 5(3) of ePrivacy Directive](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-22023-technical-scope-art-53-eprivacy-directive_en)
 - [My thread on Plausible's GitHub asking them about this](https://github.com/plausible/analytics/discussions/1963)
+- [Matomo's analysis of the ePD implementations in different EU member countries](https://matomo.org/faq/general/eprivacy-directive-national-implementations-and-website-analytics/)
