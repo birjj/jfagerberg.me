@@ -208,11 +208,9 @@ import Hero from "../components/frontpage/Hero/index.astro";
   </main>
 
   <script is:inline>
-    // if we navigated here from a different page on the same domain, and we're viewing the hero, scroll past it
+    // if this is a clean reload, scroll past the hero - we use the hero as a bit of an easter egg
     if (
-      document.referrer &&
-      document.documentElement.scrollTop === 0 &&
-      new URL(document.referrer).host === document.location.host
+      document.documentElement.scrollTop === 0
     ) {
       // on page reload, most browsers scroll to the old scroll position
       // this happens at an unpredictable time, causing flash-of-scroll-position if we do our scroll too

@@ -6,6 +6,7 @@ body {
   background: var(--c-background);
   font-family: var(--font-sans, sans-serif);
   line-height: var(--font-lineheight, 1.725em);
+  font-weight: 450;
 }
 @media (min-width: 45rem) {
   body {
