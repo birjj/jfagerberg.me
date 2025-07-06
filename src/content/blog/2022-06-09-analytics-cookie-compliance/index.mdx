@@ -35,39 +35,39 @@ import PlausibleScreenshot from "./plausible_screenshot.png";
 
 > **To save you a read:** yes, they do - at least if you follow the wording of EU's relevant directives, or listen to the opinion of the European Data Protection Board. What happens in court is another question, which (as far as I know) hasn't yet been determined.
 
-If you're reading this article, odds are pretty good that you've already encountered one of the many "privacy-aware analytics" providers out there. Nice and friendly, they try to respect user's privacy through various anonymization techniques - and most also claim to let you do without those pesky "cookie banners" that plague the internet nowadays.
+Most "privacy-aware" or "cookie-free" analytics solutions make the claim that you can forego cookie banners if only you use their product. A claim that is only as good as the evidence backing it up, of course.
 
 <Aside>
   I'll be using the term "cookie banners" for those annoying popups every website has nowadays. A more fitting term would be "informed consent banners", but I fear that ship has sailed.
 </Aside>
 
-A claim is only as good as the evidence backing it up, of course. In an effort to understand the legalities behind cookie banners, I've long wanted to dive into the EU laws that govern data privacy, and how they apply to the specific implementations of [Fathom](https://usefathom.com/) and [Plausible](https://plausible.io/).
+In an effort to understand the legalities behind cookie banners, I've long wanted to dive into the EU laws that govern data privacy and how they apply to the specific implementations of [Fathom](https://usefathom.com/) and [Plausible](https://plausible.io/) - the two major players, at the time of original writing.
 
 ## The technical background
 
-Web analytics track users. HTTP is stateless, so you can't gain much insight without tracking people. Privacy-aware analytics try do this in a privacy-friendly way, using a variety of anonymization tricks.
+Web analytics track users, that's the name of the game. HTTP is stateless, so you can't gain much insight without tracking people. Privacy-aware analytics try do this in a privacy-friendly way however, using a variety of anonymization tricks.
 
-In practice what they do is essentially the same as classic analytics: when a user visits the website, they're assigned a trackable identifier. When the user visits the website again, that identifier is used to update various statistics for the site.
+In many ways what they do is essentially the same as classic analytics: when a user visits the website, they're assigned a trackable identifier. When the user visits the website again, that identifier is used to update various statistics for the site.
 
 import ClassicAnalyticsDiagram from "./classic-analytics.svg?raw";
 import NewAnalyticsDiagram from "./new-analytics.svg?raw";
 
-The big difference is that _a)_ that identifier is calculated based on various data that makes the user unique, instead of being stored on their device, and _b)_ a lot of care is put into how the data is used, so no single user can ever be tracked in a privacy-compromising way (we'll assume this is true; as we'll later see, it has no bearing on our analysis).
+The big difference is that _a)_ that identifier is calculated based on various data that makes the user unique, instead of being stored on their device, and _b)_ a lot of care is put into how the data is used, so no single user can ever be tracked in a privacy-compromising way (we'll assume this is true; as we'll see later, it has no bearing on our analysis).
 
 The process looks a little something like this:
 
-1. The user visits the website, and is served a webpage including the analytics solution's tracking script.
+1. The user visits the website, and is served a webpage containing the analytics solution's tracking script.
 1. That script does little more than ask the user's browser to send a request to the analytics solution, containing the current page (e.g. `/`).
 1. The analytics solution fingerprints the incoming request by hashing e.g. the `User-Agent` and IP address. This creates an anonymous but unique identifier for the user.
 1. The analytics solution uses that identifier to update statistics (e.g. store where and when the identifier was last seen, and calculate time spent on the last page the identifier was seen on)
 
-This doesn't cover all the anonymization aspects (salt rotation and the like), but it's the general idea. Fathom has a [much better explainer](https://usefathom.com/blog/anonymization) if you're interested in the nitty gritty.
+This doesn't cover all the anonymization aspects (salt rotation and the like), but it's the general idea. Fathom has a [much better explainer](https://usefathom.com/blog/anonymization) if you're interested in the nitty gritty (I recommend it, it's a clever algorithm).
 
 ## The legal background
 
-> Note: I'm not a lawyer. While I have (informally) consulted one for this article, the opinions expressed here are those of a guy with too much free time and not a lot of legal knowledge. I'll be backing all of my claims up with quotes from EU's Data Protection Board - but you should keep in mind that legal questions are never quite as black and white as I express them here.
+> Note: I'm not a lawyer. While I have (informally) consulted one for this article, the opinions expressed here are those of a guy with too much free time and not a lot of legal knowledge. I'll be backing all of my claims up with quotes from EU's Data Protection Board (EDPB) - but you should keep in mind that legal questions are never quite as black and white as I express them here.
 
-When we're talking about cookie banners there are primarily two different EU laws we'll need to cover: the older "cookie law", the ePrivacy Directive (ePD), and the newer and quite massive General Data Protection Regulation (GDPR). These two both relate to data privacy and are often confused, so here's a quick breakdown:
+When we're talking about cookie banners there are primarily two different EU legal texts we'll need to cover: the older the ePrivacy Directive (ePD), informally called the "cookie law", and the newer and quite massive General Data Protection Regulation (GDPR). These two both relate to data privacy and are often confused, so here's a quick breakdown:
 
 <dl>
   <dt>
@@ -91,7 +91,9 @@ When we're talking about cookie banners there are primarily two different EU law
   </dd>
 </dl>
 
-Although GDPR is what _everybody_ is talking about, it's actually the ePD that's the biggest problem for cookie-free analytics. That point is so important that I'll repeat it in bold: **it's not the GDPR that's the issue, it's the ePD**.
+Although GDPR is what _everybody_ is talking about, it's actually the ePD that's the biggest problem for cookie-free analytics (since they effectively sidestep the GDPR by using strong anonymization).
+
+That point is so important that I'll repeat it in bold: **it's not the GDPR that's the issue, it's the ePD. Anonymizing the data does not absolve us from this.**
 
 To see why, we'll need to dive a bit deeper.
 
@@ -120,7 +122,7 @@ There are a few details that aren't immediately clear though:
   </dd>
   <dt>**What does "gaining of access" mean?**</dt>
   <dd>
-    Again this is not well-defined in the directive, but has been covered at length by the EDPB in various opinions. They summary it in paragraph 32-34 of [the 2023 guidelines](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-22023-technical-scope-art-53-eprivacy-directive_en):
+    Again this is not well-defined in the directive, but has been covered at length by the EDPB in various opinions. They summarize it in paragraph 32-34 of [the 2023 guidelines](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-22023-technical-scope-art-53-eprivacy-directive_en):
 
     > Whenever an entity takes steps towards gaining access to information stored in the terminal equipment, Article 5(3) ePD would apply. Usually this entails the accessing entity to proactively send specific instructions to the terminal equipment in order to receive back the targeted information. [...]
     > 
