@@ -74,7 +74,7 @@ When we're talking about cookie banners there are primarily two different EU leg
     [ePrivacy Directive [Directive 2002/58/EC]](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32002L0058)
   </dt>
   <dd>
-    Directive from 2002, later amended in 2009. One of the early attempts at legislating online privacy. Puts rather strict limits on what data can be **_accessed or processed_** without requiring informed consent from the user. This is regardless of whether the data is personal or not.
+    Directive from 2002, later amended in 2009. One of the early attempts at legislating online privacy. Puts rather strict limits on **_accessing or processing any data_** from end-user devices without requiring informed consent from the user. This is regardless of whether the data is personal or not.
     
     Note that this is a directive, not a regulation, meaning it is up to the individual EU countries to implement the directive into law. We'll arbitrarily ignore this distinction, and I will only be considering the wording of the directive itself in this article.
 
@@ -101,11 +101,11 @@ To see why, we'll need to dive a bit deeper.
 
 Article 5(3) of the [ePrivacy Directive](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:02002L0058-20091219#tocId7), which is the article that requires consent for cookies, says:
 
-<Aside>
+> **Article 5(3).** Member States shall ensure that the storing of information, or the gaining of access to information already stored, in the terminal equipment of a subscriber or user is only allowed on condition that the subscriber or user concerned has given his or her consent [...] This shall not prevent any technical storage or access [...] as strictly necessary in order for [a web service provider] explicitly requested by the subscriber or user to provide the service.
+
+<Aside data-up>
   The concept of "consent" in the ePD has been superseded by that in the GDPR. The exact definition is worked through in [EDPB Opinion 5/2019](https://www.edpb.europa.eu/sites/default/files/files/file1/edpb_guidelines_202005_consent_en.pdf), but it can summarized as needing _active_ and _informed_ consent from the user. This is what "cookie banners" aim to do.
 </Aside>
-
-> **Article 5(3).** Member States shall ensure that the storing of information, or the gaining of access to information already stored, in the terminal equipment of a subscriber or user is only allowed on condition that the subscriber or user concerned has given his or her consent [...] This shall not prevent any technical storage or access [...] as strictly necessary in order for [a web service provider] explicitly requested by the subscriber or user to provide the service.
 
 We're only interested in the part that talks about "gaining of access to information already stored", since privacy-aware analytics don't store anything on end-user devices. The article is basically saying that we can't access any data that's "already stored" stored on "terminal equipment", unless _a)_ we have consent, or _b)_ it's strictly necessary for fulfilling what the user asked for (e.g. serving the website).
 
