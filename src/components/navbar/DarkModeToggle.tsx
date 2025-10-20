@@ -7,7 +7,11 @@ import useIsFirstRender from "../../hooks/use-isfirstrender";
 export type DarkModeToggleProps = JSX.IntrinsicElements["div"] & {};
 const DarkModeToggle = ({ ...props }: DarkModeToggleProps) => {
   const id = useId();
-  const { isDarkMode, toggle } = useDarkMode();
+  // Initialize with the actual dark mode state from the DOM to avoid mismatch
+  const initialDarkMode = typeof document !== 'undefined' 
+    ? document.documentElement.classList.contains('dark')
+    : false;
+  const { isDarkMode, toggle } = useDarkMode(initialDarkMode);
   const isFirstRender = useIsFirstRender();
 
   useEffect(() => {

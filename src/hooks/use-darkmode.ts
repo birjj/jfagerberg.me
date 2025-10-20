@@ -16,7 +16,8 @@ function useDarkMode(defaultValue?: boolean): UseDarkModeOutput {
   const isDarkOS = useMediaQuery(COLOR_SCHEME_QUERY);
   const [isDarkMode, setDarkMode] = useLocalStorage<boolean>(
     "dark-mode",
-    defaultValue ?? isDarkOS ?? false
+    defaultValue ?? isDarkOS ?? false,
+    false // disable SSR support to read localStorage immediately on client
   );
 
   // Update darkMode if os prefers changes
