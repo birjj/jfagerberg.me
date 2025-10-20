@@ -1,11 +1,20 @@
 ---
-title: Accessing other repos from GitHub Actions
+title: GitHub Actions - Accessing other repos
 date: 2024-11-03
+updated: 2025-10-20
 tags: ["article", "ci", "GitHub Actions"]
 series: GitHub Actions thoughts
 ---
 
+import Figure from "../../../components/blog/Figure.astro";
+
 When working with GitHub Actions in an organization, you'll often need to access code from other repositories. Whether for GitOps deployments, shared Go modules, or something else entirely, it's a need that often crops up.
+
+import ChallengeDiagram from "./challenge.excalidraw.svg?raw";
+
+<Figure>
+  <Fragment set:html={ChallengeDiagram} />
+</Figure>
 
 Unfortunately, GitHub doesn't offer any good solutions for this. [A discussion](https://github.com/orgs/community/discussions/46566) on allowing the short-lived `GITHUB_TOKEN` token to be granted access to other repos has existed for almost two years and has just now gotten a response from someone on GitHub saying that they'll... add it to the backlog.
 
@@ -76,6 +85,12 @@ The downside is that your DevOps team now has to create reusable workflows that 
 The great big final solution, which we have ended up reaching in my current organization, is to build out a GitHub App that generates [short-lived installation tokens](https://docs.github.com/en/rest/apps/apps?apiVersion=2022-11-28#create-an-installation-access-token-for-an-app) on-demand. This consists of registering a GitHub App in your organization with access to the repositories you need, and storing its auth in an external system that you design (in our case an AWS Lambda function). That external system is designed to receive [an OIDC token](https://github.com/actions/toolkit/tree/main/packages/core#oidc-token) from workflows along with the name of the repo they want access to, validate that the source repository should be allowed to access the target repository, and then generate a scoped installation token to send back. This allows workflows to request short-lived tokens on-demand.
 
 This is a significantly more complex system, and requires you to design a security model that manages which repositories can access what repositories with some set of permissions (in our case we require the target repository to contain a file explicitly listing the repos that can have access). It's a system you'll have to design yourself (or piggyback on [someone who has already done the work](https://github.com/qoomon/actions--access-token)), because GitHub doesn't come with it built in, which also means you'll be introducing a single point of failure to your workflows. The upside is that you no longer have long-lived PAT tokens floating around your system.
+
+import ShortLivedDiagram from "./short-lived.excalidraw.svg?raw";
+
+<Figure>
+  <Fragment set:html={ShortLivedDiagram} />
+</Figure>
 
 This approach can also be combined with the reusable workflows approach from above, if the OIDC token is verified to have a job workflow ref from your DevOps-managed repository.
 
