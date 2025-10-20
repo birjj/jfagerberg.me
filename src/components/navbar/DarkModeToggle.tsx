@@ -1,17 +1,21 @@
 import { h, Fragment } from "preact";
-import { useEffect, useId } from "preact/hooks";
+import { useEffect, useId, useState } from "preact/hooks";
 import type { JSX } from "preact/jsx-runtime";
 import useDarkMode from "../../hooks/use-darkmode";
 import useIsFirstRender from "../../hooks/use-isfirstrender";
 
+// Read the actual dark mode state from the DOM synchronously
+// This is set by the inline script in BaseLayout before this component loads
+// During SSR, default to true (dark mode) to match the most common case
+const getInitialDarkMode = (): boolean => {
+  if (typeof document === 'undefined') return true; // SSR default
+  return document.documentElement.classList.contains('dark');
+};
+
 export type DarkModeToggleProps = JSX.IntrinsicElements["div"] & {};
 const DarkModeToggle = ({ ...props }: DarkModeToggleProps) => {
   const id = useId();
-  // Initialize with the actual dark mode state from the DOM to avoid mismatch
-  const initialDarkMode = typeof document !== 'undefined' 
-    ? document.documentElement.classList.contains('dark')
-    : false;
-  const { isDarkMode, toggle } = useDarkMode(initialDarkMode);
+  const { isDarkMode, toggle } = useDarkMode(getInitialDarkMode());
   const isFirstRender = useIsFirstRender();
 
   useEffect(() => {

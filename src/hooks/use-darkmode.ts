@@ -17,7 +17,7 @@ function useDarkMode(defaultValue?: boolean): UseDarkModeOutput {
   const [isDarkMode, setDarkMode] = useLocalStorage<boolean>(
     "dark-mode",
     defaultValue ?? isDarkOS ?? false,
-    false // disable SSR support to read localStorage immediately on client
+    false // Don't use SSR mode - read from localStorage immediately on client
   );
 
   // Update darkMode if os prefers changes
