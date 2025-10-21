@@ -7,24 +7,10 @@ import useIsFirstRender from "../../hooks/use-isfirstrender";
 export type DarkModeToggleProps = JSX.IntrinsicElements["div"] & {};
 const DarkModeToggle = ({ ...props }: DarkModeToggleProps) => {
   const id = useId();
-  // Read the actual dark mode state from DOM - this runs on client during hydration
-  const actualDarkMode = typeof document !== 'undefined' 
-    ? document.documentElement.classList.contains('dark')
-    : false;
-  const { isDarkMode, toggle, setDarkMode, setLightMode } = useDarkMode(actualDarkMode);
+  // Always use false as the initial value for both SSR and client to avoid hydration mismatch
+  // The useLocalStorage hook will update to the actual value from localStorage in useEffect
+  const { isDarkMode, toggle } = useDarkMode(false);
   const isFirstRender = useIsFirstRender();
-
-  // Force sync with DOM state on first mount (hydration)
-  useEffect(() => {
-    if (isFirstRender && actualDarkMode !== isDarkMode) {
-      // Sync without triggering the class toggle effect
-      if (actualDarkMode) {
-        setDarkMode();
-      } else {
-        setLightMode();
-      }
-    }
-  }, []);
 
   useEffect(() => {
     if (isFirstRender) { return; } // applying the localstorage state on first render is handled elsewhere, to avoid FOUC
