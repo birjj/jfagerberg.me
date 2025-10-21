@@ -1,5 +1,5 @@
 import { h, Fragment } from "preact";
-import { useEffect, useId, useState } from "preact/hooks";
+import { useEffect, useId } from "preact/hooks";
 import type { JSX } from "preact/jsx-runtime";
 import useDarkMode from "../../hooks/use-darkmode";
 import useIsFirstRender from "../../hooks/use-isfirstrender";
@@ -7,13 +7,24 @@ import useIsFirstRender from "../../hooks/use-isfirstrender";
 export type DarkModeToggleProps = JSX.IntrinsicElements["div"] & {};
 const DarkModeToggle = ({ ...props }: DarkModeToggleProps) => {
   const id = useId();
-  // Always start with DOM state to avoid mismatch
-  const [initialDarkMode] = useState(() => {
-    if (typeof document === 'undefined') return false;
-    return document.documentElement.classList.contains('dark');
-  });
-  const { isDarkMode, toggle } = useDarkMode(initialDarkMode);
+  // Read the actual dark mode state from DOM - this runs on client during hydration
+  const actualDarkMode = typeof document !== 'undefined' 
+    ? document.documentElement.classList.contains('dark')
+    : false;
+  const { isDarkMode, toggle, setDarkMode, setLightMode } = useDarkMode(actualDarkMode);
   const isFirstRender = useIsFirstRender();
+
+  // Force sync with DOM state on first mount (hydration)
+  useEffect(() => {
+    if (isFirstRender && actualDarkMode !== isDarkMode) {
+      // Sync without triggering the class toggle effect
+      if (actualDarkMode) {
+        setDarkMode();
+      } else {
+        setLightMode();
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (isFirstRender) { return; } // applying the localstorage state on first render is handled elsewhere, to avoid FOUC
