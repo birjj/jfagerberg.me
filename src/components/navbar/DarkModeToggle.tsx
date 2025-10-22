@@ -7,9 +7,7 @@ import useIsFirstRender from "../../hooks/use-isfirstrender";
 export type DarkModeToggleProps = JSX.IntrinsicElements["div"] & {};
 const DarkModeToggle = ({ ...props }: DarkModeToggleProps) => {
   const id = useId();
-  // Always use false as the initial value for both SSR and client to avoid hydration mismatch
-  // The useLocalStorage hook will update to the actual value from localStorage in useEffect
-  const { isDarkMode, toggle } = useDarkMode(false);
+  const { isDarkMode, toggle } = useDarkMode();
   const isFirstRender = useIsFirstRender();
 
   useEffect(() => {
