@@ -1,7 +1,7 @@
 ---
 title: Do cookie-free analytics need cookie banners?
 date: 2022-06-09
-updated: 2025-07-06
+updated: 2026-04-01
 tags: ["article", "analytics", "privacy"]
 ---
 
@@ -42,26 +42,6 @@ In an effort to understand the legalities behind cookie banners, I've long wante
 <Aside data-up>
   I'll be using the term "cookie banners" for those annoying popups every website has nowadays. A more fitting term would be "informed consent banners", but I fear that ship has sailed.
 </Aside>
-
-## The technical background
-
-Web analytics track users, that's the name of the game. HTTP is stateless, so you can't gain much insight without tracking people. Privacy-aware analytics try do this in a privacy-friendly way however, using a variety of anonymization tricks.
-
-In many ways what they do is essentially the same as classic analytics: when a user visits the website, they're assigned a trackable identifier. When the user visits the website again, that identifier is used to update various statistics for the site.
-
-import ClassicAnalyticsDiagram from "./classic-analytics.svg?raw";
-import NewAnalyticsDiagram from "./new-analytics.svg?raw";
-
-The big difference is that _a)_ that identifier is calculated based on various data that makes the user unique, instead of being stored on their device, and _b)_ a lot of care is put into how the data is used, so no single user can ever be tracked in a privacy-compromising way (we'll assume this is true; as we'll see later, it has no bearing on our analysis).
-
-The process looks a little something like this:
-
-1. The user visits the website, and is served a webpage containing the analytics solution's tracking script.
-1. That script does little more than ask the user's browser to send a request to the analytics solution, containing the current page (e.g. `/`).
-1. The analytics solution fingerprints the incoming request by hashing e.g. the `User-Agent` and IP address. This creates an anonymous but unique identifier for the user.
-1. The analytics solution uses that identifier to update statistics (e.g. store where and when the identifier was last seen, and calculate time spent on the last page the identifier was seen on)
-
-This doesn't cover all the anonymization aspects (salt rotation and the like), but it's the general idea. Fathom has a [much better explainer](https://usefathom.com/blog/anonymization) if you're interested in the nitty gritty (I recommend it, it's a clever algorithm).
 
 ## The legal background
 
