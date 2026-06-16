@@ -1,0 +1,110 @@
+---
+title: GitHub Actions - Inputs and types
+date: 2026-06-16
+tags: ["article", "github-actions"]
+draft: false
+---
+
+import Aside from "../../../components/blog/Aside.astro";
+
+If you've ever worked with GitHub Actions and their expression engine, you know that's it's a very implicit and footgun-rich "language". One of the things that often gives me a headache is types: does `if: ${{ inputs.foo }}` work, assuming `inputs.foo` is a boolean input? Why do I sometimes see `if: ${{ inputs.foo == 'true' }}`? This isn't made any better by YAML being very loose with its type system.
+
+I ended up spending way too much time debugging this after a recent AI suggestion, so this blog post is just to document my findings.
+
+## Prior art
+
+If you google the topic, you'll find ["Hard won lessons about Github Actions: Really fixed it this time, number 42.
+" _(lucasroesler.com)_](https://lucasroesler.com/posts/2022/2-github-actions-lessons/) pretty quickly. That article documents one of the footguns: if a workflow is triggered by `workflow_dispatch`, then its inputs will be implicitly converted to a string. This means you can't write `if: ${{ inputs.foo }}`, you instead have to write:
+
+<Aside>
+This code example contains a problem that'll be revealed later. Don't skim-read and treat this as the right way.
+</Aside>
+
+```yaml {1,10}
+workflow_dispatch:
+  inputs:
+    should-run:
+      description: Toggles whether the job should run
+      default: true
+      type: boolean
+
+jobs:
+  do-stuff:
+    if: ${{ github.events.inputs.process == 'true' }}
+    # ...
+```
+
+On the other hand, a reusable workflow triggered by `workflow_call` is given the input as the correct type, and can therefore treat the input as a boolean:
+
+```yaml {1,10}
+workflow_call:
+  inputs:
+    should-run:
+      description: Toggles whether the job should run
+      default: true
+      type: boolean
+
+jobs:
+  do-stuff:
+    if: ${{ inputs.process == true }}
+    # ...
+```
+
+It ends up concluding that inputs are converted to strings when using `workflow_dispatch`, but have their correct type when using `workflow_call`:
+
+> [A `type: boolean` input named `process`] will work for both `workflow_call` _and_ `workflow_dispatch` and can be accessed as `inputs.process` but you will get two different values
+> - when you use `workflow_call`, `inputs.process` is an actual boolean!
+> - when you use `workflow_dispatch`, `inputs.process` is a string!
+
+## Current reality
+
+Turns out, that's not entirely accurate. The difference isn't in the trigger you use, it's in the context you use to access the input: if you use `inputs.*`, then the type will be what you expected - but using `github.event.inputs.*` will get you the string representation:
+
+```yaml
+on:
+  workflow_dispatch:
+    inputs:
+      should-run:
+        description: Toggles whether the job should run
+        type: boolean
+        default: true
+
+jobs:
+  log:
+    name: Log input
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo 'inputs.should-run:              ${{ toJson(inputs.should-run) }}'
+          echo 'github.event.inputs.should-run: ${{ toJson(github.event.inputs.should-run) }}'
+          echo ''
+          echo 'inputs.should-run == "true": ${{ inputs.should-run == 'true' }}'
+          echo 'github.event.inputs.should-run == "true": ${{ github.event.inputs.should-run == 'true' }}'
+          echo ''
+          echo 'inputs.should-run == true: ${{ inputs.should-run == true }}'
+          echo 'github.event.inputs.should-run == true: ${{ github.event.inputs.should-run == true }}'
+```
+
+```text {1,2}
+inputs.should-run: true
+github.event.inputs.should-run: "true"
+
+inputs.should-run == "true": false
+github.event.inputs.should-run == "true": true
+
+inputs.should-run == true: true
+github.event.inputs.should-run == true: false
+```
+
+So... this is entirely a non-issue, actually.
+
+I'm guessing that the author of the original article got confused because GitHub _used_ to not have `inputs.*` as a unified interface. Before 2022, you had to use `github.event.inputs.*` when accessing inputs in `workflow_dispatch`. The original article must've been written right around the time where GitHub [released `inputs.*` as a unified interface](https://github.blog/changelog/2022-06-09-github-actions-inputs-unified-across-manual-and-reusable-workflows/), and then concluded (incorrectly) that the problem was the trigger, not the context. Understandable mistake to make, given how implicit and poorly designed everything around GitHub Actions is.
+
+Anyway - that's it. That's all this article is about. It's just to put it out there that you don't have to worry about the type of the input, as long as you use `inputs.*` to access it.
+
+## Addendum 1 - A note on custom actions
+
+In case you're wondering: this whole debate doesn't relate to custom actions at all, because custom actions don't support a `type` property on their inputs.
+
+If you're writing a custom JavaScript action, and therefore probably using [`actions/toolkit`](https://github.com/actions/toolkit), this might confuse you; the toolkit _does_ have functions like `core.getBooleanInput(...)` which reads the input as a boolean! That's all on the JavaScript side though. The actual input, as defined in `action.yml`, is always a string. How you parse that string in JavaScript is up to you 🤷
+
